@@ -1,0 +1,36 @@
+grumphp:
+    process_timeout: 300
+    hide_circumvention_tip: true
+
+    fixer:
+        enabled: true
+        fix_by_default: true
+
+    stop_on_failure: false
+
+    extensions:
+      - YieldStudio\GrumPHPLaravelPint\ExtensionLoader
+
+    tasks:
+        composer: ~
+
+        git_blacklist:
+            keywords:
+                - ' dd('
+                - 'dump('
+                - 'die;'
+                - 'exit;'
+
+        phplint:
+            exclude: []
+            jobs: ~
+            short_open_tag: false
+            ignore_patterns:
+              - /^app\/(.*)/
+              - /^config\/(.*)/
+              - /^routes\/(.*)/
+              - /^test\/(.*)/
+            triggered_by: ['php']
+
+        laravel_pint:
+          config: pint.json

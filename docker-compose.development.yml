@@ -1,0 +1,53 @@
+networks:
+    backend:
+        driver: bridge
+
+services:
+    app:
+        build:
+            context: ./docker/octane
+            args:
+                - PUID=${APP_PUID}
+                - PGID=${APP_PGID}
+                - APP_ENV=${APP_ENV}
+
+        restart: unless-stopped
+        ports:
+          - 9000:9000
+        tty: true
+        volumes:
+            - ./docker/octane/php.ini:/usr/local/etc/php.ini
+            - ./docker/octane/supervisord.d:/etc/supervisor/supervisord.d
+            - ./:/var/www/html:cached
+        networks:
+            - backend
+
+    redisdb:
+        image: redis:7.0.7-alpine
+        restart: unless-stopped
+        volumes:
+            - ./docker/data/redis:/data
+        networks:
+            - backend
+
+    worker:
+        build:
+            context: ./docker/worker
+            args:
+                - PUID=${APP_PUID}
+                - PGID=${APP_PGID}
+        restart: unless-stopped
+        volumes:
+            - ./:/var/www/html:cached
+            - ./docker/worker/supervisord.d:/etc/supervisor/supervisord.d
+        networks:
+            - backend
+
+    maildev:
+      image: maildev/maildev:latest
+      restart: unless-stopped
+      ports:
+        - 1080:1080
+      networks:
+        - backend
+
