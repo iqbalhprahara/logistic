@@ -1,8 +1,8 @@
 <?php
 
-namespace Core\Master\Concerns;
+namespace Core\MasterData\Concerns;
 
-use Core\Master\Models\Company;
+use Core\MasterData\Models\Company;
 
 trait HasCompany
 {

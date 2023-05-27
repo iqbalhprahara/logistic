@@ -1,49 +1,39 @@
 <?php
 
-namespace App\Http\Livewire\CoreSystem\Administrative\Access\Admin;
+namespace App\Http\Livewire\CoreSystem\MasterData\Company;
 
 use App\Http\Livewire\BaseTableComponent;
-use Core\Auth\Models\User;
+use Core\MasterData\Models\Company;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 
 class Table extends BaseTableComponent
 {
-    protected $gates = ['administrative:access:admin'];
+    protected $gates = ['master-data:company'];
 
     public ?string $sortBy = 'uuid';
-
-    public Collection $roleList;
-
-    public function mount(Collection $roleList)
-    {
-        $this->roleList = $roleList;
-    }
 
     protected function formatResult($row): array
     {
         return [
             'uuid' => $row->uuid,
+            'code' => $row->code,
             'name' => $row->name,
-            'email' => $row->email,
-            'roles.name' => optional($row->roles->first())->name ?? '-',
+            'users_count' => intval($row->users_count).' users',
             'status' => $row->deleted_at ? '<span class="badge bg-danger">Deleted</span>' : '<span class="badge bg-primary">Active</span>',
-            'action' => view('livewire.core-system.administrative.access.admin.action', ['admin' => $row, 'roleList' => $this->roleList]),
+            'action' => view('livewire.core-system.master-data.company.action', ['company' => $row]),
         ];
     }
 
     public function button(): array
     {
-        $roleList = $this->roleList;
-
         return [
             Blade::render(<<<'blade'
-                @can('administrative:access:admin:create')
-                    @livewire('core-system.administrative.access.admin.create', compact('roleList'))
+                @can('master-data:company:create')
+                    @livewire('core-system.master-data.company.create')
                 @endcan
-            blade, compact('roleList')),
+            blade),
         ];
     }
 
@@ -54,15 +44,13 @@ class Table extends BaseTableComponent
                 'column' => 'uuid',
             ],
             [
+                'column' => 'code',
+            ],
+            [
                 'column' => 'name',
             ],
             [
-                'column' => 'email',
-            ],
-            [
-                'header' => 'Role',
-                'column' => 'roles.name',
-                'sortable' => false,
+                'column' => 'users_count',
             ],
             [
                 'type' => 'raw',
@@ -82,12 +70,9 @@ class Table extends BaseTableComponent
 
     protected function query(): Builder|QueryBuilder
     {
-        return User::whereDoesntHave('roles', function ($roles) {
-            $roles->whereName('Client');
-        })
-            ->withTrashed()
-            ->with([
-                'roles',
+        return Company::withTrashed()
+            ->withCount([
+                'users',
             ]);
     }
 }

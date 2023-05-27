@@ -47,11 +47,15 @@ Route::prefix('/app')
                     });
             });
 
-        // Route::post('login', [LoginController::class, 'attempt'])->name('login.attempt');
-
-        // Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.form');
-        // Route::post('password/reset', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.send-link-email');
-
-        // Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-        // Route::post('password/update', [ResetPasswordController::class, 'reset'])->name('password.update');
+        /**
+         * Administrative
+         */
+        Route::prefix('/master-data')
+            ->as('master-data')
+            ->group(function () {
+                /**
+                 * Company
+                 */
+                Route::get('/company', App\Http\Livewire\CoreSystem\MasterData\Company\Index::class)->name('company');
+            });
     });

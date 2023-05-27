@@ -1,10 +1,10 @@
 <?php
 
-namespace Core\Master;
+namespace Core\MasterData;
 
 use Illuminate\Support\ServiceProvider;
 
-class MasterServiceProvider extends ServiceProvider
+class MasterDataServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any package services.

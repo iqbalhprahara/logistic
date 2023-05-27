@@ -15,7 +15,7 @@
         });
     </script>
     <x-core-system.modal id="modal-edit-admin-{{ $admin->uuid }}" wire:ignore.self>
-        <x-slot name="title">Edit Role</x-slot>
+        <x-slot name="title">Edit Admin</x-slot>
         <x-slot name="body">
             <div class="mb-3 position-relative">
                 <label class="col-form-label">Name<span class="text-danger">*</span></label>

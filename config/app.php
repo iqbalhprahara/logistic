@@ -171,7 +171,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Core\MorphServiceProvider::class,
         Core\Auth\AuthServiceProvider::class,
-        Core\Master\MasterServiceProvider::class,
+        Core\MasterData\MasterDataServiceProvider::class,
     ])->toArray(),
 
     /*

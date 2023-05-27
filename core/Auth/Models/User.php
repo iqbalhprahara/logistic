@@ -4,7 +4,7 @@ namespace Core\Auth\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use Core\Master\Concerns\HasCompany;
+use Core\MasterData\Concerns\HasCompany;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;

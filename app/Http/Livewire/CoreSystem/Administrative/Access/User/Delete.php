@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\CoreSystem\Administrative\Access\Admin;
+namespace App\Http\Livewire\CoreSystem\Administrative\Access\User;
 
 use App\Http\Livewire\BaseComponent;
 use Core\Auth\MenuRegistry;
