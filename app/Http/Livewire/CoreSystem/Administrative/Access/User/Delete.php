@@ -8,31 +8,31 @@ use Core\Auth\Models\User;
 
 class Delete extends BaseComponent
 {
-    protected $gates = ['administrative:access:admin:delete'];
+    protected $gates = ['administrative:access:user:delete'];
 
     /** @var User */
-    public $admin;
+    public $user;
 
-    public function mount(User $admin)
+    public function mount(User $user)
     {
-        $this->admin = $admin;
+        $this->user = $user;
     }
 
     public function render()
     {
-        return view('livewire.core-system.administrative.access.admin.delete');
+        return view('livewire.core-system.administrative.access.user.delete');
     }
 
     public function destroy()
     {
-        $name = $this->admin->name;
-        $id = $this->admin->uuid;
-        $this->admin->delete();
+        $name = $this->user->name;
+        $id = $this->user->uuid;
+        $this->user->delete();
 
         app(MenuRegistry::class)->forgetCachedMenus();
 
         $this->emit('message', $name.' successfully deleted');
-        $this->emit('close-modal', '#modal-delete-admin-'.$id);
+        $this->emit('close-modal', '#modal-delete-user-'.$id);
         $this->emit('refresh-table');
     }
 }

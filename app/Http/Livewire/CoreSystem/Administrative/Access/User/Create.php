@@ -15,59 +15,53 @@ class Create extends BaseComponent
     protected $gates = ['administrative:access:admin:create'];
 
     /** @var User */
-    public $admin;
+    public $user;
 
-    public $role;
+    public $company;
 
     public $password;
 
     public $passwordConfirmation;
 
-    public Collection $roleList;
+    public Collection $companyList;
 
-    public function mount(Collection $roleList)
+    public function mount(Collection $companyList)
     {
-        $this->roleList = $roleList;
-        $this->initializeAdmin();
-    }
-
-    public function updatedRole($value)
-    {
-        $this->role = intval($value);
+        $this->companyList = $companyList;
+        $this->initializeUser();
     }
 
     public function hydrate()
     {
-        $this->emitSelf('initSelectRole');
+        $this->emitSelf('initSelectCompany');
     }
 
-    public function initializeAdmin()
+    public function initializeUser()
     {
-        $this->admin = new User();
+        $this->user = new User();
     }
 
     public function render()
     {
-        return view('livewire.core-system.administrative.access.admin.create');
+        return view('livewire.core-system.administrative.access.user.create');
     }
 
     protected function rules()
     {
         return [
-            'admin.name' => [
+            'user.name' => [
                 'required',
                 'string',
             ],
-            'admin.email' => [
+            'user.email' => [
                 'required',
                 'email:rfc,dns,spoof',
                 'max:255',
                 'unique:users,email',
             ],
-            'role' => [
+            'company' => [
                 'required',
-                Rule::exists('roles', 'id')
-                    ->whereNot('name', 'Client'),
+                Rule::exists('companies', 'uuid'),
             ],
             'password' => [
                 'required',
@@ -83,21 +77,22 @@ class Create extends BaseComponent
         $this->validate($this->rules());
 
         DB::transaction(function () {
-            $this->admin->email_verified_at = now();
-            $this->admin->changePassword($this->password);
-            $this->admin->save();
-            $this->admin->syncRoles($this->role);
+            $this->user->email_verified_at = now();
+            $this->user->changePassword($this->password);
+            $this->user->save();
+            $this->user->assignRole('Client');
+            $this->user->syncCompany($this->company);
         });
 
         app(MenuRegistry::class)->forgetCachedMenus();
 
-        $name = $this->admin->name;
+        $name = $this->user->name;
 
-        $this->initializeAdmin();
-        $this->reset('role');
+        $this->initializeUser();
+        $this->reset('company');
 
-        $this->emit('message', 'Admin '.$name.' successfully created');
-        $this->emit('close-modal', '#modal-create-admin');
+        $this->emit('message', 'User '.$name.' successfully created');
+        $this->emit('close-modal', '#modal-create-user');
         $this->emit('refresh-table');
     }
 }

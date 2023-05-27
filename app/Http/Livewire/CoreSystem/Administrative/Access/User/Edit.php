@@ -11,59 +11,49 @@ use Illuminate\Validation\Rule;
 
 class Edit extends BaseComponent
 {
-    protected $gates = ['administrative:access:admin:edit'];
+    protected $gates = ['administrative:access:user:edit'];
 
     /** @var User */
-    public $admin;
+    public $user;
 
-    public $role;
+    public $company;
 
-    public Collection $roleList;
+    public Collection $companyList;
 
-    protected $listeners = [
-        'reset-form' => '$refresh',
-    ];
-
-    public function mount(User $admin, $roleList)
+    public function mount(User $user, $companyList)
     {
-        $this->admin = $admin;
-        $this->role = optional($admin->roles->first())->id;
-        $this->roleList = $roleList;
-    }
-
-    public function updatedRole($value)
-    {
-        $this->role = intval($value);
+        $this->user = $user;
+        $this->company = optional($user->companies->first())->uuid;
+        $this->companyList = $companyList;
     }
 
     public function hydrate()
     {
-        $this->emitSelf('initSelectRoleEditAdmin', $this->admin->uuid);
+        $this->emitSelf('initSelectCompanyEditUser', $this->user->uuid);
     }
 
     public function render()
     {
-        return view('livewire.core-system.administrative.access.admin.edit');
+        return view('livewire.core-system.administrative.access.user.edit');
     }
 
     protected function rules()
     {
         return [
-            'admin.name' => [
+            'user.name' => [
                 'required',
                 'string',
             ],
-            'admin.email' => [
+            'user.email' => [
                 'required',
                 'email:rfc,dns,spoof',
                 'max:255',
                 Rule::unique('users', 'email')
-                    ->ignore($this->admin->uuid, 'uuid'),
+                    ->ignore($this->user->uuid, 'uuid'),
             ],
-            'role' => [
+            'company' => [
                 'required',
-                Rule::exists('roles', 'id')
-                    ->whereNot('name', 'Client'),
+                Rule::exists('companies', 'uuid'),
             ],
         ];
     }
@@ -73,14 +63,14 @@ class Edit extends BaseComponent
         $this->validate($this->rules());
 
         DB::transaction(function () {
-            $this->admin->save();
-            $this->admin->syncRoles($this->role);
+            $this->user->save();
+            $this->user->syncCompany($this->company);
         });
 
         app(MenuRegistry::class)->forgetCachedMenus();
 
-        $this->emit('message', 'Admin data successfully updated');
-        $this->emit('close-modal', '#modal-edit-admin-'.$this->admin->uuid);
+        $this->emit('message', 'User data successfully updated');
+        $this->emit('close-modal', '#modal-edit-user-'.$this->user->uuid);
         $this->emit('refresh-table');
     }
 }

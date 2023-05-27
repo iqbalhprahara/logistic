@@ -6,6 +6,7 @@ use App\Http\Livewire\BaseTableComponent;
 use Core\Auth\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 
 class Table extends BaseTableComponent
@@ -14,28 +15,35 @@ class Table extends BaseTableComponent
 
     public ?string $sortBy = 'uuid';
 
+    public Collection $companyList;
+
+    public function mount($companyList)
+    {
+        $this->companyList = $companyList;
+    }
+
     protected function formatResult($row): array
     {
         return [
             'uuid' => $row->uuid,
             'name' => $row->name,
             'email' => $row->email,
-            'roles.name' => optional($row->roles->first())->name ?? '-',
+            'companies.name' => optional($row->companies->first())->name ?? '-',
             'status' => $row->deleted_at ? '<span class="badge bg-danger">Deleted</span>' : '<span class="badge bg-primary">Active</span>',
-            'action' => view('livewire.core-system.administrative.access.admin.action', ['admin' => $row, 'roleList' => $this->roleList]),
+            'action' => view('livewire.core-system.administrative.access.user.action', ['user' => $row, 'companyList' => $this->companyList]),
         ];
     }
 
     public function button(): array
     {
-        $roleList = $this->roleList;
+        $companyList = $this->companyList;
 
         return [
             Blade::render(<<<'blade'
                 @can('administrative:access:user:create')
-                    @livewire('core-system.administrative.access.admin.create', compact('roleList'))
+                    @livewire('core-system.administrative.access.user.create', compact('companyList'))
                 @endcan
-            blade, compact('roleList')),
+            blade, compact('companyList')),
         ];
     }
 
@@ -52,12 +60,11 @@ class Table extends BaseTableComponent
                 'column' => 'email',
             ],
             [
-                'header' => 'Role',
-                'column' => 'roles.name',
+                'header' => 'Company',
+                'column' => 'companies.name',
                 'sortable' => false,
             ],
             [
-                'header' => 'status',
                 'type' => 'raw',
                 'column' => 'status',
                 'searchable' => false,
@@ -75,12 +82,12 @@ class Table extends BaseTableComponent
 
     protected function query(): Builder|QueryBuilder
     {
-        return User::whereDoesntHave('roles', function ($roles) {
+        return User::whereHas('roles', function ($roles) {
             $roles->whereName('Client');
         })
             ->withTrashed()
             ->with([
-                'roles',
+                'companies',
             ]);
     }
 }

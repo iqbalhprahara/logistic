@@ -8,31 +8,31 @@ use Core\Auth\Models\User;
 
 class Restore extends BaseComponent
 {
-    protected $gates = ['administrative:access:admin:restore'];
+    protected $gates = ['administrative:access:user:restore'];
 
     /** @var User */
-    public $admin;
+    public $user;
 
-    public function mount(User $admin)
+    public function mount(User $user)
     {
-        $this->admin = $admin;
+        $this->user = $user;
     }
 
     public function render()
     {
-        return view('livewire.core-system.administrative.access.admin.restore');
+        return view('livewire.core-system.administrative.access.user.restore');
     }
 
     public function restore()
     {
-        $name = $this->admin->name;
-        $id = $this->admin->uuid;
-        $this->admin->restore();
+        $name = $this->user->name;
+        $id = $this->user->uuid;
+        $this->user->restore();
 
         app(MenuRegistry::class)->forgetCachedMenus();
 
         $this->emit('message', $name.' successfully restored');
-        $this->emit('close-modal', '#modal-restore-admin-'.$id);
+        $this->emit('close-modal', '#modal-restore-user-'.$id);
         $this->emit('refresh-table');
     }
 }

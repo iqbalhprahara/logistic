@@ -20,10 +20,6 @@ class Edit extends BaseComponent
 
     public Collection $roleList;
 
-    protected $listeners = [
-        'reset-form' => '$refresh',
-    ];
-
     public function mount(User $admin, $roleList)
     {
         $this->admin = $admin;

@@ -39,8 +39,8 @@ class Company extends Model
             User::class,
             'model',
             'model_has_companies',
-            'model_uuid',
             'company_uuid',
+            'model_uuid',
         );
     }
 }

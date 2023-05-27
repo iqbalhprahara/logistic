@@ -6,14 +6,22 @@ use Core\MasterData\Models\Company;
 
 trait HasCompany
 {
-    public function company()
+    public function companies()
     {
-        return $this->morphOne(
+        return $this->morphToMany(
             Company::class,
             'model',
-            'model_has_company',
-            'model_id',
+            'model_has_companies',
+            'model_uuid',
             'company_uuid',
         );
+    }
+
+    public function syncCompany(string $companyUuid)
+    {
+        $this->companies()->detach();
+        $this->companies()->sync([
+            'company_uuid' => $companyUuid,
+        ]);
     }
 }
