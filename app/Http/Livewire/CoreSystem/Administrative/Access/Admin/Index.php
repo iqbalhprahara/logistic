@@ -4,13 +4,10 @@ namespace App\Http\Livewire\CoreSystem\Administrative\Access\Admin;
 
 use App\Http\Livewire\BaseComponent;
 use App\View\Components\CoreSystem\Layout;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Permission\Models\Role;
 
 class Index extends BaseComponent
 {
-    use AuthorizesRequests;
-
     protected $gates = ['administrative:access:admin'];
 
     public function render()

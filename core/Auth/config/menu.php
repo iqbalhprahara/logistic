@@ -277,6 +277,11 @@ return [
                                         'title' => 'Delete Province',
                                         'description' => 'User can delete province',
                                     ],
+                                    [
+                                        'gate' => 'master-data:location:province:restore',
+                                        'title' => 'Restore Province',
+                                        'description' => 'User can restore province',
+                                    ],
                                 ],
                             ],
 
@@ -309,6 +314,11 @@ return [
                                         'gate' => 'master-data:location:city:delete',
                                         'title' => 'Delete City',
                                         'description' => 'User can delete city',
+                                    ],
+                                    [
+                                        'gate' => 'master-data:location:city:restore',
+                                        'title' => 'Restore City',
+                                        'description' => 'User can restore city',
                                     ],
                                 ],
                             ],
@@ -343,38 +353,10 @@ return [
                                         'title' => 'Delete Subdistrict',
                                         'description' => 'User can delete subdistrict',
                                     ],
-                                ],
-                            ],
-
-                            /*
-                            |--------------------------------------------------------------------------
-                            | Master Data > Location > Area
-                            |--------------------------------------------------------------------------
-                            */
-                            [
-                                'id' => 'master-data-location-area',
-                                'name' => 'Area',
-                                'description' => 'User can access Area submenu',
-                                'icon' => null,
-                                'type' => 'menu',
-                                'url' => '/app/master-data/location/area',
-                                'gate' => 'master-data:location:area',
-                                'sort' => 4,
-                                'permissions' => [
                                     [
-                                        'gate' => 'master-data:location:area:create',
-                                        'title' => 'Create New Area',
-                                        'description' => 'User can create new area',
-                                    ],
-                                    [
-                                        'gate' => 'master-data:location:area:update',
-                                        'title' => 'Update Area',
-                                        'description' => 'User can modify area',
-                                    ],
-                                    [
-                                        'gate' => 'master-data:location:area:delete',
-                                        'title' => 'Delete Area',
-                                        'description' => 'User can delete area',
+                                        'gate' => 'master-data:location:subdistrict:restore',
+                                        'title' => 'Restore Subdistrict',
+                                        'description' => 'User can restore subdistrict',
                                     ],
                                 ],
                             ],

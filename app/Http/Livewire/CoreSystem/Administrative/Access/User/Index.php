@@ -5,13 +5,10 @@ namespace App\Http\Livewire\CoreSystem\Administrative\Access\User;
 use App\Http\Livewire\BaseComponent;
 use App\View\Components\CoreSystem\Layout;
 use Core\MasterData\Models\Company;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\DB;
 
 class Index extends BaseComponent
 {
-    use AuthorizesRequests;
-
     protected $gates = ['administrative:access:user'];
 
     public function render()

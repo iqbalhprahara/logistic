@@ -34,13 +34,13 @@ Route::prefix('/app')
          * Administrative
          */
         Route::prefix('/administrative')
-            ->as('administrative')
+            ->as('administrative.')
             ->group(function () {
                 /**
                  * Access
                  */
                 Route::prefix('/access')
-                    ->as('access')
+                    ->as('access.')
                     ->group(function () {
                         Route::get('/role', App\Http\Livewire\CoreSystem\Administrative\Access\Role\Index::class)->name('role');
                         Route::get('/admin', App\Http\Livewire\CoreSystem\Administrative\Access\Admin\Index::class)->name('admin');
@@ -52,11 +52,22 @@ Route::prefix('/app')
          * Administrative
          */
         Route::prefix('/master-data')
-            ->as('master-data')
+            ->as('master-data.')
             ->group(function () {
                 /**
                  * Company
                  */
                 Route::get('/company', App\Http\Livewire\CoreSystem\MasterData\Company\Index::class)->name('company');
+
+                /**
+                 * Location
+                 */
+                Route::prefix('/location')
+                    ->as('location.')
+                    ->group(function () {
+                        Route::get('/province', App\Http\Livewire\CoreSystem\MasterData\Location\Province\Index::class)->name('province');
+                        Route::get('/city', App\Http\Livewire\CoreSystem\MasterData\Location\City\Index::class)->name('city');
+                        Route::get('/subdistrict', App\Http\Livewire\CoreSystem\MasterData\Location\Subdistrict\Index::class)->name('subdistrict');
+                    });
             });
     });

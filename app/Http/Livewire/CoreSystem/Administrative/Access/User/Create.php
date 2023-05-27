@@ -12,7 +12,7 @@ use Illuminate\Validation\Rules\Password;
 
 class Create extends BaseComponent
 {
-    protected $gates = ['administrative:access:admin:create'];
+    protected $gates = ['administrative:access:user:create'];
 
     /** @var User */
     public $user;
