@@ -2,21 +2,23 @@
 
 namespace App\Http\Livewire\CoreSystem\Auth;
 
+use App\Http\Livewire\BaseComponent;
 use App\View\Components\CoreSystem\LayoutWithoutNav;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 
-class Login extends Component
+class Login extends BaseComponent
 {
     public string $email = '';
+
     public string $password = '';
+
     public bool $remember = false;
 
     protected $rules = [
         'email' => ['required', 'email'],
         'password' => ['required'],
-        'remember' => ['nullable','boolean'],
+        'remember' => ['nullable', 'boolean'],
     ];
 
     public function render()

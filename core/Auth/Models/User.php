@@ -10,9 +10,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -73,5 +73,15 @@ class User extends Authenticatable
         if ($forceLogin) {
             Auth::login($this);
         }
+    }
+
+    public function isSuperAdmin()
+    {
+        return $this->hasRole('Super Admin');
+    }
+
+    public function isClient()
+    {
+        return $this->hasRole('Client');
     }
 }

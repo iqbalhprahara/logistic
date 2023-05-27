@@ -69,7 +69,7 @@ return [
                         'url' => '/app',
                         'gate' => null,
                         'sort' => 1,
-                    ]
+                    ],
 
                 ],
             ],
@@ -86,7 +86,7 @@ return [
                 'icon' => null,
                 'type' => 'divider',
                 'url' => null,
-                'gate' => '/app/administrative',
+                'gate' => 'administrative',
                 'sort' => 2,
                 'submenus' => [
                     /*
@@ -492,7 +492,7 @@ return [
                                         'title' => 'Print AWB',
                                         'description' => 'User can print awb',
                                     ],
-                                ]
+                                ],
                             ],
                         ],
                     ],

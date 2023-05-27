@@ -2,11 +2,11 @@
 
 namespace App\Http\Livewire\CoreSystem\Auth;
 
+use App\Http\Livewire\BaseComponent;
 use App\View\Components\CoreSystem\LayoutWithoutNav;
 use Core\Auth\Models\User;
-use Livewire\Component;
 
-class ForgotPassword extends Component
+class ForgotPassword extends BaseComponent
 {
     public string $email = '';
 
@@ -52,6 +52,7 @@ class ForgotPassword extends Component
             );
 
             $this->reset();
+
             return;
         }
 

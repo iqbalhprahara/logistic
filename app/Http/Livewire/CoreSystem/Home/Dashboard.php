@@ -2,11 +2,10 @@
 
 namespace App\Http\Livewire\CoreSystem\Home;
 
+use App\Http\Livewire\BaseComponent;
 use App\View\Components\CoreSystem\Layout;
-use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 
-class Dashboard extends Component
+class Dashboard extends BaseComponent
 {
     public function render()
     {

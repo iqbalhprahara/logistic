@@ -26,12 +26,27 @@ Route::prefix('/app')
     ->group(function () {
         Route::get('/', App\Http\Livewire\CoreSystem\Home\Dashboard::class)->name('home');
 
-    // Route::post('login', [LoginController::class, 'attempt'])->name('login.attempt');
+        /**
+         * Administrative
+         */
+        Route::prefix('/administrative')
+            ->as('administrative')
+            ->group(function () {
+                /**
+                 * Access
+                 */
+                Route::prefix('/access')
+                    ->as('access')
+                    ->group(function () {
+                        Route::get('/role', App\Http\Livewire\CoreSystem\Administrative\Access\Role\Index::class)->name('role');
+                    });
+            });
 
-    // Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.form');
-    // Route::post('password/reset', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.send-link-email');
+        // Route::post('login', [LoginController::class, 'attempt'])->name('login.attempt');
 
-    // Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-    // Route::post('password/update', [ResetPasswordController::class, 'reset'])->name('password.update');
+        // Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.form');
+        // Route::post('password/reset', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.send-link-email');
+
+        // Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+        // Route::post('password/update', [ResetPasswordController::class, 'reset'])->name('password.update');
     });
-

@@ -2,17 +2,20 @@
 
 namespace App\Http\Livewire\CoreSystem\Auth;
 
+use App\Http\Livewire\BaseComponent;
 use App\View\Components\CoreSystem\LayoutWithoutNav;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\Rules\Password as PasswordRule;
-use Livewire\Component;
 
-class PasswordReset extends Component
+class PasswordReset extends BaseComponent
 {
     public string $email;
+
     public string $token;
+
     public $password;
+
     public $passwordConfirmation;
 
     public function mount(Request $request, string $token)
@@ -59,6 +62,7 @@ class PasswordReset extends Component
 
         if ($response == Password::PASSWORD_RESET) {
             session()->flash('message', __($response));
+
             return redirect()->route('app.home');
         }
 

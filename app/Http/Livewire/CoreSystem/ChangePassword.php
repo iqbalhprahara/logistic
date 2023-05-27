@@ -2,11 +2,11 @@
 
 namespace App\Http\Livewire\CoreSystem;
 
+use App\Http\Livewire\BaseComponent;
 use Core\Auth\Models\User;
 use Illuminate\Validation\Rules\Password;
-use Livewire\Component;
 
-class ChangePassword extends Component
+class ChangePassword extends BaseComponent
 {
     public User $user;
 
