@@ -1,7 +1,7 @@
-<x-core-system.modal id="modal-delete-role-{{ $role->id }}" class="text-start" wire:ignore.self>
-<x-slot name="title">Delete Role</x-slot>
+<x-core-system.modal id="modal-delete-admin-{{ $admin->uuid }}" class="text-start" wire:ignore.self>
+<x-slot name="title">Delete Admin</x-slot>
 <x-slot name="body">
-    Are you sure you want to delete this role?
+    Are you sure you want to delete this admin?
 </x-slot>
 <x-slot name="footer">
     <form wire:submit.prevent="destroy">

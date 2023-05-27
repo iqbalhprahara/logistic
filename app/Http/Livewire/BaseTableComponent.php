@@ -6,7 +6,6 @@ use App\Http\Livewire\Concerns\HasSearch;
 use App\Http\Livewire\Concerns\Sortable;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Str;
 use Livewire\WithPagination;
 
 abstract class BaseTableComponent extends BaseComponent
@@ -15,7 +14,7 @@ abstract class BaseTableComponent extends BaseComponent
 
     protected const DEFAULT_PAGINATION_LIMIT = 10;
 
-    protected $listeners = ['refresh-table' => '$refresh'];
+    protected $listeners = ['refresh-table' => 'refreshTable'];
 
     public function render()
     {
@@ -30,13 +29,18 @@ abstract class BaseTableComponent extends BaseComponent
         return null;
     }
 
+    public function paginationKey(): string
+    {
+        return 'page';
+    }
+
     public function getResult()
     {
         $query = $this->query();
         $query = $this->applyFilter($query);
         $query = $this->applySort($query);
 
-        return $query->paginate(perPage: static::DEFAULT_PAGINATION_LIMIT, pageName: Str::camel(class_basename(static::class)).'Page');
+        return $query->paginate(perPage: static::DEFAULT_PAGINATION_LIMIT, pageName: $this->paginationKey());
     }
 
     protected function button(): array
@@ -53,5 +57,12 @@ abstract class BaseTableComponent extends BaseComponent
     public function paginationView()
     {
         return 'livewire.pagination.custom';
+    }
+
+    public function refreshTable()
+    {
+        $this->resetSorting();
+        $this->resetFilter();
+        $this->resetPage();
     }
 }

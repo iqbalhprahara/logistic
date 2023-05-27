@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Core\Auth\MenuRegistry;
 use Core\Auth\Models\Menu;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -21,6 +22,8 @@ class MenuSeeder extends Seeder
 
     private function seedWebMenus()
     {
+        app(MenuRegistry::class)->forgetCachedMenus();
+
         DB::transaction(function () {
             foreach (config('core.auth-menu.items.web') as $menu) {
                 $this->createMenu($menu);

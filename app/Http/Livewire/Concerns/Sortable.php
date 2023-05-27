@@ -13,7 +13,8 @@ trait Sortable
 
     public function resetSorting()
     {
-        $this->reset(['sortBy', 'sortDir']);
+        $this->sortBy = null;
+        $this->sortDir = 'asc';
     }
 
     public function updatedSortDir($value)

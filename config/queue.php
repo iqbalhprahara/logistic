@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('QUEUE_CONNECTION', 'sync'),
+    'default' => env('QUEUE_CONNECTION', 'default'),
 
     /*
     |--------------------------------------------------------------------------
@@ -69,6 +69,33 @@ return [
             'retry_after' => 90,
             'block_for' => null,
             'after_commit' => false,
+        ],
+
+        'default' => [
+            'driver' => 'redis',
+            'connection' => 'jobs',
+            'queue' => env('REDIS_QUEUE', 'default'),
+            'retry_after' => 90,
+            'block_for' => null,
+            'after_commit' => true,
+        ],
+
+        'email' => [
+            'driver' => 'redis',
+            'connection' => 'jobs',
+            'queue' => 'email',
+            'retry_after' => 90,
+            'block_for' => null,
+            'after_commit' => true,
+        ],
+
+        'data' => [
+            'driver' => 'redis',
+            'connection' => 'jobs',
+            'queue' => 'emails',
+            'retry_after' => 90,
+            'block_for' => null,
+            'after_commit' => true,
         ],
 
     ],

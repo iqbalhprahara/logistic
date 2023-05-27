@@ -16,11 +16,11 @@
     <!-- Icons Css -->
     <link href="{{ asset('vendor/skote/css/icons.min.css') }}" rel="stylesheet" type="text/css"/>
     <!-- Toastr.js -->
-    <link href="{{ asset('vendor/skote/libs/toastr/toastr.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('vendor/skote/libs/toastr/toastr.min.css') }}" rel="stylesheet" type="text/css"/>
     <!-- App Css-->
     <link href="{{ mix('vendor/skote/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css"/>
     @livewireStyles
-
+    @stack('vendor-styles')
     {{ $styles ?? null }}
     @stack('after-styles')
 </head>
@@ -82,7 +82,7 @@
     <script src="{{ asset('vendor/skote/libs/node-waves/node-waves.min.js')}}"></script>
     <script src="{{ asset('vendor/skote/libs/toastr/toastr.min.js')}}"></script>
     @livewireScripts
-
+    @stack('vendor-scripts')
     <script>
         $(document).ready(function() {
             Livewire.on('close-modal', modalId => $(modalId).modal('hide'));

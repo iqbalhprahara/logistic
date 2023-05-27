@@ -172,6 +172,11 @@ return [
                                         'title' => 'Delete Admin',
                                         'description' => 'User can delete admin',
                                     ],
+                                    [
+                                        'gate' => 'administrative:access:admin:restore',
+                                        'title' => 'Restore Admin',
+                                        'description' => 'User can restore admin',
+                                    ],
                                 ],
                             ],
 
@@ -372,6 +377,39 @@ return [
                                         'description' => 'User can delete area',
                                     ],
                                 ],
+                            ],
+                        ],
+                    ],
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Master Data > Company
+                    |--------------------------------------------------------------------------
+                    */
+                    [
+                        'id' => 'master-data-company',
+                        'name' => 'Company',
+                        'description' => 'User can access Company submenu',
+                        'icon' => 'fas fa-building',
+                        'type' => 'menu',
+                        'url' => '/app/master-data/company',
+                        'gate' => 'master-data:company',
+                        'sort' => 2,
+                        'permissions' => [
+                            [
+                                'gate' => 'master-data:company:create',
+                                'title' => 'Create New Company',
+                                'description' => 'User can create new company',
+                            ],
+                            [
+                                'gate' => 'master-data:company:update',
+                                'title' => 'Update Company',
+                                'description' => 'User can modify company',
+                            ],
+                            [
+                                'gate' => 'master-data:company:delete',
+                                'title' => 'Delete Company',
+                                'description' => 'User can delete company',
                             ],
                         ],
                     ],

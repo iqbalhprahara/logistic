@@ -40,10 +40,9 @@ class Edit extends BaseComponent
         $this->authorize('update', $this->role);
         $this->validate($this->rules());
 
-        $oldName = $this->role->getOriginal('name');
         $this->role->save();
 
-        $this->emit('message', 'Role '.$oldName.' successfully updated to '.$this->role->name);
+        $this->emit('message', 'Role data successfully updated');
         $this->emit('close-modal', '#modal-edit-role-'.$this->role->id);
         $this->emit('refresh-table');
     }

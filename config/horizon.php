@@ -180,33 +180,93 @@ return [
     */
 
     'defaults' => [
-        'supervisor-1' => [
-            'connection' => 'redis',
+        'default-supervisor' => [
+            'connection' => 'default',
             'queue' => ['default'],
             'balance' => 'auto',
-            'autoScalingStrategy' => 'time',
-            'maxProcesses' => 1,
+            'maxProcesses' => 2,
             'maxTime' => 0,
-            'maxJobs' => 0,
+            'maxJobs' => 10,
             'memory' => 128,
+            'tries' => 3,
+            'timeout' => 60,
+            'nice' => 5,
+        ],
+
+        'data-supervisor' => [
+            'connection' => 'data',
+            'queue' => ['data'],
+            'balance' => 'auto',
+            'maxProcesses' => 4,
+            'maxTime' => 0,
+            'maxJobs' => 100,
+            'memory' => 128,
+            'tries' => 3,
+            'timeout' => 3600,
+            'nice' => 19,
+        ],
+
+        'email-supervisor' => [
+            'connection' => 'email',
+            'queue' => ['email'],
+            'balance' => 'auto',
+            'maxProcesses' => 2,
+            'maxTime' => 0,
+            'maxJobs' => 10,
+            'memory' => 64,
             'tries' => 1,
             'timeout' => 60,
-            'nice' => 0,
+            'nice' => 10,
         ],
     ],
 
     'environments' => [
         'production' => [
-            'supervisor-1' => [
-                'maxProcesses' => 10,
+            'default-supervisor' => [
+                'balanceMaxShift' => 1,
+                'balanceCooldown' => 3,
+            ],
+            'data-supervisor' => [
+                'minProcesses' => 6,
+                'maxProcesses' => 8,
+                'balanceMaxShift' => 1,
+                'balanceCooldown' => 3,
+            ],
+            'email-supervisor' => [
+                'balanceMaxShift' => 1,
+                'balanceCooldown' => 3,
+            ],
+        ],
+
+        'development' => [
+            'default-supervisor' => [
+                'balanceMaxShift' => 1,
+                'balanceCooldown' => 3,
+            ],
+            'data-supervisor' => [
+                'minProcesses' => 4,
+                'maxProcesses' => 6,
+                'balanceMaxShift' => 1,
+                'balanceCooldown' => 3,
+            ],
+            'email-supervisor' => [
                 'balanceMaxShift' => 1,
                 'balanceCooldown' => 3,
             ],
         ],
 
         'local' => [
-            'supervisor-1' => [
-                'maxProcesses' => 3,
+            'default-supervisor' => [
+                'balanceMaxShift' => 1,
+                'balanceCooldown' => 3,
+            ],
+            'data-supervisor' => [
+                'balanceMaxShift' => 1,
+                'balanceCooldown' => 3,
+            ],
+            'email-supervisor' => [
+                'balanceMaxShift' => 1,
+                'balanceCooldown' => 3,
             ],
         ],
     ],

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\CoreSystem\Auth;
 
 use App\Http\Livewire\BaseComponent;
+use App\Jobs\SendResetPasswordNotificationJob;
 use App\View\Components\CoreSystem\LayoutWithoutNav;
 use Core\Auth\Models\User;
 
@@ -36,16 +37,10 @@ class ForgotPassword extends BaseComponent
 
         if ($user) {
             if (app('auth.password.broker')->getRepository()->recentlyCreatedToken($user)) {
-                return redirect()->back()
-                    ->withInput()
-                    ->withErrors([
-                        'email' => __('passwords.throttled'),
-                    ]);
+                return $this->emit('error', __('passwords.throttled'));
             }
 
-            $user->sendPasswordResetNotification(
-                app('auth.password.broker')->createToken($user)
-            );
+            SendResetPasswordNotificationJob::dispatch($user);
 
             $this->emit('message',
                 __('passwords.sent'),

@@ -13,7 +13,7 @@ trait HasSearch
 
     public function resetFilter()
     {
-        $this->reset('searchKeywords');
+        $this->searchKeywords = null;
     }
 
     public function updatingSearchKeywords()

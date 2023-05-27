@@ -9,6 +9,7 @@ class Delete extends BaseComponent
 {
     protected $gates = ['administrative:access:role:delete'];
 
+    /** @var Role */
     public $role;
 
     public function mount(Role $role)
@@ -25,8 +26,17 @@ class Delete extends BaseComponent
     {
         $this->authorize('delete', $this->role);
 
-        $name = $this->role->name;
         $id = $this->role->id;
+
+        if ($this->role->users()->withTrashed()->count() > 0) {
+            $this->emit('error', 'Cannot delete role. There are some users assigned to this role');
+            $this->emit('close-modal', '#modal-delete-role-'.$id);
+
+            return;
+        }
+
+        $name = $this->role->name;
+
         $this->role->delete();
 
         $this->emit('message', 'Role '.$name.' successfully deleted');

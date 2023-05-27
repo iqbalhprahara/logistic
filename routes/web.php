@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function () {
+    return redirect()->to('/login');
+});
+
 Route::middleware('guest')
     ->group(function () {
         Route::get('/login', App\Http\Livewire\CoreSystem\Auth\Login::class)->name('login');
@@ -39,6 +43,7 @@ Route::prefix('/app')
                     ->as('access')
                     ->group(function () {
                         Route::get('/role', App\Http\Livewire\CoreSystem\Administrative\Access\Role\Index::class)->name('role');
+                        Route::get('/admin', App\Http\Livewire\CoreSystem\Administrative\Access\Admin\Index::class)->name('admin');
                     });
             });
 
