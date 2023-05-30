@@ -32,7 +32,7 @@ class ShipmentTypeSeeder extends Seeder
             ],
             [
                 'id' => 'DOC',
-                'name' => 'Document',
+                'name' => 'Dokumen',
             ],
         ];
     }

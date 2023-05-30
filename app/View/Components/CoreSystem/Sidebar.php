@@ -8,6 +8,7 @@ use Illuminate\View\Component;
 class Sidebar extends Component
 {
     public $user;
+
     public $menus;
 
     /**
@@ -34,8 +35,7 @@ class Sidebar extends Component
     protected function getMenus(): null|array
     {
         $menuData = app(MenuRegistry::class)
-            ->getMenusByParams(['user_uuid' => $this->user->uuid, 'guard' => 'web'])
-            ->first();
+            ->getMenusByParams(['user_uuid' => $this->user->uuid, 'guard' => 'web'], true);
 
         return optional($menuData)['menus'];
     }

@@ -70,4 +70,20 @@ Route::prefix('/app')
                         Route::get('/subdistrict', App\Http\Livewire\CoreSystem\MasterData\Location\Subdistrict\Index::class)->name('subdistrict');
                     });
             });
+
+        /**
+         * Logistic
+         */
+        Route::prefix('/logistic')
+            ->as('logistic.')
+            ->group(function () {
+                /**
+             * Pickup
+             */
+                Route::prefix('/pickup')
+                    ->as('pickup.')
+                    ->group(function () {
+                        Route::get('/input-pickup', App\Http\Livewire\CoreSystem\Logistic\Pickup\InputPickup\Index::class)->name('input-pickup');
+                    });
+            });
     });

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
-class Sequences extends Model
+class Sequence extends Model
 {
     use HasFactory;
 
@@ -48,10 +48,12 @@ class Sequences extends Model
 
         $sequence = self::lockForUpdate()->where([
             'type' => $type,
+            'prefix' => $prefix,
             'date' => $transactionDate,
-        ])->firstOr(function () use ($type, $transactionDate) {
+        ])->firstOr(function () use ($type, $transactionDate, $prefix) {
             return self::create([
                 'type' => $type,
+                'prefix' => $prefix,
                 'date' => $transactionDate,
                 'current_no' => 1,
             ])->refresh();
