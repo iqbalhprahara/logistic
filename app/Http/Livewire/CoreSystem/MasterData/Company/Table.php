@@ -20,7 +20,7 @@ class Table extends BaseTableComponent
             'uuid' => $row->uuid,
             'code' => $row->code,
             'name' => $row->name,
-            'users_count' => intval($row->users_count).' users',
+            'client_users_count' => intval($row->client_users_count).' client users',
             'status' => $row->deleted_at ? '<span class="badge bg-danger">Deleted</span>' : '<span class="badge bg-primary">Active</span>',
             'action' => view('livewire.core-system.master-data.company.action', ['company' => $row]),
         ];
@@ -50,7 +50,7 @@ class Table extends BaseTableComponent
                 'column' => 'name',
             ],
             [
-                'column' => 'users_count',
+                'column' => 'client_users_count',
             ],
             [
                 'type' => 'raw',
@@ -72,7 +72,7 @@ class Table extends BaseTableComponent
     {
         return Company::withTrashed()
             ->withCount([
-                'users',
+                'clientUsers',
             ]);
     }
 }

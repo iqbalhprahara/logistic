@@ -10,7 +10,7 @@ class Province extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $guard = [];
+    protected $guarded = [];
 
     /**
      * The attributes that should be cast.

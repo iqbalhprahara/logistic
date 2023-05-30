@@ -20,7 +20,7 @@
 <div class="row">
     <x-core-system.card>
         <x-slot name="body">
-            @livewire('core-system.administrative.access.user.table', compact('companyList'))
+            @livewire('core-system.administrative.access.client.table', compact('companyList'))
         </x-slot>
     </x-core-system.card>
 </div>

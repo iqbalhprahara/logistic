@@ -44,7 +44,7 @@ Route::prefix('/app')
                     ->group(function () {
                         Route::get('/role', App\Http\Livewire\CoreSystem\Administrative\Access\Role\Index::class)->name('role');
                         Route::get('/admin', App\Http\Livewire\CoreSystem\Administrative\Access\Admin\Index::class)->name('admin');
-                        Route::get('/user', App\Http\Livewire\CoreSystem\Administrative\Access\User\Index::class)->name('user');
+                        Route::get('/client', App\Http\Livewire\CoreSystem\Administrative\Access\Client\Index::class)->name('user');
                     });
             });
 

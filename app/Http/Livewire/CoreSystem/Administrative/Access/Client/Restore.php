@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Livewire\CoreSystem\Administrative\Access\User;
+namespace App\Http\Livewire\CoreSystem\Administrative\Access\Client;
 
 use App\Http\Livewire\BaseComponent;
 use Core\Auth\MenuRegistry;
 use Core\Auth\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class Restore extends BaseComponent
 {
-    protected $gates = ['administrative:access:user:restore'];
+    protected $gates = ['administrative:access:client:restore'];
 
     /** @var User */
     public $user;
@@ -20,14 +21,18 @@ class Restore extends BaseComponent
 
     public function render()
     {
-        return view('livewire.core-system.administrative.access.user.restore');
+        return view('livewire.core-system.administrative.access.client.restore');
     }
 
     public function restore()
     {
         $name = $this->user->name;
         $id = $this->user->uuid;
-        $this->user->restore();
+
+        DB::transaction(function () {
+            $this->user->company()->restore();
+            $this->user->restore();
+        });
 
         app(MenuRegistry::class)->forgetCachedMenus();
 

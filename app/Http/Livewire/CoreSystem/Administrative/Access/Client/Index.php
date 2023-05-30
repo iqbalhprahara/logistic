@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\CoreSystem\Administrative\Access\User;
+namespace App\Http\Livewire\CoreSystem\Administrative\Access\Client;
 
 use App\Http\Livewire\BaseComponent;
 use App\View\Components\CoreSystem\Layout;
@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class Index extends BaseComponent
 {
-    protected $gates = ['administrative:access:user'];
+    protected $gates = ['administrative:access:client'];
 
     public function render()
     {
@@ -18,7 +18,7 @@ class Index extends BaseComponent
             'uuid as value',
         ])->pluck('text', 'value');
 
-        return view('livewire.core-system.administrative.access.user.index', compact('companyList'))
+        return view('livewire.core-system.administrative.access.client.index', compact('companyList'))
             ->layout(Layout::class)
             ->layoutData([
                 'metaTitle' => 'User',

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\CoreSystem\Administrative\Access\User;
+namespace App\Http\Livewire\CoreSystem\Administrative\Access\Client;
 
 use App\Http\Livewire\BaseComponent;
 use Core\Auth\MenuRegistry;
@@ -12,7 +12,7 @@ use Illuminate\Validation\Rules\Password;
 
 class Create extends BaseComponent
 {
-    protected $gates = ['administrative:access:user:create'];
+    protected $gates = ['administrative:access:client:create'];
 
     /** @var User */
     public $user;
@@ -43,7 +43,7 @@ class Create extends BaseComponent
 
     public function render()
     {
-        return view('livewire.core-system.administrative.access.user.create');
+        return view('livewire.core-system.administrative.access.client.create');
     }
 
     protected function rules()
@@ -81,7 +81,9 @@ class Create extends BaseComponent
             $this->user->changePassword($this->password);
             $this->user->save();
             $this->user->assignRole('Client');
-            $this->user->syncCompany($this->company);
+            $this->user->client()->create([
+                'company_uuid' => $this->company,
+            ]);
         });
 
         app(MenuRegistry::class)->forgetCachedMenus();

@@ -1,10 +1,10 @@
 <?php
 
-namespace Core\MasterData;
+namespace Core\Logistic;
 
 use Illuminate\Support\ServiceProvider;
 
-class MasterDataServiceProvider extends ServiceProvider
+class LogisticServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any package services.
@@ -50,18 +50,6 @@ class MasterDataServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerConfigs();
-    }
-
-    /**
-     * Register the configs.
-     *
-     * @return void
-     */
-    private function registerConfigs()
-    {
-        $this->mergeConfigFrom(
-            __DIR__.'/config/sequence.php', 'sequence',
-        );
+        //
     }
 }

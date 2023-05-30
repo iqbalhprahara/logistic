@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\CoreSystem\Administrative\Access\User;
+namespace App\Http\Livewire\CoreSystem\Administrative\Access\Client;
 
 use App\Http\Livewire\BaseComponent;
 use Core\Auth\MenuRegistry;
@@ -11,7 +11,7 @@ use Illuminate\Validation\Rule;
 
 class Edit extends BaseComponent
 {
-    protected $gates = ['administrative:access:user:edit'];
+    protected $gates = ['administrative:access:client:edit'];
 
     /** @var User */
     public $user;
@@ -23,7 +23,7 @@ class Edit extends BaseComponent
     public function mount(User $user, $companyList)
     {
         $this->user = $user;
-        $this->company = optional($user->companies->first())->uuid;
+        $this->company = $this->user->client->company_uuid;
         $this->companyList = $companyList;
     }
 
@@ -34,7 +34,7 @@ class Edit extends BaseComponent
 
     public function render()
     {
-        return view('livewire.core-system.administrative.access.user.edit');
+        return view('livewire.core-system.administrative.access.client.edit');
     }
 
     protected function rules()
@@ -64,7 +64,9 @@ class Edit extends BaseComponent
 
         DB::transaction(function () {
             $this->user->save();
-            $this->user->syncCompany($this->company);
+            $this->user->client()->update([
+                'company_uuid' => $this->company,
+            ]);
         });
 
         app(MenuRegistry::class)->forgetCachedMenus();

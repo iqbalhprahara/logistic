@@ -172,6 +172,7 @@ return [
         Core\MorphServiceProvider::class,
         Core\Auth\AuthServiceProvider::class,
         Core\MasterData\MasterDataServiceProvider::class,
+        Core\Logistic\LogisticServiceProvider::class,
     ])->toArray(),
 
     /*

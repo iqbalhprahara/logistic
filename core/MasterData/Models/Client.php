@@ -6,12 +6,11 @@ use Core\Auth\Models\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Company extends Model
+class Client extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes;
+    use HasFactory, SoftDeletes, HasUuids;
 
     /**
      * The primary key associated with the table.
@@ -33,26 +32,13 @@ class Company extends Model
         'deleted_at' => 'datetime',
     ];
 
-    public function clientUsers(): BelongsToMany
+    public function user()
     {
-        return $this->belongsToMany(
-            User::class,
-            'clients',
-            'company_uuid',
-            'user_uuid',
-            'uuid',
-            'uuid',
-        );
+        return $this->belongsTo(User::class);
     }
 
-    public function users(): BelongsToMany
+    public function company()
     {
-        return $this->morphedByMany(
-            User::class,
-            'model',
-            'model_has_companies',
-            'company_uuid',
-            'model_uuid',
-        );
+        return $this->belongsTo(Company::class);
     }
 }

@@ -5,10 +5,12 @@ namespace Core\MasterData\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
-class Subdistrict extends Model
+class Awb extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, LogsActivity;
 
     protected $guarded = [];
 
@@ -23,8 +25,9 @@ class Subdistrict extends Model
         'deleted_at' => 'datetime',
     ];
 
-    public function city()
+    public function getActivitylogOptions(): LogOptions
     {
-        return $this->belongsTo(City::class);
+        return LogOptions::defaults();
+        // Chain fluent methods for configuration options
     }
 }

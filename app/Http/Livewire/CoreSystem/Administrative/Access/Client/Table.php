@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\CoreSystem\Administrative\Access\User;
+namespace App\Http\Livewire\CoreSystem\Administrative\Access\Client;
 
 use App\Http\Livewire\BaseTableComponent;
 use Core\Auth\Models\User;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Blade;
 
 class Table extends BaseTableComponent
 {
-    protected $gates = ['administrative:access:user'];
+    protected $gates = ['administrative:access:client'];
 
     public ?string $sortBy = 'uuid';
 
@@ -28,9 +28,9 @@ class Table extends BaseTableComponent
             'uuid' => $row->uuid,
             'name' => $row->name,
             'email' => $row->email,
-            'companies.name' => optional($row->companies->first())->name ?? '-',
+            'client.company.name' => $row->client->company->name,
             'status' => $row->deleted_at ? '<span class="badge bg-danger">Deleted</span>' : '<span class="badge bg-primary">Active</span>',
-            'action' => view('livewire.core-system.administrative.access.user.action', ['user' => $row, 'companyList' => $this->companyList]),
+            'action' => view('livewire.core-system.administrative.access.client.action', ['user' => $row, 'companyList' => $this->companyList]),
         ];
     }
 
@@ -40,8 +40,8 @@ class Table extends BaseTableComponent
 
         return [
             Blade::render(<<<'blade'
-                @can('administrative:access:user:create')
-                    @livewire('core-system.administrative.access.user.create', compact('companyList'))
+                @can('administrative:access:client:create')
+                    @livewire('core-system.administrative.access.client.create', compact('companyList'))
                 @endcan
             blade, compact('companyList')),
         ];
@@ -61,7 +61,7 @@ class Table extends BaseTableComponent
             ],
             [
                 'header' => 'Company',
-                'column' => 'companies.name',
+                'column' => 'client.company.name',
                 'sortable' => false,
             ],
             [
@@ -87,7 +87,8 @@ class Table extends BaseTableComponent
         })
             ->withTrashed()
             ->with([
-                'companies',
+                'client',
+                'client.company',
             ]);
     }
 }

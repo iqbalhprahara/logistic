@@ -17,7 +17,7 @@ class Menu extends Model
      */
     protected $primaryKey = 'uuid';
 
-    protected $guard = [];
+    protected $guarded = [];
 
     /**
      * The attributes that should be cast.

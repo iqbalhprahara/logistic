@@ -4,11 +4,10 @@ namespace Core\MasterData\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Subdistrict extends Model
+class Packaging extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $guarded = [];
 
@@ -20,11 +19,5 @@ class Subdistrict extends Model
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
-        'deleted_at' => 'datetime',
     ];
-
-    public function city()
-    {
-        return $this->belongsTo(City::class);
-    }
 }

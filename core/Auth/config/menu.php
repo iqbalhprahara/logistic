@@ -182,33 +182,33 @@ return [
 
                             /*
                             |--------------------------------------------------------------------------
-                            | Administrative > Access > User
+                            | Administrative > Access > Client
                             |--------------------------------------------------------------------------
                             */
                             [
-                                'id' => 'administrative-access-user',
-                                'name' => 'User',
-                                'description' => 'User can access User submenu',
+                                'id' => 'administrative-access-client',
+                                'name' => 'Client',
+                                'description' => 'User can access Client submenu',
                                 'icon' => null,
                                 'type' => 'menu',
-                                'url' => '/app/administrative/access/user',
-                                'gate' => 'administrative:access:user',
+                                'url' => '/app/administrative/access/client',
+                                'gate' => 'administrative:access:client',
                                 'sort' => 3,
                                 'permissions' => [
                                     [
-                                        'gate' => 'administrative:access:user:create',
-                                        'title' => 'Create New User',
-                                        'description' => 'User can create new user',
+                                        'gate' => 'administrative:access:client:create',
+                                        'title' => 'Create New Client',
+                                        'description' => 'User can create new client',
                                     ],
                                     [
-                                        'gate' => 'administrative:access:user:update',
-                                        'title' => 'Update User',
-                                        'description' => 'User can modify user',
+                                        'gate' => 'administrative:access:client:update',
+                                        'title' => 'Update Client',
+                                        'description' => 'User can modify client',
                                     ],
                                     [
-                                        'gate' => 'administrative:access:user:delete',
-                                        'title' => 'Delete User',
-                                        'description' => 'User can delete user',
+                                        'gate' => 'administrative:access:client:delete',
+                                        'title' => 'Delete Client',
+                                        'description' => 'User can delete client',
                                     ],
                                 ],
                             ],
@@ -418,49 +418,49 @@ return [
                     | Logistic > Trace & Tracking
                     |--------------------------------------------------------------------------
                     */
-                    [
-                        'id' => 'logistic-trace-tracking',
-                        'name' => 'Trace & Tracking',
-                        'description' => 'User can access Trace & Tracking submenu',
-                        'icon' => 'fas fa-map-marker-alt',
-                        'type' => 'menu',
-                        'url' => null,
-                        'gate' => 'logistic:trace-tracking',
-                        'sort' => 1,
-                        'submenus' => [
-                            /*
-                            |--------------------------------------------------------------------------
-                            | Logistic > Trace & Tracking > Single
-                            |--------------------------------------------------------------------------
-                            */
-                            [
-                                'id' => 'logistic-trace-tracking-single',
-                                'name' => 'Single',
-                                'description' => 'User can access Single submenu',
-                                'icon' => null,
-                                'type' => 'menu',
-                                'url' => '/app/logistic/trace-tracking/single',
-                                'gate' => 'logistic:trace-tracking:single',
-                                'sort' => 1,
-                            ],
+                    // [
+                    //     'id' => 'logistic-trace-tracking',
+                    //     'name' => 'Trace & Tracking',
+                    //     'description' => 'User can access Trace & Tracking submenu',
+                    //     'icon' => 'fas fa-map-marker-alt',
+                    //     'type' => 'menu',
+                    //     'url' => null,
+                    //     'gate' => 'logistic:trace-tracking',
+                    //     'sort' => 1,
+                    //     'submenus' => [
+                    //         /*
+                    //         |--------------------------------------------------------------------------
+                    //         | Logistic > Trace & Tracking > Single
+                    //         |--------------------------------------------------------------------------
+                    //         */
+                    //         [
+                    //             'id' => 'logistic-trace-tracking-single',
+                    //             'name' => 'Single',
+                    //             'description' => 'User can access Single submenu',
+                    //             'icon' => null,
+                    //             'type' => 'menu',
+                    //             'url' => '/app/logistic/trace-tracking/single',
+                    //             'gate' => 'logistic:trace-tracking:single',
+                    //             'sort' => 1,
+                    //         ],
 
-                            /*
-                            |--------------------------------------------------------------------------
-                            | Logistic > Trace & Tracking > Multiple
-                            |--------------------------------------------------------------------------
-                            */
-                            [
-                                'id' => 'logistic-trace-tracking-multiple',
-                                'name' => 'Multiple',
-                                'description' => 'User can access Multiple submenu',
-                                'icon' => null,
-                                'type' => 'menu',
-                                'url' => '/app/logistic/trace-tracking/multiple',
-                                'gate' => 'logistic:trace-tracking:multiple',
-                                'sort' => 2,
-                            ],
-                        ],
-                    ],
+                    //         /*
+                    //         |--------------------------------------------------------------------------
+                    //         | Logistic > Trace & Tracking > Multiple
+                    //         |--------------------------------------------------------------------------
+                    //         */
+                    //         [
+                    //             'id' => 'logistic-trace-tracking-multiple',
+                    //             'name' => 'Multiple',
+                    //             'description' => 'User can access Multiple submenu',
+                    //             'icon' => null,
+                    //             'type' => 'menu',
+                    //             'url' => '/app/logistic/trace-tracking/multiple',
+                    //             'gate' => 'logistic:trace-tracking:multiple',
+                    //             'sort' => 2,
+                    //         ],
+                    //     ],
+                    // ],
 
                     /*
                     |--------------------------------------------------------------------------
@@ -508,7 +508,7 @@ return [
                                         'description' => 'User can delete awb',
                                     ],
                                     [
-                                        'gate' => 'logistic:pickup:input-pickup:print',
+                                        'gate' => 'logistic:pickup:input-pickup:print-awb',
                                         'title' => 'Print AWB',
                                         'description' => 'User can print awb',
                                     ],

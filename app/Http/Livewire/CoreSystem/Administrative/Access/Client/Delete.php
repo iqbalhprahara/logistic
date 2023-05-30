@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Livewire\CoreSystem\Administrative\Access\User;
+namespace App\Http\Livewire\CoreSystem\Administrative\Access\Client;
 
 use App\Http\Livewire\BaseComponent;
 use Core\Auth\MenuRegistry;
 use Core\Auth\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class Delete extends BaseComponent
 {
-    protected $gates = ['administrative:access:user:delete'];
+    protected $gates = ['administrative:access:client:delete'];
 
     /** @var User */
     public $user;
@@ -20,14 +21,18 @@ class Delete extends BaseComponent
 
     public function render()
     {
-        return view('livewire.core-system.administrative.access.user.delete');
+        return view('livewire.core-system.administrative.access.client.delete');
     }
 
     public function destroy()
     {
         $name = $this->user->name;
         $id = $this->user->uuid;
-        $this->user->delete();
+
+        DB::transaction(function () {
+            $this->user->company()->delete();
+            $this->user->delete();
+        });
 
         app(MenuRegistry::class)->forgetCachedMenus();
 
