@@ -164,13 +164,15 @@ return [
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
+        App\Providers\BladeServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\HorizonServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Core\MorphServiceProvider::class,
         Core\Auth\AuthServiceProvider::class,
+        Core\MasterData\MasterDataServiceProvider::class,
+        Core\Logistic\LogisticServiceProvider::class,
     ])->toArray(),
 
     /*

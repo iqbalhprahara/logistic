@@ -23,7 +23,7 @@ class Layout extends Component
      */
     public function __construct($metaTitle = null, $title = null)
     {
-        $this->metaTitle = $metaTitle ?? 'App | '.config('app.name');
+        $this->metaTitle = ($metaTitle ?? 'App').' | '.config('app.name');
         $this->title = $title;
         $this->user = auth()->user();
         $this->permissions = [];

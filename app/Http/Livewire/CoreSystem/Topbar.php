@@ -2,9 +2,9 @@
 
 namespace App\Http\Livewire\CoreSystem;
 
-use Livewire\Component;
+use App\Http\Livewire\BaseComponent;
 
-class Topbar extends Component
+class Topbar extends BaseComponent
 {
     public $user;
 
@@ -22,6 +22,7 @@ class Topbar extends Component
     {
         auth()->logout();
         session()->flash('info', 'You have been logged out');
+
         return redirect()->route('login');
     }
 }

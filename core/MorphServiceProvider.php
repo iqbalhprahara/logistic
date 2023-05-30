@@ -28,6 +28,7 @@ class MorphServiceProvider extends ServiceProvider
         // will throw a `ClassMorphViolationException` exception.
         Relation::enforceMorphMap([
             'auth.user' => \Core\Auth\Models\User::class,
+            'logistic.awb' => \Core\Logistic\Models\Awb::class,
         ]);
     }
 }

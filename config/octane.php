@@ -182,6 +182,7 @@ return [
 
     'watch' => [
         'app',
+        'core',
         'bootstrap',
         'config',
         'database',

@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function () {
+    return redirect()->to('/login');
+});
+
 Route::middleware('guest')
     ->group(function () {
         Route::get('/login', App\Http\Livewire\CoreSystem\Auth\Login::class)->name('login');
@@ -26,12 +30,44 @@ Route::prefix('/app')
     ->group(function () {
         Route::get('/', App\Http\Livewire\CoreSystem\Home\Dashboard::class)->name('home');
 
-    // Route::post('login', [LoginController::class, 'attempt'])->name('login.attempt');
+        /**
+         * Administrative
+         */
+        Route::prefix('/administrative')
+            ->as('administrative.')
+            ->group(function () {
+                /**
+                 * Access
+                 */
+                Route::prefix('/access')
+                    ->as('access.')
+                    ->group(function () {
+                        Route::get('/role', App\Http\Livewire\CoreSystem\Administrative\Access\Role\Index::class)->name('role');
+                        Route::get('/admin', App\Http\Livewire\CoreSystem\Administrative\Access\Admin\Index::class)->name('admin');
+                        Route::get('/client', App\Http\Livewire\CoreSystem\Administrative\Access\Client\Index::class)->name('user');
+                    });
+            });
 
-    // Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.form');
-    // Route::post('password/reset', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.send-link-email');
+        /**
+         * Administrative
+         */
+        Route::prefix('/master-data')
+            ->as('master-data.')
+            ->group(function () {
+                /**
+                 * Company
+                 */
+                Route::get('/company', App\Http\Livewire\CoreSystem\MasterData\Company\Index::class)->name('company');
 
-    // Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-    // Route::post('password/update', [ResetPasswordController::class, 'reset'])->name('password.update');
+                /**
+                 * Location
+                 */
+                Route::prefix('/location')
+                    ->as('location.')
+                    ->group(function () {
+                        Route::get('/province', App\Http\Livewire\CoreSystem\MasterData\Location\Province\Index::class)->name('province');
+                        Route::get('/city', App\Http\Livewire\CoreSystem\MasterData\Location\City\Index::class)->name('city');
+                        Route::get('/subdistrict', App\Http\Livewire\CoreSystem\MasterData\Location\Subdistrict\Index::class)->name('subdistrict');
+                    });
+            });
     });
-
