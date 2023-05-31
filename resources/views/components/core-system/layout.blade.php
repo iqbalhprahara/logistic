@@ -86,7 +86,7 @@
     <script>
         $(document).ready(function() {
             Livewire.on('close-modal', modalId => $(modalId).modal('hide'));
-        Livewire.on('message', message => toastr.success(message));
+            Livewire.on('message', message => toastr.success(message));
             Livewire.on('error', message => toastr.error(message));
             Livewire.on('info', message => toastr.info(message));
             Livewire.on('warning', message => toastr.warning(message));

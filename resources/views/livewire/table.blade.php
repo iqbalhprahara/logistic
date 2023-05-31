@@ -43,10 +43,10 @@
         @endif
     </div>
     <div class="table-responsive mb-3">
-        <table class="table table-bordered mb-0 align-middle text-nowrap">
+        <table class="table table-sm table-bordered mb-0 align-middle text-wrap">
             <thead class="table-light">
                 <tr>
-                    @foreach ($this->columnDefinition() as $columnDef)
+                    @foreach ($this->showedColumn() as $columnDef)
                         @php
                             $width = data_get($columnDef, 'width');
                             $styles = data_get($columnDef, 'styles');
@@ -57,7 +57,7 @@
             </thead>
             <tbody wire:loading wire:loading.class="table-loading-overlay">
                 <tr>
-                    <td colspan="{{ count($this->columnDefinition()) }}">
+                    <td colspan="{{ $this->showedColumnCount() }}">
                         <div class="spinner-grow text-primary m-1" role="status">
                             <span class="sr-only">Loading...</span>
                         </div>
@@ -76,7 +76,7 @@
             <tbody wire:loading.remove>
                 @if ($results->isEmpty())
                     <tr>
-                        <td colspan="{{ count($this->columnDefinition()) }}" class="text-center">No data found</td>
+                        <td colspan="{{ $this->showedColumnCount() }}" class="text-center">No data found</td>
                     </tr>
                 @else
                     @foreach ($results as $result)
@@ -84,7 +84,7 @@
                         $result = $this->formatResult($result);
                     @endphp
                         <tr>
-                            @foreach ($this->columnDefinition() as $columnDef)
+                            @foreach ($this->showedColumn() as $columnDef)
                             @php
                                 $width = data_get($columnDef, 'width');
                                 $styles = data_get($columnDef, 'styles');

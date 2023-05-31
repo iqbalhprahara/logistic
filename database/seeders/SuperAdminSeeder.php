@@ -28,9 +28,8 @@ class SuperAdminSeeder extends Seeder
                     'email_verified_at' => now(),
                     'password' => '$2y$10$C3xpji8DggFiK0nvSIOEKe5Y5iUcJlMXffRyOD6NFfmeAZX4XEhSO',
                 ]
-            )->each(function(User $superAdmin) {
-                $superAdmin->assignRole('Super Admin');
-            });
+            );
+            $superAdmin->assignRole('Super Admin');
         }
     }
 }

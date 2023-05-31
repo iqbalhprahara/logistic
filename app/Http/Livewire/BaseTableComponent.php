@@ -48,6 +48,22 @@ abstract class BaseTableComponent extends BaseComponent
         return [];
     }
 
+    protected function showedColumn(): array
+    {
+        return collect($this->columnDefinition())->filter(function ($item) {
+            if (! isset($item['type'])) {
+                return true;
+            }
+
+            return $item['type'] !== 'hidden';
+        })->all();
+    }
+
+    protected function showedColumnCount(): int
+    {
+        return count($this->showedColumn());
+    }
+
     abstract protected function formatResult($row): array;
 
     abstract protected function columnDefinition(): array;

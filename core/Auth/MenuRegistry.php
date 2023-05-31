@@ -63,7 +63,7 @@ class MenuRegistry
     {
         $this->loadMenus();
 
-        $method = $onlyOne ? 'firsWhere' : 'filter';
+        $method = $onlyOne ? 'first' : 'filter';
         $menus = $this->menus->$method(function ($item) use ($params) {
             foreach ($params as $attr => $value) {
                 if ($item[$attr] !== $value) {
@@ -75,7 +75,7 @@ class MenuRegistry
         });
 
         if ($onlyOne) {
-            $menus = new Collection($menus ? [$menus] : []);
+            $menus = new Collection($menus ? $menus : []);
         }
 
         return $menus;
@@ -121,7 +121,7 @@ class MenuRegistry
                 return false;
             }
 
-            return $item['menu']->gate === null || $user->can($item['menu']->gate);
+            return $item['menu']->gate === null || $user->hasRole('Super Admin') || $user->hasPermissionTo($item['menu']->gate);
         })->map(function ($item) use ($user, $guard) {
             return [
                 'id' => $item['menu']->id,
@@ -152,6 +152,7 @@ class MenuRegistry
     protected function getMenusMap(): Collection
     {
         $menus = $this->getMenus();
+
         return $this->menuMapByParam($menus, ['parent_uuid' => null]);
     }
 
@@ -166,13 +167,13 @@ class MenuRegistry
 
             return true;
         })
-        ->sortBy('sort')
-        ->map(function (Menu $item) use ($allMenu) {
-            return [
-                'menu' => $item,
-                'submenus' => $this->menuMapByParam($allMenu, ['parent_uuid' => $item->uuid]),
-            ];
-        })->values();
+            ->sortBy('sort')
+            ->map(function (Menu $item) use ($allMenu) {
+                return [
+                    'menu' => $item,
+                    'submenus' => $this->menuMapByParam($allMenu, ['parent_uuid' => $item->uuid]),
+                ];
+            })->values();
     }
 
     protected function getMenus(): Collection

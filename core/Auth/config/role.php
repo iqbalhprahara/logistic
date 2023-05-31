@@ -32,6 +32,7 @@ return [
                     // 'logistic:trace-tracking:single',
                     // 'logistic:trace-tracking:multiple',
                     'logistic:pickup',
+                    'logistic:pickup:input-pickup',
                     'logistic:pickup:input-pickup:create',
                     'logistic:pickup:input-pickup:print-awb',
                 ],

@@ -150,9 +150,9 @@
                 {{-- <img class="rounded-circle header-profile-user" src="{{ asset('assets/admin/images/users/avatar-1.jpg') }}"
                     alt="Header Avatar"> --}}
                 @if(Auth::user()->isClient())
-                <span class="d-none d-xl-inline-block ms-1" key="t-henry">{{ucfirst(Auth::user()->name . ' - ' . Auth::user()->company_name)}}</span>
+                <span class="d-none d-xl-inline-block ms-1" key="t-henry">{{Auth::user()->name . ' - ' . Auth::user()->company_name}}</span>
                 @else
-                <span class="d-none d-xl-inline-block ms-1" key="t-henry">{{ucfirst(Auth::user()->name)}}</span>
+                <span class="d-none d-xl-inline-block ms-1" key="t-henry">{{Auth::user()->name}}</span>
                 @endif
 
                 <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
