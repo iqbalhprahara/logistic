@@ -3,17 +3,17 @@
 namespace App\Http\Livewire\CoreSystem\Logistic\Pickup\InputPickup;
 
 use App\Http\Livewire\BaseComponent;
-use Core\MasterData\Models\Company;
+use Core\Logistic\Models\Awb;
 
 class Delete extends BaseComponent
 {
     protected $gates = ['logistic:pickup:input-pickup:delete'];
 
-    public Company $company;
+    public ?string $uuid;
 
-    public function mount(Company $company)
+    public function mount(string $uuid)
     {
-        $this->company = $company;
+        $this->uuid = $uuid;
     }
 
     public function render()
@@ -23,21 +23,11 @@ class Delete extends BaseComponent
 
     public function destroy()
     {
-        $id = $this->company->uuid;
+        $awb = Awb::findOrFail($this->uuid);
+        $awb->delete();
 
-        if ($this->company->users()->count() > 0) {
-            $this->emit('error', 'Cannot delete company. There are some users assigned to this company');
-            $this->emit('close-modal', '#modal-delete-company-'.$id);
-
-            return;
-        }
-
-        $name = $this->company->name;
-
-        $this->company->delete();
-
-        $this->emit('message', $name.' successfully deleted');
-        $this->emit('close-modal', '#modal-delete-company-'.$id);
+        $this->emit('message', $awb->awb_no.' successfully deleted');
+        $this->emit('close-modal', '#modal-delete-awb-'.$this->uuid);
         $this->emit('refresh-table');
     }
 }

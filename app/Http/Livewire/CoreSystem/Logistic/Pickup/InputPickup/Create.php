@@ -3,20 +3,16 @@
 namespace App\Http\Livewire\CoreSystem\Logistic\Pickup\InputPickup;
 
 use Core\Logistic\Models\Awb;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class Create extends BaseForm
 {
-    protected $gates = ['administrative:access:admin:create'];
+    protected $gates = ['logistic:pickup:input-pickup:create'];
 
     public function initializeAwbData()
     {
         $this->awb = new Awb();
-    }
-
-    public function updatedCompanyCode($value)
-    {
-        $this->company->code = strtoupper($value);
     }
 
     public function render()
@@ -29,6 +25,12 @@ class Create extends BaseForm
         $this->validate($this->rules());
 
         $awb = DB::transaction(function () {
+            if (Auth::user()->isClient()) {
+                $this->awb->fill([
+                    'client_uuid' => Auth::user()->client()->value('uuid'),
+                ]);
+            }
+
             $this->awb->save();
         });
 

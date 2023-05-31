@@ -14,7 +14,9 @@ abstract class BaseComponent extends Component
     public function boot()
     {
         if (! empty($this->gates)) {
-            $this->authorize($this->gates);
+            foreach ($this->gates as $gate) {
+                $this->authorize($gate);
+            }
         }
     }
 }

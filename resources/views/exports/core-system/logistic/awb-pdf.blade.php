@@ -16,20 +16,20 @@
           <div style="margin-bottom: 0.04cm;">CS Hotline : -</div>
           <div style="margin-bottom: 0.04cm;font-size:0.2cm">{{ config('app.url') }}</div>
         </td>
-        <td style="width: 20%; text-align: center; font-weight: bold">
-            <div style="margin-bottom: 0.04cm;">Pieces/Jlm. Satuan</div>
-            <div style="margin-bottom: 0.04cm;">{{ $awb->package_koli }}</div>
-            <div style="margin-bottom: 0.04cm;">Weight/Berat</div>
+        <td style="width: 20%; text-align: center;">
+            <div style="margin-bottom: 0.04cm; font-weight: bold">Pieces/Jlm. Satuan</div>
+            <div style="margin-bottom: 0.08cm;">{{ $awb->package_koli }}</div>
+            <div style="margin-bottom: 0.04cm; font-weight: bold">Weight/Berat</div>
             <div style="margin-bottom: 0.04cm;">{{ $awb->package_weight }}</div>
         </td>
-        <td style="width: 20%; text-align: center; font-weight: bold">
-            <div style="margin-bottom: 0.04cm;">Shipment/Kiriman</div>
-            <div style="margin-bottom: 0.04cm;">{{ $awb->shipmentType->name }}</div>
-            <div style="margin-bottom: 0.04cm;">Payment/Pembayaran</div>
+        <td style="width: 20%; text-align: center;">
+            <div style="margin-bottom: 0.04cm;font-weight: bold">Shipment/Kiriman</div>
+            <div style="margin-bottom: 0.08cm;">{{ $awb->shipmentType->name }}</div>
+            <div style="margin-bottom: 0.04cm;font-weight: bold">Payment/Pembayaran</div>
             <div style="margin-bottom: 0.04cm;">-</div>
         </td>
-        <td style="width: 20%; text-align: center; font-weight: bold">
-            <div style="margin-bottom: 0.04cm;">Service/Layanan</div>
+        <td style="width: 20%; text-align: center;">
+            <div style="margin-bottom: 0.04cm;font-weight: bold">Service/Layanan</div>
             <div style="margin-bottom: 0.04cm;">{{ $awb->service_id }}</div>
         </td>
       </tr>
@@ -66,7 +66,7 @@
             <div style="margin-bottom: 0.04cm;">{{ $awb->awb_no }}</div>
           </td>
           <td style="width: 30%; text-align: center;font-weight: bold">
-            <div style="margin-bottom: 0.04cm;">No Reference :</div>
+            <div style="margin-bottom: 0.04cm;">No Referensi :</div>
             <div style="margin-bottom: 0.04cm;">{{ $awb->ref_no }}</div>
           </td>
           <td style="width: 30%; text-align: center;font-weight: bold">
@@ -89,7 +89,7 @@
             <div style="margin-bottom: 0.04cm;">{{ $awb->destination_alt_address_for_print }}</div>
             <div style="margin-bottom: 0.04cm;">TELEPON: {{ $awb->destination_alt_phone }}</div>
             <br>
-            <div style="margin-bottom: 0.04cm;font-weight:bold;">Descs:</div>
+            <div style="margin-bottom: 0.04cm;font-weight:bold;">Deskripsi:</div>
             <div style="margin-bottom: 0.04cm;">{{ $awb->package_desc_for_print }}</div>
           </td>
         </tr>

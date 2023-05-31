@@ -43,7 +43,7 @@
         @endif
     </div>
     <div class="table-responsive mb-3">
-        <table class="table table-sm table-bordered mb-0 align-middle text-nowrap">
+        <table class="table table-sm table-bordered mb-0 align-middle text-wrap">
             <thead class="table-light">
                 <tr>
                     @foreach ($this->showedColumn() as $columnDef)

@@ -3,18 +3,17 @@
 namespace App\Http\Livewire\CoreSystem\Logistic\Pickup\InputPickup;
 
 use App\Http\Livewire\BaseComponent;
-use Core\Auth\MenuRegistry;
-use Core\MasterData\Models\Company;
+use Core\Logistic\Models\Awb;
 
 class Restore extends BaseComponent
 {
     protected $gates = ['logistic:pickup:input-pickup:restore'];
 
-    public Company $company;
+    public ?string $uuid;
 
-    public function mount(Company $company)
+    public function mount(string $uuid)
     {
-        $this->company = $company;
+        $this->uuid = $uuid;
     }
 
     public function render()
@@ -24,14 +23,11 @@ class Restore extends BaseComponent
 
     public function restore()
     {
-        $name = $this->company->name;
-        $id = $this->company->uuid;
-        $this->company->restore();
+        $awb = Awb::onlyTrashed()->findOrFail($this->uuid);
+        $awb->restore();
 
-        app(MenuRegistry::class)->forgetCachedMenus();
-
-        $this->emit('message', $name.' successfully restored');
-        $this->emit('close-modal', '#modal-restore-company-'.$id);
+        $this->emit('message', $awb->awb_no.' successfully restored');
+        $this->emit('close-modal', '#modal-restore-awb-'.$this->uuid);
         $this->emit('refresh-table');
     }
 }

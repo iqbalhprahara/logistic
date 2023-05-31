@@ -29,7 +29,7 @@ class Table extends BaseTableComponent
             'user_input_name' => $row->user_input_name,
             'destination_contact_name' => $row->destination_contact_name,
             'destination_address_line1' => $row->destination_address_line1.'<br><span class="badge bg-primary">'.$row->destination_code.'</span>',
-            // 'action' => view('livewire.core-system.logistic.pickup.input-pickup.action', ['company' => $row]),
+            'action' => view('livewire.core-system.logistic.pickup.input-pickup.action', ['awb' => $row]),
         ];
     }
 
@@ -58,6 +58,7 @@ class Table extends BaseTableComponent
                 'searchable' => false,
                 'sortable' => false,
                 'type' => 'raw',
+                'width' => 300,
             ],
             [
                 'header' => 'Origin',
@@ -82,6 +83,7 @@ class Table extends BaseTableComponent
                 'searchable' => false,
                 'sortable' => false,
                 'type' => 'raw',
+                'width' => 300,
             ],
             [
                 'header' => 'Destination',
@@ -93,7 +95,6 @@ class Table extends BaseTableComponent
                 'type' => 'raw',
                 'searchable' => false,
                 'sortable' => false,
-                'width' => 100,
             ],
         ];
     }
@@ -110,7 +111,9 @@ class Table extends BaseTableComponent
             'destination_contact_name',
             'destination_address_line1',
             'destination.code as destination_code',
+            'awbs.deleted_at',
         ])
+            ->withTrashed()
             ->leftJoin('cities as origin', 'awbs.origin_city_id', '=', 'origin.id')
             ->leftJoin('cities as destination', 'awbs.destination_city_id', '=', 'destination.id')
             ->leftJoin('users as user_input', 'awbs.created_by', '=', 'user_input.uuid');

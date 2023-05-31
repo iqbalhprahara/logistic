@@ -2,19 +2,26 @@
 
 namespace App\Http\Livewire\CoreSystem\Logistic\Pickup\InputPickup;
 
-use App\Http\Livewire\BaseComponent;
-use Core\MasterData\Models\Company;
-use Illuminate\Validation\Rule;
+use Core\Logistic\Models\Awb;
+use Illuminate\Support\Facades\DB;
 
-class Edit extends BaseComponent
+class Edit extends BaseForm
 {
     protected $gates = ['logistic:pickup:input-pickup:edit'];
 
-    public Company $company;
+    public ?string $uuid;
 
-    public function mount(Company $company)
+    public function mount(string $uuid)
     {
-        $this->company = $company;
+        $this->uuid = $uuid;
+    }
+
+    public function initializeAwbData()
+    {
+        $this->awb = Awb::with([
+            'client.user',
+            'client.company',
+        ])->findOrFail($this->uuid);
     }
 
     public function render()
@@ -22,35 +29,18 @@ class Edit extends BaseComponent
         return view('livewire.core-system.logistic.pickup.input-pickup.edit');
     }
 
-    public function updatedCompanyCode($value)
-    {
-        $this->company->code = strtoupper($value);
-    }
-
-    protected function rules()
-    {
-        return [
-            'company.code' => [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique('companies', 'code')->ignore($this->company->uuid, 'uuid'),
-            ],
-            'company.name' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-        ];
-    }
-
     public function update()
     {
         $this->validate($this->rules());
-        $this->company->save();
 
-        $this->emit('message', 'Company data successfully updated');
-        $this->emit('close-modal', '#modal-edit-company-'.$this->company->uuid);
+        $awb = DB::transaction(function () {
+            $this->awb->save();
+        });
+
+        $awb = $this->awb->awb_no;
+
+        $this->emit('message', 'AWB '.$awb.' updated');
+        $this->emit('close-modal', '#modal-edit-awb-'.$this->uuid);
         $this->emit('refresh-table');
     }
 }

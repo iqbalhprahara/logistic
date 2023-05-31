@@ -3,6 +3,7 @@
 namespace Core\Logistic\Models;
 
 use Core\MasterData\Models\City;
+use Core\MasterData\Models\Client;
 use Core\MasterData\Models\Packaging;
 use Core\MasterData\Models\Province;
 use Core\MasterData\Models\Sequence;
@@ -87,6 +88,11 @@ class Awb extends Model
     {
         return LogOptions::defaults();
         // Chain fluent methods for configuration options
+    }
+
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
     }
 
     public function transportation()

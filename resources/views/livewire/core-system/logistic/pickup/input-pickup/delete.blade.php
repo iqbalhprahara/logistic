@@ -1,7 +1,7 @@
-<x-core-system.modal id="modal-delete-company-{{ $company->uuid }}" class="text-start" wire:ignore.self>
-<x-slot name="title">Delete Company</x-slot>
+<x-core-system.modal id="modal-delete-awb-{{ $uuid }}" class="text-start" wire:ignore.self>
+<x-slot name="title">Delete AWB</x-slot>
 <x-slot name="body">
-    Are you sure you want to delete this company?
+    Are you sure you want to delete this awb?
 </x-slot>
 <x-slot name="footer">
     <form wire:submit.prevent="destroy">

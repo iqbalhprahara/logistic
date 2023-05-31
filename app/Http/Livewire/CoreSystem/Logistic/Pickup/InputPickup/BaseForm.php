@@ -19,6 +19,8 @@ use Illuminate\Validation\Rule;
 
 abstract class BaseForm extends BaseComponent
 {
+    public $viewOnly = false;
+
     public Awb $awb;
 
     public ?Collection $clientOptions = null;
@@ -58,11 +60,18 @@ abstract class BaseForm extends BaseComponent
         }
 
         $this->initializeTransporationOptions();
-        $this->initializeShippmentTypeOptions();
+        $this->initializeShipmentTypeOptions();
         $this->initializeServiceOptions();
         $this->initializePackagingOptions();
         $this->initializeOriginProvinceOptions();
         $this->initializeDestinationProvinceOptions();
+
+        if ($this->awb->exists) {
+            $this->initializeOriginCityOptions();
+            $this->initializeOriginSubdistrictOptions();
+            $this->initializeDestinationCityOptions();
+            $this->initializeDestinationSubdistrictOptions();
+        }
     }
 
     public function initializeClientOptions()
@@ -85,7 +94,7 @@ abstract class BaseForm extends BaseComponent
         }
     }
 
-    public function initializeShippmentTypeOptions()
+    public function initializeShipmentTypeOptions()
     {
         $this->shipmentTypeOptions = ShipmentType::pluck('name', 'id');
 
@@ -184,6 +193,16 @@ abstract class BaseForm extends BaseComponent
     public function updatedAwbDestinationCityId()
     {
         $this->initializeDestinationSubdistrictOptions();
+    }
+
+    public function updatedAwbIsCod($value)
+    {
+        $this->awb->is_cod = $value === 'true';
+    }
+
+    public function updatedAwbIsInsurance($value)
+    {
+        $this->awb->is_insurance = $value === 'true';
     }
 
     protected function rules()
@@ -335,7 +354,7 @@ abstract class BaseForm extends BaseComponent
             ],
         ];
 
-        if (! Auth::user()->isClient()) {
+        if (! Auth::user()->isClient() && ! $this->awb->exists) {
             $rules['awb.client_uuid'] = [
                 'required',
                 'exists:clients,uuid',
