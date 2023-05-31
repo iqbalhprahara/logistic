@@ -1,4 +1,4 @@
-<div class="row" wire:init="initializeOptions">
+<div class="row">
     <div class="row mb-1">
         <div class="col-lg-6">
             <div class="row">
@@ -28,7 +28,7 @@
                         @if ($clientOptions)
                         <option value="">-- Pilih Pelanggan --</option>
                         @foreach($clientOptions as $value => $text)
-                        <option value="{{ $value}}">{{ $text }}</option>
+                        <option value="{{ $value }}">{{ $text }}</option>
                         @endforeach
                         @else
                             <option value="" disabled selected>Loading data ...</option>
@@ -54,7 +54,7 @@
                         <option value="">-- Pilih Provinsi --</option>
                         @if ($originProvinceOptions)
                         @foreach($originProvinceOptions as $value => $text)
-                        <option value="{{ $value}}">{{ $text }}</option>
+                        <option value="{{ $value }}">{{ $text }}</option>
                         @endforeach
                         @else
                             <option value="" disabled selected>Loading data ...</option>

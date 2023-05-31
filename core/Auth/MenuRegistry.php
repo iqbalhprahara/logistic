@@ -121,7 +121,7 @@ class MenuRegistry
                 return false;
             }
 
-            return $item['menu']->gate === null || $user->hasPermissionTo($item['menu']->gate);
+            return $item['menu']->gate === null || $user->hasRole('Super Admin') || $user->hasPermissionTo($item['menu']->gate);
         })->map(function ($item) use ($user, $guard) {
             return [
                 'id' => $item['menu']->id,

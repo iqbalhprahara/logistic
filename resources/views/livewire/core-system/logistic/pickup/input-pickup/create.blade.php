@@ -1,4 +1,11 @@
 <div>
+    <script>
+        document.addEventListener('livewire:load', function () {
+            $('#modal-create-awb').on('shown.bs.modal' , function () {
+                @this.emitSelf('initializeFormData');
+            });
+        });
+    </script>
     <x-core-system.button type="button" data-bs-toggle="modal" data-bs-target="#modal-create-awb">
         &plus; Request Pickup
     </x-core-system.button>

@@ -2,11 +2,19 @@
 
 namespace Core\Logistic\Models;
 
+use Core\MasterData\Models\City;
+use Core\MasterData\Models\Packaging;
+use Core\MasterData\Models\Province;
 use Core\MasterData\Models\Sequence;
+use Core\MasterData\Models\Service;
+use Core\MasterData\Models\ShipmentType;
+use Core\MasterData\Models\Subdistrict;
+use Core\MasterData\Models\Transportation;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -51,6 +59,12 @@ class Awb extends Model
 
     public static function boot()
     {
+        static::addGlobalScope('clients', function ($builder) {
+            $builder->when(Auth::user()->isClient(), function ($q) {
+                return $q->client(Auth::user()->client()->value('uuid'));
+            });
+        });
+
         static::creating(function (self $awb) {
             $awb->created_by = auth()->user()->uuid;
         });
@@ -73,5 +87,76 @@ class Awb extends Model
     {
         return LogOptions::defaults();
         // Chain fluent methods for configuration options
+    }
+
+    public function transportation()
+    {
+        return $this->belongsTo(Transportation::class);
+    }
+
+    public function shipmentType()
+    {
+        return $this->belongsTo(ShipmentType::class);
+    }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
+
+    public function packaging()
+    {
+        return $this->belongsTo(Packaging::class);
+    }
+
+    public function originProvince()
+    {
+        return $this->belongsTo(Province::class, 'origin_province_id');
+    }
+
+    public function originCity()
+    {
+        return $this->belongsTo(City::class, 'origin_city_id');
+    }
+
+    public function originSubdistrict()
+    {
+        return $this->belongsTo(Subdistrict::class, 'origin_subdistrict_id');
+    }
+
+    public function destinationProvince()
+    {
+        return $this->belongsTo(Province::class, 'destination_province_id');
+    }
+
+    public function destinationCity()
+    {
+        return $this->belongsTo(City::class, 'destination_city_id');
+    }
+
+    public function destinationSubdistrict()
+    {
+        return $this->belongsTo(Subdistrict::class, 'destination_subdistrict_id');
+    }
+
+    public function getDestinationAddressForPrintAttribute()
+    {
+        return strlen($this->destination_address_line1) > 100
+            ? substr($this->destination_address_line1, 0, 100).'...'
+            : $this->destination_address_line1;
+    }
+
+    public function getDestinationAltAddressForPrintAttribute()
+    {
+        return strlen($this->destination_address_line2) > 100
+            ? substr($this->destination_address_line2, 0, 100).'...'
+            : $this->destination_address_line2;
+    }
+
+    public function getPackageDescForPrintAttribute()
+    {
+        return strlen($this->package_desc) > 100
+            ? substr($this->package_desc, 0, 100).'...'
+            : $this->package_desc;
     }
 }

@@ -9,12 +9,7 @@ class Create extends BaseForm
 {
     protected $gates = ['administrative:access:admin:create'];
 
-    public function mount()
-    {
-        $this->initializeAwb();
-    }
-
-    public function initializeAwb()
+    public function initializeAwbData()
     {
         $this->awb = new Awb();
     }
@@ -38,8 +33,6 @@ class Create extends BaseForm
         });
 
         $awb = $this->awb->awb_no;
-
-        $this->initializeAwb();
 
         $this->emit('message', 'AWB '.$awb.' created');
         $this->emit('close-modal', '#modal-create-awb');

@@ -43,6 +43,14 @@ abstract class BaseForm extends BaseComponent
 
     public ?Collection $destinationSubdistrictOptions = null;
 
+    protected $listeners = ['initializeFormData' => 'initializeFormData'];
+
+    public function initializeFormData()
+    {
+        $this->initializeAwbData();
+        $this->initializeOptions();
+    }
+
     public function initializeOptions()
     {
         if (! Auth::user()->isClient()) {
@@ -102,15 +110,16 @@ abstract class BaseForm extends BaseComponent
 
     public function initializeOriginProvinceOptions()
     {
-        $this->awb->origin_province_id = null;
         $this->originProvinceOptions = Province::pluck('name', 'id');
     }
 
     public function initializeOriginCityOptions()
     {
         if ($this->awb->origin_province_id) {
-            $this->awb->origin_city_id = null;
             $this->originCityOptions = City::where('province_id', $this->awb->origin_province_id)->pluck('name', 'id');
+            if (! $this->originCityOptions->keys()->contains($this->awb->origin_city_id)) {
+                $this->awb->origin_city_id = null;
+            }
         } else {
             $this->originCityOptions = collect();
         }
@@ -119,8 +128,10 @@ abstract class BaseForm extends BaseComponent
     public function initializeOriginSubdistrictOptions()
     {
         if ($this->awb->origin_city_id) {
-            $this->awb->origin_subdistrict_id = null;
             $this->originSubdistrictOptions = Subdistrict::where('city_id', $this->awb->origin_city_id)->pluck('name', 'id');
+            if (! $this->originSubdistrictOptions->keys()->contains($this->awb->origin_subdistrict_id)) {
+                $this->awb->origin_subdistrict_id = null;
+            }
         } else {
             $this->originSubdistrictOptions = collect();
         }
@@ -128,15 +139,16 @@ abstract class BaseForm extends BaseComponent
 
     public function initializeDestinationProvinceOptions()
     {
-        $this->awb->destination_province_id = null;
         $this->destinationProvinceOptions = Province::pluck('name', 'id');
     }
 
     public function initializeDestinationCityOptions()
     {
         if ($this->awb->destination_province_id) {
-            $this->awb->destination_city_id = null;
             $this->destinationCityOptions = City::where('province_id', $this->awb->destination_province_id)->pluck('name', 'id');
+            if (! $this->destinationCityOptions->keys()->contains($this->awb->destination_city_id)) {
+                $this->awb->destination_city_id = null;
+            }
         } else {
             $this->destinationCityOptions = collect();
         }
@@ -145,8 +157,10 @@ abstract class BaseForm extends BaseComponent
     public function initializeDestinationSubdistrictOptions()
     {
         if ($this->awb->destination_city_id) {
-            $this->awb->destination_subdistrict_id = null;
             $this->destinationSubdistrictOptions = Subdistrict::where('city_id', $this->awb->destination_city_id)->pluck('name', 'id');
+            if (! $this->destinationSubdistrictOptions->keys()->contains($this->awb->destination_subdistrict_id)) {
+                $this->awb->destination_subdistrict_id = null;
+            }
         } else {
             $this->destinationSubdistrictOptions = collect();
         }
