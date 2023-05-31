@@ -2,73 +2,29 @@
 
 namespace App\Http\Livewire\CoreSystem\MasterData\Location\Subdistrict;
 
-use App\Http\Livewire\BaseComponent;
+use Core\MasterData\Models\City;
 use Core\MasterData\Models\Subdistrict;
-use Illuminate\Support\Collection;
 
-class Edit extends BaseComponent
+class Edit extends BaseForm
 {
     protected $gates = ['master-data:location:subdistrict:edit'];
 
-    public Subdistrict $subdistrict;
+    public ?int $subdistrictId;
 
-    public $province;
-
-    public Collection $provinceList;
-
-    public Collection $cityList;
-
-    protected $validationAttributes = [
-        'subdistrict.city_id' => 'City',
-    ];
-
-    public function mount(Subdistrict $subdistrict, $provinceList)
+    public function mount(int $id)
     {
-        $this->provinceList = $provinceList;
-        $this->subdistrict = $subdistrict;
-        $this->province = $subdistrict->province_id;
-        $this->initializeCityList();
+        $this->subdistrictId = $id;
     }
 
-    public function hydrate()
+    public function initializeSubdistrictData()
     {
-        $this->emitSelf('initSelectProvinceEditSubdistrict', $this->subdistrict->id);
-        $this->emitSelf('initSelectCityEditSubdistrict', $this->subdistrict->id);
-    }
-
-    public function updatedProvince($value)
-    {
-        $this->initializeCityList();
-    }
-
-    protected function getCityList()
-    {
-        return optional($this->provinceList->firstWhere('id', $this->province))->cities ?? collect();
-    }
-
-    public function initializeCityList()
-    {
-        $this->cityList = $this->getCityList();
+        $this->subdistrict = Subdistrict::findOrFail($this->subdistrictId);
+        $this->provinceId = City::whereId($this->subdistrict->city_id)->value('province_id');
     }
 
     public function render()
     {
         return view('livewire.core-system.master-data.location.subdistrict.edit');
-    }
-
-    protected function rules()
-    {
-        return [
-            'subdistrict.city_id' => [
-                'required',
-                'exists:cities,id',
-            ],
-            'subdistrict.name' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-        ];
     }
 
     public function update()

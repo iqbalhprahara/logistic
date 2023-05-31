@@ -26,7 +26,7 @@ class PrintAwb extends BaseComponent
     {
         $awb = Awb::with([
             'shipmentType',
-            'packaging',
+            'packing',
             'originCity',
             'destinationCity',
         ])->findOrFail($this->uuid);

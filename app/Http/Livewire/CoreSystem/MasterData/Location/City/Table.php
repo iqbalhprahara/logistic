@@ -6,7 +6,6 @@ use App\Http\Livewire\BaseTableComponent;
 use Core\MasterData\Models\City;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 
 class Table extends BaseTableComponent
@@ -14,13 +13,6 @@ class Table extends BaseTableComponent
     protected $gates = ['master-data:location:city'];
 
     public ?string $sortBy = 'id';
-
-    public Collection $provinceList;
-
-    public function mount($provinceList)
-    {
-        $this->provinceList = $provinceList;
-    }
 
     protected function formatResult($row): array
     {
@@ -30,20 +22,18 @@ class Table extends BaseTableComponent
             'code' => $row->code,
             'name' => $row->name,
             'status' => $row->deleted_at ? '<span class="badge bg-danger">Deleted</span>' : '<span class="badge bg-primary">Active</span>',
-            'action' => view('livewire.core-system.master-data.location.city.action', ['city' => $row, 'provinceList' => $this->provinceList]),
+            'action' => view('livewire.core-system.master-data.location.city.action', ['city' => $row]),
         ];
     }
 
     public function button(): array
     {
-        $provinceList = $this->provinceList;
-
         return [
             Blade::render(<<<'blade'
                 @can('master-data:location:city:create')
-                    @livewire('core-system.master-data.location.city.create', compact('provinceList'))
+                    @livewire('core-system.master-data.location.city.create')
                 @endcan
-            blade, compact('provinceList')),
+            blade),
         ];
     }
 

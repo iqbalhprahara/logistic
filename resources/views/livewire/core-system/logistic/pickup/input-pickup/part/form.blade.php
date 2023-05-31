@@ -326,17 +326,17 @@
             <div class="col-lg-6">
                 <div class="mb-1 position-relative">
                     <label class="col-form-label col-form-label-sm">Tambah Packing</label>
-                    <select class="form-control form-control-sm @error('awb.packaging_id') is-invalid @enderror" wire:model.lazy="awb.packaging_id" @disabled($viewOnly)>
+                    <select class="form-control form-control-sm @error('awb.packing_id') is-invalid @enderror" wire:model.lazy="awb.packing_id" @disabled($viewOnly)>
                         <option value="">-- Pilih Packing</option>
-                        @if ($packagingOptions)
-                        @foreach($packagingOptions as $value => $text)
+                        @if ($packingOptions)
+                        @foreach($packingOptions as $value => $text)
                         <option value="{{ $value}}">{{ $text }}</option>
                         @endforeach
                         @else
                             <option value="" disabled selected>Loading data ...</option>
                         @endif
                     </select>
-                    @error('awb.packaging_id')
+                    @error('awb.packing_id')
                     <div class="invalid-tooltip">{{ $message }}</div>
                     @enderror
                 </div>

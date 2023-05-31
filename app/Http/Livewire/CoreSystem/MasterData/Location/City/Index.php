@@ -4,7 +4,6 @@ namespace App\Http\Livewire\CoreSystem\MasterData\Location\City;
 
 use App\Http\Livewire\BaseComponent;
 use App\View\Components\CoreSystem\Layout;
-use Core\MasterData\Models\Province;
 
 class Index extends BaseComponent
 {
@@ -12,9 +11,7 @@ class Index extends BaseComponent
 
     public function render()
     {
-        $provinceList = Province::pluck('name', 'id');
-
-        return view('livewire.core-system.master-data.location.city.index', compact('provinceList'))
+        return view('livewire.core-system.master-data.location.city.index')
             ->layout(Layout::class)
             ->layoutData([
                 'metaTitle' => 'City',

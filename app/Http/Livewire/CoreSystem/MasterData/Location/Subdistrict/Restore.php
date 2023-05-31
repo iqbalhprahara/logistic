@@ -9,11 +9,11 @@ class Restore extends BaseComponent
 {
     protected $gates = ['master-data:location:subdistrict:restore'];
 
-    public Subdistrict $subdistrict;
+    public ?int $subdistrictId;
 
-    public function mount(Subdistrict $subdistrict)
+    public function mount(int $id)
     {
-        $this->subdistrict = $subdistrict;
+        $this->subdistrictId = $id;
     }
 
     public function render()
@@ -23,9 +23,10 @@ class Restore extends BaseComponent
 
     public function restore()
     {
-        $name = $this->subdistrict->name;
-        $id = $this->subdistrict->id;
-        $this->subdistrict->restore();
+        $subdistrict = Subdistrict::withTrashed()->findOrFail($this->subdistrictId);
+        $name = $subdistrict->name;
+        $id = $subdistrict->id;
+        $subdistrict->restore();
 
         $this->emit('message', $name.' successfully restored');
         $this->emit('close-modal', '#modal-restore-subdistrict-'.$id);

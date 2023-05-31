@@ -6,7 +6,7 @@ use App\Http\Livewire\BaseComponent;
 use Core\Logistic\Models\Awb;
 use Core\MasterData\Models\City;
 use Core\MasterData\Models\Client;
-use Core\MasterData\Models\Packaging;
+use Core\MasterData\Models\Packing;
 use Core\MasterData\Models\Province;
 use Core\MasterData\Models\Service;
 use Core\MasterData\Models\ShipmentType;
@@ -31,7 +31,7 @@ abstract class BaseForm extends BaseComponent
 
     public ?Collection $serviceOptions = null;
 
-    public ?Collection $packagingOptions = null;
+    public ?Collection $packingOptions = null;
 
     public ?Collection $originProvinceOptions = null;
 
@@ -46,6 +46,8 @@ abstract class BaseForm extends BaseComponent
     public ?Collection $destinationSubdistrictOptions = null;
 
     protected $listeners = ['initializeFormData' => 'initializeFormData'];
+
+    abstract public function initializeAwbData();
 
     public function initializeFormData()
     {
@@ -62,7 +64,7 @@ abstract class BaseForm extends BaseComponent
         $this->initializeTransporationOptions();
         $this->initializeShipmentTypeOptions();
         $this->initializeServiceOptions();
-        $this->initializePackagingOptions();
+        $this->initializePackingOptions();
         $this->initializeOriginProvinceOptions();
         $this->initializeDestinationProvinceOptions();
 
@@ -112,9 +114,9 @@ abstract class BaseForm extends BaseComponent
         }
     }
 
-    public function initializePackagingOptions()
+    public function initializePackingOptions()
     {
-        $this->packagingOptions = Packaging::pluck('name', 'id');
+        $this->packingOptions = Packing::pluck('name', 'id');
     }
 
     public function initializeOriginProvinceOptions()
@@ -226,9 +228,9 @@ abstract class BaseForm extends BaseComponent
                 'required',
                 'exists:services,id',
             ],
-            'awb.packaging_id' => [
+            'awb.packing_id' => [
                 'nullable',
-                'exists:packagings,id',
+                'exists:packings,id',
             ],
             'awb.is_cod' => [
                 'required',

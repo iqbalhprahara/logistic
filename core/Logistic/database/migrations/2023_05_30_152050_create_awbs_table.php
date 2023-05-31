@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('transportation_id', 15);
             $table->string('shipment_type_id', 15);
             $table->string('service_id', 15);
-            $table->string('packaging_id', 15)->nullable();
+            $table->string('packing_id', 15)->nullable();
             $table->boolean('is_cod');
             $table->boolean('is_insurance');
 
@@ -65,7 +65,7 @@ return new class extends Migration
             $table->foreign('transportation_id')->references('id')->on('transportations');
             $table->foreign('shipment_type_id')->references('id')->on('shipment_types');
             $table->foreign('service_id')->references('id')->on('services');
-            $table->foreign('packaging_id')->references('id')->on('packagings');
+            $table->foreign('packing_id')->references('id')->on('packings');
 
             $table->foreign('origin_province_id')->references('id')->on('provinces');
             $table->foreign('origin_city_id')->references('id')->on('cities');
