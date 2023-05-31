@@ -1,4 +1,4 @@
-<x-core-system.modal id="modal-restore-subdistrict-{{ $subdistrict->id }}" class="text-start" wire:ignore.self>
+<x-core-system.modal id="modal-restore-subdistrict-{{ $subdistrictId }}" class="text-start" wire:ignore.self>
     <x-slot name="title">Restore Subdistrict</x-slot>
     <x-slot name="body">
         Are you sure you want to restore this subdistrict?

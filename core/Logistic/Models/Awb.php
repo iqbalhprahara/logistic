@@ -4,7 +4,7 @@ namespace Core\Logistic\Models;
 
 use Core\MasterData\Models\City;
 use Core\MasterData\Models\Client;
-use Core\MasterData\Models\Packaging;
+use Core\MasterData\Models\Packing;
 use Core\MasterData\Models\Province;
 use Core\MasterData\Models\Sequence;
 use Core\MasterData\Models\Service;
@@ -110,9 +110,9 @@ class Awb extends Model
         return $this->belongsTo(Service::class);
     }
 
-    public function packaging()
+    public function packing()
     {
-        return $this->belongsTo(Packaging::class);
+        return $this->belongsTo(Packing::class);
     }
 
     public function originProvince()

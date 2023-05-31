@@ -9,11 +9,11 @@ class Delete extends BaseComponent
 {
     protected $gates = ['master-data:location:city:delete'];
 
-    public City $city;
+    public ?int $cityId;
 
-    public function mount(City $city)
+    public function mount(int $id)
     {
-        $this->city = $city;
+        $this->cityId = $id;
     }
 
     public function render()
@@ -23,9 +23,10 @@ class Delete extends BaseComponent
 
     public function destroy()
     {
-        $name = $this->city->name;
-        $id = $this->city->id;
-        $this->city->delete();
+        $city = City::findOrFail($this->cityId);
+        $name = $city->name;
+        $id = $city->id;
+        $city->delete();
 
         $this->emit('message', $name.' successfully deleted');
         $this->emit('close-modal', '#modal-delete-city-'.$id);

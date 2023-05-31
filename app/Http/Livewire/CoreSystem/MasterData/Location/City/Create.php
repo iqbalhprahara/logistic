@@ -2,68 +2,20 @@
 
 namespace App\Http\Livewire\CoreSystem\MasterData\Location\City;
 
-use App\Http\Livewire\BaseComponent;
 use Core\MasterData\Models\City;
-use Illuminate\Support\Collection;
 
-class Create extends BaseComponent
+class Create extends BaseForm
 {
     protected $gates = ['master-data:location:city:create'];
 
-    public City $city;
-
-    public Collection $provinceList;
-
-    protected $validationAttributes = [
-        'city.province_id' => 'Province',
-    ];
-
-    public function mount($provinceList)
+    public function initializeCityData()
     {
-        $this->provinceList = $provinceList;
-        $this->initializeCity();
-    }
-
-    public function hydrate()
-    {
-        $this->emitSelf('initSelectProvince');
-    }
-
-    public function updatedCityCode($value)
-    {
-        $this->city->code = strtoupper($value);
-    }
-
-    public function initializeCity()
-    {
-        $this->city = new City();
+        $this->city = new City;
     }
 
     public function render()
     {
         return view('livewire.core-system.master-data.location.city.create');
-    }
-
-    protected function rules()
-    {
-        return [
-            'city.province_id' => [
-                'required',
-                'exists:provinces,id',
-            ],
-            'city.code' => [
-                'required',
-                'string',
-                'min:3',
-                'max:3',
-                'unique:cities,code',
-            ],
-            'city.name' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-        ];
     }
 
     public function store()
@@ -72,8 +24,6 @@ class Create extends BaseComponent
         $this->city->save();
 
         $name = $this->city->name;
-
-        $this->initializeCity();
 
         $this->emit('message', $name.' successfully created');
         $this->emit('close-modal', '#modal-create-city');

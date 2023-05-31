@@ -2,34 +2,27 @@
 
 namespace App\Http\Livewire\CoreSystem\MasterData\Location\Province;
 
-use App\Http\Livewire\BaseComponent;
 use Core\MasterData\Models\Province;
 
-class Edit extends BaseComponent
+class Edit extends BaseForm
 {
     protected $gates = ['master-data:location:province:edit'];
 
-    public Province $province;
+    public ?int $provinceId;
 
-    public function mount(Province $province)
+    public function mount(int $id)
     {
-        $this->province = $province;
+        $this->provinceId = $id;
+    }
+
+    public function initializeProvinceData()
+    {
+        $this->province = Province::findOrFail($this->provinceId);
     }
 
     public function render()
     {
         return view('livewire.core-system.master-data.location.province.edit');
-    }
-
-    protected function rules()
-    {
-        return [
-            'province.name' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-        ];
     }
 
     public function update()

@@ -1,4 +1,4 @@
-<x-core-system.modal id="modal-restore-city-{{ $city->id }}" class="text-start" wire:ignore.self>
+<x-core-system.modal id="modal-restore-city-{{ $cityId }}" class="text-start" wire:ignore.self>
     <x-slot name="title">Restore City</x-slot>
     <x-slot name="body">
         Are you sure you want to restore this city?

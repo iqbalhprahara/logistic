@@ -1,4 +1,4 @@
-<x-core-system.modal id="modal-restore-province-{{ $province->id }}" class="text-start" wire:ignore.self>
+<x-core-system.modal id="modal-restore-province-{{ $provinceId }}" class="text-start" wire:ignore.self>
     <x-slot name="title">Restore Province</x-slot>
     <x-slot name="body">
         Are you sure you want to restore this province?

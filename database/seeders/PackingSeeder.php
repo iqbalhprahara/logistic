@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use Core\MasterData\Models\Packaging;
+use Core\MasterData\Models\Packing;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class PackagingSeeder extends Seeder
+class PackingSeeder extends Seeder
 {
     use WithoutModelEvents;
 
@@ -16,7 +16,7 @@ class PackagingSeeder extends Seeder
     public function run(): void
     {
         foreach ($this->data() as $data) {
-            Packaging::updateOrCreate(
+            Packing::updateOrCreate(
                 ['id' => $data['id']],
                 ['name' => $data['name']],
             );

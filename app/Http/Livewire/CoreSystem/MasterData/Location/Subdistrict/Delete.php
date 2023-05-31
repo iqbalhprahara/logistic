@@ -9,11 +9,11 @@ class Delete extends BaseComponent
 {
     protected $gates = ['master-data:location:subdistrict:delete'];
 
-    public Subdistrict $subdistrict;
+    public ?int $subdistrictId;
 
-    public function mount(Subdistrict $subdistrict)
+    public function mount(int $id)
     {
-        $this->subdistrict = $subdistrict;
+        $this->subdistrictId = $id;
     }
 
     public function render()
@@ -23,9 +23,10 @@ class Delete extends BaseComponent
 
     public function destroy()
     {
-        $name = $this->subdistrict->name;
-        $id = $this->subdistrict->id;
-        $this->subdistrict->delete();
+        $subdistrict = Subdistrict::findOrFail($this->subdistrictId);
+        $name = $subdistrict->name;
+        $id = $subdistrict->id;
+        $subdistrict->delete();
 
         $this->emit('message', $name.' successfully deleted');
         $this->emit('close-modal', '#modal-delete-subdistrict-'.$id);

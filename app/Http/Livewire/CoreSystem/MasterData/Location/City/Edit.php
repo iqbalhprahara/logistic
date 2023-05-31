@@ -2,59 +2,27 @@
 
 namespace App\Http\Livewire\CoreSystem\MasterData\Location\City;
 
-use App\Http\Livewire\BaseComponent;
 use Core\MasterData\Models\City;
-use Illuminate\Support\Collection;
-use Illuminate\Validation\Rule;
 
-class Edit extends BaseComponent
+class Edit extends BaseForm
 {
     protected $gates = ['master-data:location:city:edit'];
 
-    public City $city;
+    public ?int $cityId;
 
-    public Collection $provinceList;
-
-    protected $validationAttributes = [
-        'city.province_id' => 'Province',
-    ];
-
-    public function mount(City $city, $provinceList)
+    public function mount(int $id)
     {
-        $this->city = $city;
-        $this->provinceList = $provinceList;
+        $this->cityId = $id;
     }
 
-    public function hydrate()
+    public function initializeCityData()
     {
-        $this->emitSelf('initSelectProvinceEditCity', $this->city->id);
+        $this->city = City::findOrFail($this->cityId);
     }
 
     public function render()
     {
         return view('livewire.core-system.master-data.location.city.edit');
-    }
-
-    protected function rules()
-    {
-        return [
-            'city.province_id' => [
-                'required',
-                'exists:provinces,id',
-            ],
-            'city.code' => [
-                'required',
-                'string',
-                'min:3',
-                'max:3',
-                Rule::unique('cities', 'code')->ignore($this->city->id),
-            ],
-            'city.name' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-        ];
     }
 
     public function update()

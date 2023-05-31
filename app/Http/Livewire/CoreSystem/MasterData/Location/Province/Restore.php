@@ -9,11 +9,11 @@ class Restore extends BaseComponent
 {
     protected $gates = ['master-data:location:province:restore'];
 
-    public Province $province;
+    public ?int $provinceId;
 
-    public function mount(Province $province)
+    public function mount(int $id)
     {
-        $this->province = $province;
+        $this->provinceId = $id;
     }
 
     public function render()
@@ -23,9 +23,10 @@ class Restore extends BaseComponent
 
     public function restore()
     {
-        $name = $this->province->name;
-        $id = $this->province->id;
-        $this->province->restore();
+        $province = Province::withTrashed()->find($this->provinceId);
+        $name = $province->name;
+        $id = $province->id;
+        $province->restore();
 
         $this->emit('message', $name.' successfully restored');
         $this->emit('close-modal', '#modal-restore-province-'.$id);
