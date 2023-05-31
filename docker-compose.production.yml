@@ -35,3 +35,11 @@ services:
         networks:
             - backend
 
+    redisdb:
+        image: redis:7.0.7-alpine
+        restart: unless-stopped
+        volumes:
+            - ./docker/data/redis:/data
+        networks:
+            - backend
+
