@@ -1,12 +1,4 @@
 <div>
-    <script>
-        document.addEventListener('livewire:load', function () {
-            $('#modal-edit-awb-{{ $uuid }}').on('shown.bs.modal' , function () {
-                @this.emitSelf('initializeFormData');
-            });
-        });
-    </script>
-
     <form class="form-horizontal" wire:submit.prevent="update">
         <x-core-system.modal id="modal-edit-awb-{{ $uuid }}" wire:ignore.self size="fullscreen" headerClass="bg-primary" closeButton=false>
             <x-slot name="title">Edit AWB</x-slot>

@@ -34,10 +34,10 @@
 
 
 @livewire('core-system.logistic.pickup.input-pickup.view', ['uuid' => $awb->uuid, key('awb-edit-'.$awb->uuid)])
+@if ($awb->deleted_at === null)
 @can('logistic:pickup:input-pickup:update')
     @livewire('core-system.logistic.pickup.input-pickup.edit', ['uuid' => $awb->uuid, key('awb-edit-'.$awb->uuid)])
 @endcan
-@if ($awb->deleted_at === null)
  @can('logistic:pickup:input-pickup:delete')
     @livewire('core-system.logistic.pickup.input-pickup.delete', ['uuid' => $awb->uuid, key('awb-delete-'.$awb->uuid)])
 @endcan
