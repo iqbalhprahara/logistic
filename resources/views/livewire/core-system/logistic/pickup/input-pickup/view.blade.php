@@ -1,12 +1,4 @@
 <div>
-    <script>
-        document.addEventListener('livewire:load', function () {
-            $('#modal-view-awb-{{ $uuid }}').on('shown.bs.modal' , function () {
-                @this.emitSelf('initializeFormData');
-            });
-        });
-    </script>
-
     <form class="form-horizontal" id="form-view-awb-{{ $uuid }}" disabled>
         <x-core-system.modal id="modal-view-awb-{{ $uuid }}" wire:ignore.self size="fullscreen" headerClass="bg-primary" closeButton=false>
             <x-slot name="title">Detail AWB</x-slot>
