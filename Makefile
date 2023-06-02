@@ -13,9 +13,9 @@ build := (APP_PUID=$(APP_PUID) APP_PGID=$(APP_PGID) docker compose -f $(file) bu
 run := (APP_PUID=$(APP_PUID) APP_PGID=$(APP_PGID) docker compose -f $(file) up -d)
 restart := (APP_PUID=$(APP_PUID) APP_PGID=$(APP_PGID) docker compose -f $(file) restart)
 
-migrate := (docker compose exec app php artisan migrate --force)
-composer-install := (docker compose exec app composer install --no-dev --no-interaction -o)
-optimize-clear := (docker compose exec app php artisan optimize:clear)
+migrate := (docker compose -f $(file) exec app php artisan migrate --force)
+composer-install := (docker compose -f $(file) exec app composer install --no-dev --no-interaction -o)
+optimize-clear := (docker compose -f $(file) exec app php artisan optimize:clear)
 
 deploy :
 	$(build)
