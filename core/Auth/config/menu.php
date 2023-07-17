@@ -403,8 +403,8 @@ return [
                     */
                     [
                         'id' => 'master-data-awb-status',
-                        'name' => 'Awb Status',
-                        'description' => 'User can access Awb Status submenu',
+                        'name' => 'AWB Status',
+                        'description' => 'User can access AWB Status submenu',
                         'icon' => 'fas fa-clipboard',
                         'type' => 'menu',
                         'url' => '/app/master-data/awb-status',
