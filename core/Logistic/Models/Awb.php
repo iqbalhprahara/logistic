@@ -2,6 +2,7 @@
 
 namespace Core\Logistic\Models;
 
+use Core\MasterData\Models\AwbStatus;
 use Core\MasterData\Models\City;
 use Core\MasterData\Models\Client;
 use Core\MasterData\Models\Packing;
@@ -61,13 +62,17 @@ class Awb extends Model
     public static function boot()
     {
         static::addGlobalScope('clients', function ($builder) {
-            $builder->when(Auth::user()->isClient(), function ($q) {
+            $builder->when(optional(Auth::user())->isClient(), function ($q) {
                 return $q->client(Auth::user()->client()->value('uuid'));
             });
         });
 
         static::creating(function (self $awb) {
             $awb->created_by = auth()->user()->uuid;
+        });
+
+        static::updating(function (self $awb) {
+            $awb->updated_by = auth()->user()->uuid;
         });
 
         static::saving(function (self $awb) {
@@ -145,6 +150,16 @@ class Awb extends Model
         return $this->belongsTo(Subdistrict::class, 'destination_subdistrict_id');
     }
 
+    public function awbStatus()
+    {
+        return $this->hasOne(AwbStatus::class);
+    }
+
+    public function awbStatusHistories()
+    {
+        return $this->hasMany(AwbStatusHistory::class);
+    }
+
     public function getDestinationAddressForPrintAttribute()
     {
         return strlen($this->destination_address_line1) > 100
@@ -164,5 +179,10 @@ class Awb extends Model
         return strlen($this->package_desc) > 100
             ? substr($this->package_desc, 0, 100).'...'
             : $this->package_desc;
+    }
+
+    public function isDelivered()
+    {
+        return $this->awb_status_id === AwbStatus::DELIVERED;
     }
 }

@@ -31,6 +31,13 @@ class Edit extends BaseForm
 
     public function update()
     {
+        if ($this->awb->isDelivered()) {
+            $this->emit('error', 'Delivered AWB cannot be updated');
+            $this->emit('close-modal', '#modal-edit-awb-'.$this->uuid);
+
+            return;
+        }
+
         $this->validate($this->rules());
 
         $awb = DB::transaction(function () {

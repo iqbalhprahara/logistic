@@ -395,6 +395,25 @@ return [
                             ],
                         ],
                     ],
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Master Data > AWB Status
+                    |--------------------------------------------------------------------------
+                    */
+                    [
+                        'id' => 'master-data-awb-status',
+                        'name' => 'Awb Status',
+                        'description' => 'User can access Awb Status submenu',
+                        'icon' => 'fas fa-clipboard',
+                        'type' => 'menu',
+                        'url' => '/app/master-data/awb-status',
+                        'gate' => 'master-data:awb-status',
+                        'sort' => 3,
+                        'permissions' => [
+                            //
+                        ],
+                    ],
                 ],
             ],
 
@@ -501,6 +520,11 @@ return [
                                         'gate' => 'logistic:pickup:input-pickup:update',
                                         'title' => 'Update AWB',
                                         'description' => 'User can modify awb',
+                                    ],
+                                    [
+                                        'gate' => 'logistic:pickup:input-pickup:input-status',
+                                        'title' => 'Input AWB Status',
+                                        'description' => 'User can input awb status',
                                     ],
                                     [
                                         'gate' => 'logistic:pickup:input-pickup:delete',
