@@ -16,4 +16,8 @@ class AwbStatus extends Model
     public const AWAITING_PICKUP = 1;
 
     public const DELIVERED = 5;
+
+    public const UNDELIVERED = 6;
+
+    public const RETURN = 7;
 }

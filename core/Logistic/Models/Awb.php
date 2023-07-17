@@ -186,4 +186,23 @@ class Awb extends Model
     {
         return $this->awb_status_id === AwbStatus::DELIVERED;
     }
+
+    public function getStatusColor()
+    {
+        $statusColor = 'secondary';
+
+        if ($this->awb_status_id === AwbStatus::DELIVERED) {
+            $statusColor = 'success';
+        }
+
+        if ($this->awb_status_id === AwbStatus::UNDELIVERED) {
+            $statusColor = 'danger';
+        }
+
+        if ($this->awb_status_id === AwbStatus::RETURN) {
+            $statusColor = 'primary';
+        }
+
+        return $statusColor;
+    }
 }

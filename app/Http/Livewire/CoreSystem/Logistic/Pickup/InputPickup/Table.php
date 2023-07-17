@@ -20,13 +20,13 @@ class Table extends BaseTableComponent
         return [
             'awb_ref_no' => Blade::render(<<<'blade'
                 <div class="mb-5">
-                    {{ $awb_ref_no }}
-                    <span class="badge bg-success">{{ $status }}</span>
+                    {{ $awbRefNo }}
+                    <span class="badge bg-{{ $statusColor }}">{{ $status }}</span>
                 </div>
                 @can('logistic:pickup:input-pickup:print-awb')
                     @livewire('core-system.logistic.pickup.input-pickup.print-awb', ['uuid' => $uuid, key($uuid)])
                 @endcan
-            blade, ['awb_ref_no' => $row->awb_ref_no, 'uuid' => $row->uuid, 'status' => $row->status]),
+            blade, ['awbRefNo' => $row->awb_ref_no, 'uuid' => $row->uuid, 'status' => $row->status, 'statusColor' => $row->getStatusColor()]),
             'origin_address_line1' => $row->origin_address_line1.'<br><span class="badge bg-primary">'.$row->origin_code.'</span>',
             'awbs.created_at' => $row->created_at,
             'user_input_name' => $row->user_input_name,
