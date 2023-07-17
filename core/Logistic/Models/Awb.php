@@ -68,6 +68,7 @@ class Awb extends Model
         });
 
         static::creating(function (self $awb) {
+            $awb->awb_status_id = AwbStatus::AWAITING_PICKUP;
             $awb->created_by = auth()->user()->uuid;
         });
 

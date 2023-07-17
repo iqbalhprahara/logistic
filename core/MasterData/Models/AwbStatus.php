@@ -13,5 +13,7 @@ class AwbStatus extends Model
 
     public $timestamps = false;
 
+    public const AWAITING_PICKUP = 1;
+
     public const DELIVERED = 5;
 }
