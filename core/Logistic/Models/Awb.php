@@ -153,7 +153,7 @@ class Awb extends Model
 
     public function awbStatus()
     {
-        return $this->hasOne(AwbStatus::class);
+        return $this->belongsTo(AwbStatus::class);
     }
 
     public function awbStatusHistories()

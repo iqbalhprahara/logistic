@@ -1,12 +1,7 @@
-@push('after-scripts')
-    <!-- dashboard init -->
-    <script src="{{ asset('/vendor/skote/js/pages/dashboard.init.js') }}" defer></script>
-@endpush
-
-<div>
+<div wire:poll.60000ms>
     <x-slot name="title">Dashboard</x-slot>
     <div class="row">
-        <div class="col-xl-4">
+        <div class="col-xl-8">
             <div class="card overflow-hidden">
                 <div class="bg-primary bg-soft">
                     <div class="row">
@@ -28,7 +23,7 @@
                             </div>
                             <h5 class="font-size-15 text-truncate">{{ Str::ucfirst(Auth::user()->name) }}</h5>
                             @if(Auth::user()->isClient())
-                            <p class="text-muted mb-0 text-truncate">{Nama_Perusahaan}</p>
+                            <p class="text-muted mb-0 text-truncate">{{ Auth::user()->company_name }}</p>
                             @endif
                         </div>
 
@@ -37,12 +32,12 @@
 
                                 <div class="row">
                                     <div class="col-6">
-                                        <h5 class="font-size-15">1,235</h5>
+                                        <h5 class="font-size-15">{{ number_format($totalAwb, 0,  '.', ',') }}</h5>
                                         <p class="text-muted mb-0">Total AWB</p>
                                     </div>
                                     <div class="col-6">
-                                        <h5 class="font-size-15">100</h5>
-                                        <p class="text-muted mb-0">Total AWB Bulan Ini</p>
+                                        <h5 class="font-size-15">{{ number_format($currentMonthAwb, 0,  '.', ',') }}</h5>
+                                        <p class="text-muted mb-0">AWB Bulan Ini</p>
                                     </div>
                                 </div>
                             </div>
@@ -51,41 +46,21 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-8">
+        <div class="col-xl-4">
             <div class="row">
-                <div class="col-md-4">
-                    <div class="card mini-stats-wid">
-                        <div class="card-body">
-                            <div class="d-flex">
-                                <div class="flex-grow-1">
-                                    <p class="text-muted fw-medium">Total AWB</p>
-                                    <h4 class="mb-0">1,235</h4>
-                                </div>
-
-                                <div class="flex-shrink-0 align-self-center">
-                                    <div class="mini-stat-icon avatar-sm rounded-circle bg-primary">
-                                        <span class="avatar-title">
-                                            <i class="bx bx-copy-alt font-size-24"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-12">
                     <div class="card mini-stats-wid">
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
                                     <p class="text-muted fw-medium">Pending AWB</p>
-                                    <h4 class="mb-0">200</h4>
+                                    <h4 class="mb-0">{{ number_format($pendingAwb, 0,  '.', ',') }}</h4>
                                 </div>
 
                                 <div class="flex-shrink-0 align-self-center ">
                                     <div class="avatar-sm rounded-circle bg-primary mini-stat-icon">
                                         <span class="avatar-title rounded-circle bg-primary">
-                                            <i class="bx bx-archive-in font-size-24"></i>
+                                            <i class="bx bx-time font-size-24"></i>
                                         </span>
                                     </div>
                                 </div>
@@ -93,19 +68,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+            </div>
+            <div class="row">
+                <div class="col-md-12">
                     <div class="card mini-stats-wid">
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
                                     <p class="text-muted fw-medium">Complete AWB</p>
-                                    <h4 class="mb-0">1,035</h4>
+                                    <h4 class="mb-0">{{ number_format($completeAwb, 0,  '.', ',') }}</h4>
                                 </div>
 
                                 <div class="flex-shrink-0 align-self-center">
                                     <div class="avatar-sm rounded-circle bg-primary mini-stat-icon">
                                         <span class="avatar-title rounded-circle bg-primary">
-                                            <i class="bx bx-purchase-tag-alt font-size-24"></i>
+                                            <i class="bx bx-check-double font-size-24"></i>
                                         </span>
                                     </div>
                                 </div>
@@ -128,174 +105,34 @@
                         <table class="table align-middle table-nowrap mb-0">
                             <thead class="table-light">
                                 <tr>
-                                    <th style="width: 20px;">
-                                        <div class="form-check font-size-16 align-middle">
-                                            <input class="form-check-input" type="checkbox" id="transactionCheck01">
-                                            <label class="form-check-label" for="transactionCheck01"></label>
-                                        </div>
-                                    </th>
                                     <th class="align-middle">AWB No</th>
-                                    <th class="align-middle">Tujuan</th>
-                                    <th class="align-middle">Date</th>
-                                    <th class="align-middle">Total</th>
+                                    <th class="align-middle">Alamat Penerima</th>
+                                    <th class="align-middle">Tanggal Input</th>
                                     <th class="align-middle">AWB Status</th>
-                                    <th class="align-middle">View Details</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @if ($latestAwbs)
+                                    @foreach ($latestAwbs as $awb)
+                                    <tr>
+                                        <td><span class="text-body fw-bold">{{ $awb->awb_no }}</span> </td>
+                                        <td>
+                                            {{ $awb->origin_address_line1}}<br>
+                                            <span class="badge bg-primary">{{ $awb->originCity->code }}</span>
+                                        </td>
+                                        <td>
+                                            {{ $awb->created_at }}
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-pill badge-soft-{{ $awb->getStatusColor() }}">{{ $awb->awbStatus->name }}</span>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                @else
                                 <tr>
-                                    <td>
-                                        <div class="form-check font-size-16">
-                                            <input class="form-check-input" type="checkbox" id="transactionCheck02">
-                                            <label class="form-check-label" for="transactionCheck02"></label>
-                                        </div>
-                                    </td>
-                                    <td><a href="javascript: void(0);" class="text-body fw-bold">#SK2540</a> </td>
-                                    <td>Neal Matthews</td>
-                                    <td>
-                                        07 Oct, 2019
-                                    </td>
-                                    <td>
-                                        $400
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-pill badge-soft-success font-size-11">Paid</span>
-                                    </td>
-                                    <td>
-                                        <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
-                                            View Details
-                                        </button>
-                                    </td>
+                                    <td colspan="4"><span class="text-body fw-bold">No Data</span> </td>
                                 </tr>
-
-                                <tr>
-                                    <td>
-                                        <div class="form-check font-size-16">
-                                            <input class="form-check-input" type="checkbox" id="transactionCheck03">
-                                            <label class="form-check-label" for="transactionCheck03"></label>
-                                        </div>
-                                    </td>
-                                    <td><a href="javascript: void(0);" class="text-body fw-bold">#SK2541</a> </td>
-                                    <td>Jamal Burnett</td>
-                                    <td>
-                                        07 Oct, 2019
-                                    </td>
-                                    <td>
-                                        $380
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-pill badge-soft-danger font-size-11">Chargeback</span>
-                                    </td>
-                                    <td>
-                                        <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
-                                            View Details
-                                        </button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <div class="form-check font-size-16">
-                                            <input class="form-check-input" type="checkbox" id="transactionCheck04">
-                                            <label class="form-check-label" for="transactionCheck04"></label>
-                                        </div>
-                                    </td>
-                                    <td><a href="javascript: void(0);" class="text-body fw-bold">#SK2542</a> </td>
-                                    <td>Juan Mitchell</td>
-                                    <td>
-                                        06 Oct, 2019
-                                    </td>
-                                    <td>
-                                        $384
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-pill badge-soft-success font-size-11">Paid</span>
-                                    </td>
-
-                                    <td>
-                                        <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
-                                            View Details
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-check font-size-16">
-                                            <input class="form-check-input" type="checkbox" id="transactionCheck05">
-                                            <label class="form-check-label" for="transactionCheck05"></label>
-                                        </div>
-                                    </td>
-                                    <td><a href="javascript: void(0);" class="text-body fw-bold">#SK2543</a> </td>
-                                    <td>Barry Dick</td>
-                                    <td>
-                                        05 Oct, 2019
-                                    </td>
-                                    <td>
-                                        $412
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-pill badge-soft-success font-size-11">Paid</span>
-                                    </td>
-                                    <td>
-                                        <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
-                                            View Details
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-check font-size-16">
-                                            <input class="form-check-input" type="checkbox" id="transactionCheck06">
-                                            <label class="form-check-label" for="transactionCheck06"></label>
-                                        </div>
-                                    </td>
-                                    <td><a href="javascript: void(0);" class="text-body fw-bold">#SK2544</a> </td>
-                                    <td>Ronald Taylor</td>
-                                    <td>
-                                        04 Oct, 2019
-                                    </td>
-                                    <td>
-                                        $404
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-pill badge-soft-warning font-size-11">Refund</span>
-                                    </td>
-                                    <td>
-                                        <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
-                                            View Details
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-check font-size-16">
-                                            <input class="form-check-input" type="checkbox" id="transactionCheck07">
-                                            <label class="form-check-label" for="transactionCheck07"></label>
-                                        </div>
-                                    </td>
-                                    <td><a href="javascript: void(0);" class="text-body fw-bold">#SK2545</a> </td>
-                                    <td>Jacob Hunter</td>
-                                    <td>
-                                        04 Oct, 2019
-                                    </td>
-                                    <td>
-                                        $392
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-pill badge-soft-success font-size-11">Paid</span>
-                                    </td>
-                                    <td>
-                                        <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
-                                            View Details
-                                        </button>
-                                    </td>
-                                </tr>
+                                @endif
                             </tbody>
                         </table>
                     </div>
