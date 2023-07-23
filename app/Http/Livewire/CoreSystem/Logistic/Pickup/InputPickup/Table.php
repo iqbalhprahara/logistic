@@ -19,17 +19,22 @@ class Table extends BaseTableComponent
     {
         return [
             'awb_ref_no' => Blade::render(<<<'blade'
-                <div class="mb-5">{{ $awb_ref_no }}</div>
+                <div class="mb-5">
+                    {{ $awbRefNo }}
+                    <span class="badge bg-{{ $statusColor }}">{{ $status }}</span>
+                </div>
                 @can('logistic:pickup:input-pickup:print-awb')
                     @livewire('core-system.logistic.pickup.input-pickup.print-awb', ['uuid' => $uuid, key($uuid)])
                 @endcan
-            blade, ['awb_ref_no' => $row->awb_ref_no, 'uuid' => $row->uuid]),
+            blade, ['awbRefNo' => $row->awb_ref_no, 'uuid' => $row->uuid, 'status' => $row->status, 'statusColor' => $row->getStatusColor()]),
             'origin_address_line1' => $row->origin_address_line1.'<br><span class="badge bg-primary">'.$row->origin_code.'</span>',
             'awbs.created_at' => $row->created_at,
             'user_input_name' => $row->user_input_name,
             'destination_contact_name' => $row->destination_contact_name,
             'destination_address_line1' => $row->destination_address_line1.'<br><span class="badge bg-primary">'.$row->destination_code.'</span>',
-            'action' => view('livewire.core-system.logistic.pickup.input-pickup.action', ['awb' => $row]),
+            'action' => view('livewire.core-system.logistic.pickup.input-pickup.action', [
+                'awb' => $row,
+            ]),
         ];
     }
 
@@ -51,6 +56,11 @@ class Table extends BaseTableComponent
                 'header' => 'No. AWB / No. Referensi',
                 'column' => 'awb_ref_no',
                 'type' => 'raw',
+            ],
+            [
+                'header' => 'Status',
+                'column' => 'status.name',
+                'type' => 'hidden',
             ],
             [
                 'header' => 'Alamat Pickup',
@@ -112,8 +122,11 @@ class Table extends BaseTableComponent
             'destination_address_line1',
             'destination.code as destination_code',
             'awbs.deleted_at',
+            'status.name as status',
+            'awbs.awb_status_id',
         ])
             ->withTrashed()
+            ->leftJoin('awb_statuses as status', 'awbs.awb_status_id', '=', 'status.id')
             ->leftJoin('cities as origin', 'awbs.origin_city_id', '=', 'origin.id')
             ->leftJoin('cities as destination', 'awbs.destination_city_id', '=', 'destination.id')
             ->leftJoin('users as user_input', 'awbs.created_by', '=', 'user_input.uuid');

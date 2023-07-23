@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             ShipmentTypeSeeder::class,
             PackingSeeder::class,
             LocationSeeder::class,
+            AwbStatusSeeder::class,
         ]);
         Telescope::startRecording();
     }

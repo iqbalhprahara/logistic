@@ -69,6 +69,11 @@ Route::prefix('/app')
                         Route::get('/city', App\Http\Livewire\CoreSystem\MasterData\Location\City\Index::class)->name('city');
                         Route::get('/subdistrict', App\Http\Livewire\CoreSystem\MasterData\Location\Subdistrict\Index::class)->name('subdistrict');
                     });
+
+                /**
+                 * AWB Status
+                 */
+                Route::get('/awb-status', App\Http\Livewire\CoreSystem\MasterData\AwbStatus\Index::class)->name('awb-status');
             });
 
         /**
@@ -78,8 +83,8 @@ Route::prefix('/app')
             ->as('logistic.')
             ->group(function () {
                 /**
-             * Pickup
-             */
+                 * Pickup
+                 */
                 Route::prefix('/pickup')
                     ->as('pickup.')
                     ->group(function () {
