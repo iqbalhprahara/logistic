@@ -4,6 +4,7 @@ namespace App\Http\Livewire\CoreSystem\Logistic\Pickup\InputPickup;
 
 use App\Http\Livewire\BaseTableComponent;
 use Core\Logistic\Models\Awb;
+use Core\MasterData\Models\AwbStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Facades\Blade;
@@ -46,6 +47,18 @@ class Table extends BaseTableComponent
                     @livewire('core-system.logistic.pickup.input-pickup.create')
                 @endcan
             blade),
+        ];
+    }
+
+    public function advanceSearch(): array
+    {
+        return [
+            'status' => [
+                'name' => 'Pilih Status',
+                'type' => 'dropDown',
+                'options' => AwbStatus::pluck('name', 'id'),
+                'column' => 'awbs.awb_status_id',
+            ],
         ];
     }
 

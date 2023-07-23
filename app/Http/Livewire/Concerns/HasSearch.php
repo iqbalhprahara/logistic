@@ -9,7 +9,35 @@ use Livewire\WithPagination;
 
 trait HasSearch
 {
+    public array $advanceSearch = [];
+
+    protected ?string $advanceSearchId;
+
     public ?string $searchKeywords;
+
+    public bool $isAdvanceSearch = false;
+
+    public function bootHasSearch()
+    {
+        $this->advanceSearchId = 'advance-search-'.uniqid();
+        $advanceSearch = $this->advanceSearch();
+
+        if (! empty($advanceSearch)) {
+            foreach ($advanceSearch as $key => $value) {
+                $this->advanceSearch[$key] = '';
+            }
+        }
+    }
+
+    public function updatedAdvanceSearch()
+    {
+        $this->isAdvanceSearch = false;
+        foreach ($this->advanceSearch as $search) {
+            if (! empty($search)) {
+                $this->isAdvanceSearch = true;
+            }
+        }
+    }
 
     public function resetFilter()
     {
@@ -21,6 +49,11 @@ trait HasSearch
         if (in_array(WithPagination::class, class_uses_recursive($this))) {
             $this->resetPage(Str::camel(class_basename(static::class)).'Page');
         }
+    }
+
+    public function advanceSearch(): array
+    {
+        return [];
     }
 
     protected function applyFilter(Builder|EloquentBuilder $query): Builder|EloquentBuilder
@@ -47,6 +80,15 @@ trait HasSearch
                     }
                 }
             });
+        }
+
+        $advanceSearchDef = $this->advanceSearch();
+        if (! empty($advanceSearchDef)) {
+            foreach ($advanceSearchDef as $key => $searchDef) {
+                if (! empty($this->advanceSearch[$key])) {
+                    $query->where($searchDef['column'], $this->advanceSearch[$key]);
+                }
+            }
         }
 
         return $query;
