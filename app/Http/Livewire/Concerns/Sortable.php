@@ -7,6 +7,8 @@ use Illuminate\Database\Query\Builder;
 
 trait Sortable
 {
+    protected $disableSortable = false;
+
     public ?string $sortBy = null;
 
     public string $sortDir = 'asc';
@@ -24,6 +26,10 @@ trait Sortable
 
     protected function applySort(Builder|EloquentBuilder $query): Builder|EloquentBuilder
     {
+        if ($this->disableSortable) {
+            return $query;
+        }
+
         if (null == $this->sortBy) {
             $firstCol = $this->columnDefinition()[0];
             $defaultCol = is_array($firstCol) ? $firstCol['column'] : $firstCol;

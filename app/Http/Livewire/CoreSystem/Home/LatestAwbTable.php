@@ -1,20 +1,34 @@
 <?php
 
-namespace App\Http\Livewire\CoreSystem\Logistic\Pickup\InputPickup;
+namespace App\Http\Livewire\CoreSystem\Home;
 
 use App\Http\Livewire\BaseTableComponent;
 use Core\Logistic\Models\Awb;
-use Core\MasterData\Models\AwbStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\DB;
 
-class Table extends BaseTableComponent
+class LatestAwbTable extends BaseTableComponent
 {
-    protected $gates = ['logistic:pickup:input-pickup'];
+    protected $disableTools = true;
 
-    public ?string $sortBy = 'awbs.uuid';
+    protected $disableSortable = true;
+
+    protected $disableHasSearch = true;
+
+    protected $disablePagination = true;
+
+    protected $gates = [];
+
+    public ?string $sortBy = 'awbs.created_at';
+
+    public string $sortDir = 'desc';
+
+    public function perPage(): int
+    {
+        return 5;
+    }
 
     protected function formatResult($row): array
     {
@@ -41,30 +55,11 @@ class Table extends BaseTableComponent
 
     public function button(): array
     {
-        return [
-            Blade::render(<<<'blade'
-                @can('logistic:pickup:input-pickup:create')
-                    @livewire('core-system.logistic.pickup.input-pickup.create')
-                @endcan
-            blade),
-        ];
-    }
-
-    public function advanceSearch(): array
-    {
-        return [
-            'status' => [
-                'name' => 'Pilih Status',
-                'type' => 'dropDown',
-                'options' => AwbStatus::pluck('name', 'id'),
-                'column' => 'awbs.awb_status_id',
-            ],
-        ];
+        return [];
     }
 
     protected function columnDefinition(): array
     {
-        /** type => hidden used for search and sorting only */
         return [
             [
                 'header' => 'No. AWB / No. Referensi',
@@ -74,35 +69,10 @@ class Table extends BaseTableComponent
                 'sortable' => false,
             ],
             [
-                'header' => 'No. Awb',
-                'column' => 'awbs.awb_no',
-                'type' => 'hidden',
-            ],
-            [
-                'header' => 'No. Referensi',
-                'column' => 'awbs.ref_no',
-                'type' => 'hidden',
-            ],
-            [
                 'header' => 'Client',
                 'column' => 'client',
                 'searchable' => false,
                 'sortable' => false,
-            ],
-            [
-                'header' => 'Nama Client',
-                'column' => 'user_client.name',
-                'type' => 'hidden',
-            ],
-            [
-                'header' => 'Nama Perusahaan',
-                'column' => 'company_client.name',
-                'type' => 'hidden',
-            ],
-            [
-                'header' => 'Status',
-                'column' => 'status.name',
-                'type' => 'hidden',
             ],
             [
                 'header' => 'Informasi Pickup',
@@ -113,42 +83,12 @@ class Table extends BaseTableComponent
                 'width' => 300,
             ],
             [
-                'header' => 'Nama Pengirim',
-                'column' => 'origin_contact_name',
-                'type' => 'hidden',
-            ],
-            [
-                'header' => 'Alamat Pengirim',
-                'column' => 'origin_address_line1',
-                'type' => 'hidden',
-            ],
-            [
-                'header' => 'Origin',
-                'type' => 'hidden',
-                'column' => 'origin.code',
-            ],
-            [
                 'header' => 'Informasi Penerima',
                 'column' => 'destination_info',
                 'searchable' => false,
                 'sortable' => false,
                 'type' => 'raw',
                 'width' => 300,
-            ],
-            [
-                'header' => 'Nama Penerima',
-                'column' => 'destination_contact_name',
-                'type' => 'hidden',
-            ],
-            [
-                'header' => 'Alamat Penerima',
-                'column' => 'destination_address_line1',
-                'type' => 'hidden',
-            ],
-            [
-                'header' => 'Destination',
-                'type' => 'hidden',
-                'column' => 'destination.code',
             ],
             [
                 'header' => 'Tanggal Input',

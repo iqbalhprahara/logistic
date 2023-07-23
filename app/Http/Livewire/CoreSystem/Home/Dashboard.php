@@ -5,7 +5,6 @@ namespace App\Http\Livewire\CoreSystem\Home;
 use App\Http\Livewire\BaseComponent;
 use App\View\Components\CoreSystem\Layout;
 use Core\Logistic\Models\Awb;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -18,8 +17,6 @@ class Dashboard extends BaseComponent
     public int $pendingAwb = 0;
 
     public int $completeAwb = 0;
-
-    public Collection $latestAwbs;
 
     public function mount()
     {
@@ -52,15 +49,6 @@ class Dashboard extends BaseComponent
         $this->currentMonthAwb = (clone $baseQuery)->whereYear('created_at', $now->year)
             ->whereMonth('created_at', $now->month)
             ->count();
-
-        $this->latestAwbs = (clone $baseQuery)
-            ->with([
-                'awbStatus',
-                'originCity',
-            ])
-            ->orderBy('created_at', 'desc')
-            ->limit(5)
-            ->get();
     }
 
     public function render()

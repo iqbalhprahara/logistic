@@ -12,6 +12,10 @@ abstract class BaseTableComponent extends BaseComponent
 {
     use WithPagination, Sortable, HasSearch;
 
+    protected $disableTools = false;
+
+    protected $disablePagination = false;
+
     protected const DEFAULT_PAGINATION_LIMIT = 10;
 
     protected $listeners = ['refresh-table' => 'refreshTable'];
@@ -29,6 +33,11 @@ abstract class BaseTableComponent extends BaseComponent
         return null;
     }
 
+    public function perPage(): int
+    {
+        return static::DEFAULT_PAGINATION_LIMIT;
+    }
+
     public function paginationKey(): string
     {
         return 'page';
@@ -40,7 +49,7 @@ abstract class BaseTableComponent extends BaseComponent
         $query = $this->applyFilter($query);
         $query = $this->applySort($query);
 
-        return $query->paginate(perPage: static::DEFAULT_PAGINATION_LIMIT, pageName: $this->paginationKey());
+        return $query->paginate(perPage: $this->perPage(), pageName: $this->paginationKey());
     }
 
     protected function button(): array
