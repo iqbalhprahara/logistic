@@ -6,6 +6,7 @@
             text-align: center;
         }
     </style>
+    @if (!$this->disableTools)
     <div class="row g-3 mb-3">
         <div class="col-xxl-2 col-lg-2">
             <div class="input-group">
@@ -50,6 +51,7 @@
         </div>
         @endif
     </div>
+    @endif
     @if (!empty($this->advanceSearch()))
         <div class="collapse @if ($this->isAdvanceSearch) show @endif" id="{{ $this->advanceSearchId }}" style="">
             <div class="row mb-3">
@@ -127,6 +129,8 @@
             </tbody>
         </table>
     </div>
+    @if (!$this->disablePagination)
     {{ $results->links() }}
+    @endif
 </div>
 

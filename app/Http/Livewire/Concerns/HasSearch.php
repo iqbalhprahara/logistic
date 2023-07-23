@@ -9,6 +9,8 @@ use Livewire\WithPagination;
 
 trait HasSearch
 {
+    protected $disableHasSearch = false;
+
     public array $advanceSearch = [];
 
     protected ?string $advanceSearchId;
@@ -58,6 +60,10 @@ trait HasSearch
 
     protected function applyFilter(Builder|EloquentBuilder $query): Builder|EloquentBuilder
     {
+        if ($this->disableHasSearch) {
+            return $query;
+        }
+
         if (! empty($this->searchKeywords)) {
             $query->where(function ($q) use ($query) {
                 foreach ($this->columnDefinition() as $columnDef) {
