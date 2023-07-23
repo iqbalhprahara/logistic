@@ -33,11 +33,13 @@ class AwbStatusHistory extends Model
     public static function boot()
     {
         static::creating(function (self $history) {
-            $history->created_by = auth()->user()->uuid;
+            if (empty($history->created_by)) {
+                $history->created_by = auth()->user()->uuid;
+            }
         });
 
         static::updating(function (self $history) {
-            $history->updated_by = auth()->user()->uuid;
+            $history->updated_by = optional(auth()->user())->uuid ?? $history->created_by;
         });
 
         parent::boot();
