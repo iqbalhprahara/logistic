@@ -27,11 +27,11 @@ class Table extends BaseTableComponent
                     @livewire('core-system.logistic.pickup.input-pickup.print-awb', ['uuid' => $uuid, key($uuid)])
                 @endcan
             blade, ['awbRefNo' => $row->awb_ref_no, 'uuid' => $row->uuid, 'status' => $row->status, 'statusColor' => $row->getStatusColor()]),
-            'origin_address_line1' => $row->origin_address_line1.'<br><span class="badge bg-primary">'.$row->origin_code.'</span>',
+            'client' => $row->client,
+            'pickup_info' => '<span class="fw-bold">Pengirim : </span><br>'.$row->origin_contact_name.'<br>'.'<span class="fw-bold">Alamat Pickup : </span><br>'.$row->origin_address_line1.'<br><span class="badge bg-primary">'.$row->origin_code.'</span>',
             'awbs.created_at' => $row->created_at,
-            'user_input_name' => $row->user_input_name,
-            'destination_contact_name' => $row->destination_contact_name,
-            'destination_address_line1' => $row->destination_address_line1.'<br><span class="badge bg-primary">'.$row->destination_code.'</span>',
+            'user_input.name' => $row->user_input_name,
+            'destination_info' => '<span class="fw-bold">Penerima : </span><br>'.$row->destination_contact_name.'<br>'.'<span class="fw-bold">Alamat : </span><br>'.$row->destination_address_line1.'<br><span class="badge bg-primary">'.$row->destination_code.'</span>',
             'action' => view('livewire.core-system.logistic.pickup.input-pickup.action', [
                 'awb' => $row,
             ]),
@@ -51,11 +51,40 @@ class Table extends BaseTableComponent
 
     protected function columnDefinition(): array
     {
+        /** type => hidden used for search and sorting only */
         return [
             [
                 'header' => 'No. AWB / No. Referensi',
                 'column' => 'awb_ref_no',
                 'type' => 'raw',
+                'searchable' => false,
+                'sortable' => false,
+            ],
+            [
+                'header' => 'No. Awb',
+                'column' => 'awbs.awb_no',
+                'type' => 'hidden',
+            ],
+            [
+                'header' => 'No. Referensi',
+                'column' => 'awbs.ref_no',
+                'type' => 'hidden',
+            ],
+            [
+                'header' => 'Client',
+                'column' => 'client',
+                'searchable' => false,
+                'sortable' => false,
+            ],
+            [
+                'header' => 'Nama Client',
+                'column' => 'user_client.name',
+                'type' => 'hidden',
+            ],
+            [
+                'header' => 'Nama Perusahaan',
+                'column' => 'company_client.name',
+                'type' => 'hidden',
             ],
             [
                 'header' => 'Status',
@@ -63,17 +92,50 @@ class Table extends BaseTableComponent
                 'type' => 'hidden',
             ],
             [
-                'header' => 'Alamat Pickup',
-                'column' => 'origin_address_line1',
+                'header' => 'Informasi Pickup',
+                'column' => 'pickup_info',
                 'searchable' => false,
                 'sortable' => false,
                 'type' => 'raw',
                 'width' => 300,
             ],
             [
+                'header' => 'Nama Pengirim',
+                'column' => 'origin_contact_name',
+                'type' => 'hidden',
+            ],
+            [
+                'header' => 'Alamat Pengirim',
+                'column' => 'origin_address_line1',
+                'type' => 'hidden',
+            ],
+            [
                 'header' => 'Origin',
                 'type' => 'hidden',
-                'column' => 'origin_code',
+                'column' => 'origin.code',
+            ],
+            [
+                'header' => 'Informasi Penerima',
+                'column' => 'destination_info',
+                'searchable' => false,
+                'sortable' => false,
+                'type' => 'raw',
+                'width' => 300,
+            ],
+            [
+                'header' => 'Nama Penerima',
+                'column' => 'destination_contact_name',
+                'type' => 'hidden',
+            ],
+            [
+                'header' => 'Alamat Penerima',
+                'column' => 'destination_address_line1',
+                'type' => 'hidden',
+            ],
+            [
+                'header' => 'Destination',
+                'type' => 'hidden',
+                'column' => 'destination.code',
             ],
             [
                 'header' => 'Tanggal Input',
@@ -81,24 +143,7 @@ class Table extends BaseTableComponent
             ],
             [
                 'header' => 'User Input',
-                'column' => 'user_input_name',
-            ],
-            [
-                'header' => 'Nama Penerima',
-                'column' => 'destination_contact_name',
-            ],
-            [
-                'header' => 'Alamat Penerima',
-                'column' => 'destination_address_line1',
-                'searchable' => false,
-                'sortable' => false,
-                'type' => 'raw',
-                'width' => 300,
-            ],
-            [
-                'header' => 'Destination',
-                'type' => 'hidden',
-                'column' => 'destination_code',
+                'column' => 'user_input.name',
             ],
             [
                 'column' => 'action',
@@ -113,8 +158,10 @@ class Table extends BaseTableComponent
     {
         return Awb::select([
             'awbs.uuid',
+            DB::raw('concat(user_client.name, \' - \', company_client.name) as client'),
             DB::raw('case when ref_no IS NULL then awb_no else concat(awb_no, \'/\', ref_no) end as awb_ref_no'),
             'origin_address_line1',
+            'origin_contact_name',
             'origin.code as origin_code',
             'awbs.created_at',
             'user_input.name as user_input_name',
@@ -126,6 +173,9 @@ class Table extends BaseTableComponent
             'awbs.awb_status_id',
         ])
             ->withTrashed()
+            ->leftJoin('clients', 'awbs.client_uuid', '=', 'clients.uuid')
+            ->leftJoin('users as user_client', 'clients.user_uuid', '=', 'user_client.uuid')
+            ->leftJoin('companies as company_client', 'clients.company_uuid', '=', 'company_client.uuid')
             ->leftJoin('awb_statuses as status', 'awbs.awb_status_id', '=', 'status.id')
             ->leftJoin('cities as origin', 'awbs.origin_city_id', '=', 'origin.id')
             ->leftJoin('cities as destination', 'awbs.destination_city_id', '=', 'destination.id')
