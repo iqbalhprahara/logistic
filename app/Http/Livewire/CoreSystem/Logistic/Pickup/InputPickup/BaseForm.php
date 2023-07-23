@@ -127,7 +127,12 @@ abstract class BaseForm extends BaseComponent
     public function initializeOriginCityOptions()
     {
         if ($this->awb->origin_province_id) {
-            $this->originCityOptions = City::where('province_id', $this->awb->origin_province_id)->pluck('name', 'id');
+            $this->originCityOptions = City::where('province_id', $this->awb->origin_province_id)
+                ->select(
+                    DB::raw('concat(type, \' - \', name, \'(\', code, \')\') as name'),
+                    'id',
+                )
+                ->pluck('name', 'id');
             if (! $this->originCityOptions->keys()->contains($this->awb->origin_city_id)) {
                 $this->awb->origin_city_id = null;
             }
@@ -156,7 +161,12 @@ abstract class BaseForm extends BaseComponent
     public function initializeDestinationCityOptions()
     {
         if ($this->awb->destination_province_id) {
-            $this->destinationCityOptions = City::where('province_id', $this->awb->destination_province_id)->pluck('name', 'id');
+            $this->destinationCityOptions = City::where('province_id', $this->awb->destination_province_id)
+                ->select(
+                    DB::raw('concat(type, \' - \', name, \'(\', code, \')\') as name'),
+                    'id',
+                )
+                ->pluck('name', 'id');
             if (! $this->destinationCityOptions->keys()->contains($this->awb->destination_city_id)) {
                 $this->awb->destination_city_id = null;
             }
