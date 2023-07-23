@@ -53,7 +53,7 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-muted fw-medium">Pending AWB</p>
+                                    <p class="text-muted fw-medium">On Going AWB</p>
                                     <h4 class="mb-0">{{ number_format($pendingAwb, 0,  '.', ',') }}</h4>
                                 </div>
 
