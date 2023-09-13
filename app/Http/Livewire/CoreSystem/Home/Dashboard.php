@@ -42,9 +42,9 @@ class Dashboard extends BaseComponent
             DB::raw('sum(case when awb_status_id = 5 then 1 else 0 end) as complete'),
         ])->first();
 
-        $this->totalAwb = $count->total;
-        $this->pendingAwb = $count->pending;
-        $this->completeAwb = $count->complete;
+        $this->totalAwb = intval(optional($count)->total);
+        $this->pendingAwb = intval(optional($count)->pending);
+        $this->completeAwb = intval(optional($count)->complete);
 
         $this->currentMonthAwb = (clone $baseQuery)->whereYear('created_at', $now->year)
             ->whereMonth('created_at', $now->month)

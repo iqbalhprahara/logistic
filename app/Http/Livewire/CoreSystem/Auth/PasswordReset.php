@@ -53,7 +53,7 @@ class PasswordReset extends BaseComponent
     {
         $data = $this->validate();
 
-        $response = Password::broker(config('ladmin.auth.broker'))->reset([
+        $response = Password::broker(config('auth.password.broker'))->reset([
             'email' => $this->email,
             'token' => $this->token,
             'password' => $data['password'],
