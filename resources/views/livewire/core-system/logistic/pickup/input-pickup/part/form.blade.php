@@ -238,7 +238,7 @@
             @enderror
         </div>
         <div class="mb-1 position-relative">
-            <label class="col-form-label col-form-label-sm">Nama Pengirim<span class="text-danger">*</span></label>
+            <label class="col-form-label col-form-label-sm">Nama Penerima<span class="text-danger">*</span></label>
             <input type="text" class="form-control form-control-sm @error('awb.destination_contact_name') is-invalid @enderror" wire:model.lazy="awb.destination_contact_name" required @disabled($viewOnly)>
             @error('awb.destination_contact_name')
             <div class="invalid-tooltip">{{ $message }}</div>
