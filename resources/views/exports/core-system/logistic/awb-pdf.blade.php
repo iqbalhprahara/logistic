@@ -7,8 +7,8 @@
 <body style="font-family: open-sans, sans-serif; font-size:0.25cm">
     <table style="width: 100%;">
       <tr>
-        <td style="width: 15%; vertical-align: top;">
-          <img src="{{ public_path('img/logo/logo-main.png') }}" width="45"/>
+        <td style="width: 15%; vertical-align: middle;">
+          <img src="data:image/svg+xml;base64,{{ $logo }}" width="65" height="20"/>
         </td>
         <td style="width: 25%; text-align: left;">
           <div style="margin-bottom: 0.04cm;">eAWB</div>
