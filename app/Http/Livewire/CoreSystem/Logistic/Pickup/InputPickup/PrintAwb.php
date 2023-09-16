@@ -5,6 +5,7 @@ namespace App\Http\Livewire\CoreSystem\Logistic\Pickup\InputPickup;
 use App\Http\Livewire\BaseComponent;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Core\Logistic\Models\Awb;
+use Illuminate\Support\Facades\File;
 
 class PrintAwb extends BaseComponent
 {
@@ -31,7 +32,9 @@ class PrintAwb extends BaseComponent
             'destinationCity',
         ])->findOrFail($this->uuid);
 
-        $pdf = Pdf::loadView('exports.core-system.logistic.awb-pdf', compact('awb'))
+        $logo = base64_encode(File::get(public_path('img/logo/logo-color-bg.svg')));
+
+        $pdf = Pdf::loadView('exports.core-system.logistic.awb-pdf', compact('awb', 'logo'))
             ->setPaper('A6', 'landscape');
 
         $this->emitSelf('pdf.generated', base64_encode($pdf->output()));
