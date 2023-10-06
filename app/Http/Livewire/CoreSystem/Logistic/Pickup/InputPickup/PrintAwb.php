@@ -34,9 +34,10 @@ class PrintAwb extends BaseComponent
 
         $logo = base64_encode(File::get(public_path('img/logo/logo-color-bg.svg')));
 
+        /** @var \Barryvdh\DomPDF\PDF $pdf */
         $pdf = Pdf::loadView('exports.core-system.logistic.awb-pdf', compact('awb', 'logo'))
             ->setPaper('A6', 'landscape');
 
-        $this->emitSelf('pdf.generated', base64_encode($pdf->output()));
+        return response()->streamDownload(fn () => print($pdf->output()), $awb->awb_no.'.pdf');
     }
 }
