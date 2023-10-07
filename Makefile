@@ -1,56 +1,59 @@
 #!/usr/bin/make
-include .env
+build :=  docker compose build
+run :=  docker compose up -d
 
-SHELL = /bin/sh
-
-APP_PUID := $(shell id -u)
-APP_PGID := $(shell id -g)
-
-environment := $(APP_ENV)
-file := docker-compose.$(environment).yml
-
-build := (APP_PUID=$(APP_PUID) APP_PGID=$(APP_PGID) docker compose -f $(file) build)
-run := (APP_PUID=$(APP_PUID) APP_PGID=$(APP_PGID) docker compose -f $(file) up -d)
-restart := (APP_PUID=$(APP_PUID) APP_PGID=$(APP_PGID) docker compose -f $(file) restart)
-
-migrate := (docker compose -f $(file) exec app php artisan migrate --force)
-composer-install := (docker compose -f $(file) exec app composer install --no-dev --no-interaction -o)
-optimize-clear := (docker compose -f $(file) exec app php artisan optimize:clear)
+migrate := docker compose exec app php artisan migrate --force
+seed := docker compose exec app php artisan db:seed --force
+composer-install := docker compose exec app composer install --no-dev --no-interaction -o
+composer-install-dev := docker compose exec app composer install --no-interaction -o
+npm-install := npm install
+optimize-clear := docker compose exec app php artisan optimize:clear
 
 deploy :
 	$(build)
 	$(run)
 	$(composer-install)
 	$(migrate)
+	$(seed)
 	$(optimize-clear)
 
 deploy-without-build:
 	$(run)
 	$(composer-install)
 	$(migrate)
+	$(seed)
 	$(optimize-clear)
 
-run:
+devcontainer:
+	$(build)
 	$(run)
+	$(composer-install-dev)
+	$(npm-install)
 
 # only work inside container
-dev:
-	/bin/bash ./bin/start-development-server.sh
+start-dev:
+	php -d variables_order=EGPCS artisan octane:start --server=swoole --host=0.0.0.0 --rpc-port=6001 --port=9000 --watch
 
-build:
+compose-build:
 	$(build)
 
-migrate:
+compose-up:
+	$(run)
+
+compose-stop:
+	docker compose stop
+
+compose-down:
+	docker compose down
+
+compose-restart:
+	docker compose restart
+
+artisan-migrate:
 	$(migrate)
 
 composer-install:
 	$(composer-install)
 
-optimize-clear:
+artisan-optimize:
 	$(optimize-clear)
-
-stop:
-	docker compose down
-
-restart:
-	$(restart)
