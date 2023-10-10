@@ -1,4 +1,4 @@
-<form class="form-horizontal" wire:submit.prevent="update">
+<form class="form-horizontal" wire:submit="update">
     <x-core-system.modal id="modal-edit-company-{{ $company->uuid }}" wire:ignore.self>
         <x-slot name="title">Edit Company</x-slot>
         <x-slot name="body">
@@ -6,7 +6,7 @@
                 <label class="col-form-label">Code<span class="text-danger">*</span></label>
                 <input type="text"
                     class="form-control @error('company.code') is-invalid @enderror"
-                    wire:model.lazy="company.code"
+                    wire:model.blur="company.code"
                     placeholder="Code" required>
                 @error('company.code')
                 <div class="invalid-tooltip">{{ $message }}</div>
@@ -17,7 +17,7 @@
                 <label class="col-form-label">Name<span class="text-danger">*</span></label>
                 <input type="text"
                     class="form-control @error('company.name') is-invalid @enderror"
-                    wire:model.lazy="company.name"
+                    wire:model.blur="company.name"
                     placeholder="Name" required>
                 @error('company.name')
                 <div class="invalid-tooltip">{{ $message }}</div>

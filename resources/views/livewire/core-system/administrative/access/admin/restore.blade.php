@@ -4,7 +4,7 @@
         Are you sure you want to restore this admin?
     </x-slot>
     <x-slot name="footer">
-        <form wire:submit.prevent="restore">
+        <form wire:submit="restore">
             <x-core-system.button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No
             </x-core-system.button>
             <x-core-system.button type="submit" class="text-white" color="danger">Yes</x-core-system.button>

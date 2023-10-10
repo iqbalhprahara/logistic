@@ -12,14 +12,14 @@
 
     @stack('before-styles')
     <!-- Bootstrap Css -->
-    <link href="{{ asset('vendor/skote/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css"/>
+    @vite('resources/vendor/skote/css/bootstrap.min.css')
     <!-- Icons Css -->
-    <link href="{{ asset('vendor/skote/css/icons.min.css') }}" rel="stylesheet" type="text/css"/>
+    @vite('resources/vendor/skote/css/icons.min.css')
     <!-- Toastr.js -->
-    <link href="{{ asset('vendor/skote/libs/toastr/toastr.min.css') }}" rel="stylesheet" type="text/css"/>
+    @vite('resources/vendor/skote/libs/toastr/toastr.min.css')
     <!-- App Css-->
-    <link href="{{ mix('vendor/skote/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css"/>
-    @livewireStyles
+    @vite('resources/vendor/skote/css/app.min.css')
+    @livewireStyles()
     @stack('vendor-styles')
     {{ $styles ?? null }}
     @stack('after-styles')
@@ -75,13 +75,15 @@
         @stack('modal')
     </div>
     {{-- Vendor Scripts --}}
-    <script src="{{ asset('vendor/skote/libs/jquery/jquery.min.js')}}"></script>
-    <script src="{{ asset('vendor/skote/libs/bootstrap/bootstrap.min.js')}}"></script>
-    <script src="{{ asset('vendor/skote/libs/metismenu/metismenu.min.js')}}"></script>
-    <script src="{{ asset('vendor/skote/libs/simplebar/simplebar.min.js')}}"></script>
-    <script src="{{ asset('vendor/skote/libs/node-waves/node-waves.min.js')}}"></script>
-    <script src="{{ asset('vendor/skote/libs/toastr/toastr.min.js')}}"></script>
-    @livewireScripts
+    @vite([
+        'resources/vendor/skote/libs/jquery/jquery.min.js',
+        'resources/vendor/skote/libs/bootstrap/bootstrap.min.js',
+        'resources/vendor/skote/libs/metismenu/metismenu.min.js',
+        'resources/vendor/skote/libs/simplebar/simplebar.min.js',
+        'resources/vendor/skote/libs/node-waves/node-waves.min.js',
+        'resources/vendor/skote/libs/toastr/toastr.min.js'
+    ])
+    @livewireScriptConfig
     @stack('vendor-scripts')
     <script>
         $(document).ready(function() {
@@ -104,7 +106,6 @@
                     }
                 })
             });
-
 
             if (@js(Session::has('message'))) {
                 toastr.success(`{!! session()->pull('message') !!}`);
@@ -140,6 +141,6 @@
     {{-- Application Script --}}
     @stack('before-scripts')
     @stack('after-scripts')
-    <script src="{{ mix('vendor/skote/js/app.js')}}" defer></script>
+    @vite('resources/vendor/skote/js/app.js')
 </body>
 </html>

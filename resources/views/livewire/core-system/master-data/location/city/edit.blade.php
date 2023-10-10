@@ -1,4 +1,4 @@
-<form class="form-horizontal" wire:submit.prevent="update">
+<form class="form-horizontal" wire:submit="update">
     <x-core-system.modal id="modal-edit-city-{{ $cityId }}" wire:ignore.self>
         <x-slot name="title">Edit City</x-slot>
         <x-slot name="body">

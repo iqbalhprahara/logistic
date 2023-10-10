@@ -1,5 +1,5 @@
 <div>
-    <form class="form-horizontal" wire:submit.prevent="update">
+    <form class="form-horizontal" wire:submit="update">
         <x-core-system.modal id="modal-edit-province-{{ $provinceId }}" wire:ignore.self>
             <x-slot name="title">Edit Province</x-slot>
             <x-slot name="body">

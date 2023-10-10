@@ -1,6 +1,6 @@
-<form class="form-horizontal" wire:submit.prevent="update">
+<form class="form-horizontal" wire:submit="update">
     <script>
-        document.addEventListener('livewire:load', function () {
+        document.addEventListener('livewire:init', function () {
             $('#modal-edit-admin-{{ $admin->uuid }}').on('shown.bs.modal' , function () {
                 initSelectRoleEditAdmin('{{ $admin->uuid }}');
             });
@@ -21,7 +21,7 @@
                 <label class="col-form-label">Name<span class="text-danger">*</span></label>
                 <input type="text"
                     class="form-control @error('admin.name') is-invalid @enderror"
-                    wire:model.lazy="admin.name"
+                    wire:model.blur="admin.name"
                     placeholder="Name" required>
                 @error('admin.name')
                 <div class="invalid-tooltip">{{ $message }}</div>
@@ -32,7 +32,7 @@
                 <label class="col-form-label">Email<span class="text-danger">*</span></label>
                 <input type="email"
                     class="form-control @error('admin.email') is-invalid @enderror"
-                    wire:model.lazy="admin.email"
+                    wire:model.blur="admin.email"
                     placeholder="Email" required>
                 @error('admin.email')
                 <div class="invalid-tooltip">{{ $message }}</div>

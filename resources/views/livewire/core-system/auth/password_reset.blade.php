@@ -30,7 +30,7 @@
                         </div>
 
                         <div class="p-2">
-                            <form class="form-horizontal" wire:submit.prevent="changePassword">
+                            <form class="form-horizontal" wire:submit="changePassword">
                                 @csrf
                                 <div class="mb-3">
                                     <label for="useremail" class="form-label">Email</label>
@@ -47,7 +47,7 @@
                                 <div class="mb-3">
                                     <label for="userpassword">Password</label>
                                     <input type="password"
-                                        class="form-control @error('password') is-invalid @enderror" wire:model.lazy="password" placeholder="Enter password">
+                                        class="form-control @error('password') is-invalid @enderror" wire:model.blur="password" placeholder="Enter password">
                                     @error('password')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -57,7 +57,7 @@
 
                                 <div class="mb-3">
                                     <label for="userpassword">Confirm Password</label>
-                                    <input type="password" wire:model.lazy="passwordConfirmation"
+                                    <input type="password" wire:model.blur="passwordConfirmation"
                                         class="form-control" placeholder="Enter confirm password">
                                     @error('password_confirmation')
                                         <span class="invalid-feedback" role="alert">

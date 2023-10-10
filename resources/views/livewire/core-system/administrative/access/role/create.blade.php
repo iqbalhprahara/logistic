@@ -3,12 +3,12 @@
         &plus; Add New
     </x-core-system.button>
 
-    <form class="form-horizontal" wire:submit.prevent="store">
+    <form class="form-horizontal" wire:submit="store">
         <x-core-system.modal id="modal-create-role" wire:ignore.self>
             <x-slot name="title">Add New Role</x-slot>
             <x-slot name="body">
                 <label for="name" class="form-label col-lg-3">Role Name <span class="text-danger">*</span></label>
-                <input id="role-name" type="text" class="form-control @error('role.name') is-invalid @enderror" required wire:model.lazy="role.name" placeholder="Role Name"/>
+                <input id="role-name" type="text" class="form-control @error('role.name') is-invalid @enderror" required wire:model.blur="role.name" placeholder="Role Name"/>
                 @error('role.name')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>

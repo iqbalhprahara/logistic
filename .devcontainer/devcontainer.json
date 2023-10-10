@@ -26,6 +26,7 @@
                 "wmaurer.change-case",
                 "cierra.livewire-vscode",
                 "lennardv.livewire-goto-updated",
+                "bradlc.vscode-tailwindcss",
             ]
         }
     },

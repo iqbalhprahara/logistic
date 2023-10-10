@@ -6,7 +6,6 @@
         <div class="d-inline-block ms-auto mb-0">
             <div class="p-2">
                 @if ($paginator->hasPages())
-                    @php(isset($this->numberOfPaginatorsRendered[$paginator->getPageName()]) ? $this->numberOfPaginatorsRendered[$paginator->getPageName()]++ : $this->numberOfPaginatorsRendered[$paginator->getPageName()] = 1)
                 <nav aria-label="Page navigation example" class="mb-0">
                     <ul class="pagination mb-0">
                         {{-- Previous Page Link --}}
@@ -34,11 +33,11 @@
                             @if (is_array($element))
                                 @foreach ($element as $page => $url)
                                     @if ($page == $paginator->currentPage())
-                                        <li class="page-item active" wire:key="paginator-{{ $paginator->getPageName() }}-{{ $this->numberOfPaginatorsRendered[$paginator->getPageName()] }}-page-{{ $page }}" aria-current="page">
+                                        <li class="page-item active" wire:key="paginator-{{ $paginator->getPageName() }}-page{{ $page }}" aria-current="page">
                                             <button class="page-link">{{ $page }}</button>
                                         </li>
                                     @else
-                                        <li class="page-item" wire:key="paginator-{{ $paginator->getPageName() }}-{{ $this->numberOfPaginatorsRendered[$paginator->getPageName()] }}-page-{{ $page }}">
+                                        <li class="page-item" wire:key="paginator-{{ $paginator->getPageName() }}-page{{ $page }}">
                                             <button class="page-link" wire:click="gotoPage({{ $page }}, '{{ $paginator->getPageName() }}')" id="{{ $paginator->getPageName() }}-{{ $page }}">{{ $page }}</button>
                                         </li>
                                     @endif

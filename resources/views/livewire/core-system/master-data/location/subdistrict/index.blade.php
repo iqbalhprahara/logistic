@@ -1,16 +1,18 @@
 @push('after-scripts')
 <script>
-    Livewire.hook('component.initialized', (component) => {
-    if (
-        component.fingerprint.name == 'core-system.master-data.location.subdistrict.edit'
-    ) {
-        var id = component.serverMemo.data.subdistrictId
-        $('#modal-edit-subdistrict-'+id).on('shown.bs.modal', function () {
-            var wire = window.livewire.find(component.fingerprint.id);
-            wire.emitSelf('initializeFormData');
-        })
-    }
-});
+    document.addEventListener('livewire:init', () => {
+        Livewire.hook('component.initialized', (component) => {
+            if (
+                component.fingerprint.name == 'core-system.master-data.location.subdistrict.edit'
+            ) {
+                var id = component.serverMemo.data.subdistrictId
+                $('#modal-edit-subdistrict-'+id).on('shown.bs.modal', function () {
+                    var wire = window.livewire.find(component.fingerprint.id);
+                    wire.emitSelf('initializeFormData');
+                })
+            }
+        });
+    });
 </script>
 @endpush
 <div class="row">

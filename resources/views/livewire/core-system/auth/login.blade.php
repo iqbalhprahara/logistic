@@ -38,13 +38,13 @@
                             </a>
                         </div>
                         <div class="p-2">
-                            <form class="form-horizontal" wire:submit.prevent="attempt">
+                            <form class="form-horizontal" wire:submit="attempt">
                                 @csrf
                                 <div class="mb-3">
                                     <label for="username" class="form-label">Email</label>
                                     <input name="email" type="email"
                                         class="form-control @error('email') is-invalid @enderror"
-                                        wire:model.lazy="email"
+                                        wire:model.blur="email"
                                         placeholder="Enter Email" autocomplete="email" autofocus>
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
@@ -59,7 +59,7 @@
                                         class="input-group auth-pass-inputgroup @error('password') is-invalid @enderror">
                                         <input type="password" name="password"
                                             class="form-control  @error('password') is-invalid @enderror"
-                                            wire:model.lazy="password" placeholder="Enter password"
+                                            wire:model.blur="password" placeholder="Enter password"
                                             aria-label="Password" aria-describedby="password-addon">
                                         <button class="btn btn-light " type="button" id="password-addon"><i
                                                 class="mdi mdi-eye-outline"></i></button>
@@ -72,7 +72,7 @@
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" wire:model.lazy="remember"
+                                    <input class="form-check-input" type="checkbox" wire:model.blur="remember"
                                         {{ $remember ? 'checked' : '' }}>
                                     <label class="form-check-label" for="remember">
                                         Remember me

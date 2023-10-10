@@ -1,6 +1,6 @@
-<form class="form-horizontal" wire:submit.prevent="update">
+<form class="form-horizontal" wire:submit="update">
     <script>
-        document.addEventListener('livewire:load', function () {
+        document.addEventListener('livewire:init', function () {
             $('#modal-edit-user-{{ $user->uuid }}').on('shown.bs.modal' , function () {
                 initSelectCompanyEditUser('{{ $user->uuid }}');
             });
@@ -21,7 +21,7 @@
                 <label class="col-form-label">Name<span class="text-danger">*</span></label>
                 <input type="text"
                     class="form-control @error('user.name') is-invalid @enderror"
-                    wire:model.lazy="user.name"
+                    wire:model.blur="user.name"
                     placeholder="Name" required>
                 @error('user.name')
                 <div class="invalid-tooltip">{{ $message }}</div>
@@ -32,7 +32,7 @@
                 <label class="col-form-label">Email<span class="text-danger">*</span></label>
                 <input type="email"
                     class="form-control @error('user.email') is-invalid @enderror"
-                    wire:model.lazy="user.email"
+                    wire:model.blur="user.email"
                     placeholder="Email" required>
                 @error('user.email')
                 <div class="invalid-tooltip">{{ $message }}</div>

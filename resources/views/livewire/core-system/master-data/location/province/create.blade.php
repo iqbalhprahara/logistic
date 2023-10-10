@@ -1,7 +1,7 @@
 <div>
     @push('after-scripts')
     <script>
-        document.addEventListener('livewire:load', function () {
+        document.addEventListener('livewire:init', function () {
             $('#modal-create-province').on('shown.bs.modal' , function () {
                 @this.emitSelf('initializeFormData');
             });
@@ -12,7 +12,7 @@
         &plus; Add New
     </x-core-system.button>
 
-    <form class="form-horizontal" wire:submit.prevent="store">
+    <form class="form-horizontal" wire:submit="store">
         <x-core-system.modal id="modal-create-province" wire:ignore.self>
             <x-slot name="title">Add New Province</x-slot>
             <x-slot name="body">

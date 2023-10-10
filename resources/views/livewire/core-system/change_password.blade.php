@@ -8,12 +8,12 @@
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form wire:submit.prevent="changePassword">
+                    <form wire:submit="changePassword">
                         <div class="mb-3 position-relative">
                             <label for="current_password">Current Password</label>
                             <input type="password"
                                 class="form-control @error('currentPassword') is-invalid @enderror"
-                                wire:model.lazy="currentPassword" autocomplete="currentPassword"
+                                wire:model.blur="currentPassword" autocomplete="currentPassword"
                                 placeholder="Enter Current Password">
                             @error('currentPassword')
                             <div class="invalid-tooltip">{{ $message }}</div>
@@ -24,7 +24,7 @@
                             <label for="newpassword">New Password</label>
                             <input type="password"
                                 class="form-control @error('newPassword') is-invalid @enderror"
-                                wire:model.lazy="newPassword" autocomplete="newPassword" placeholder="Enter New Password">
+                                wire:model.blur="newPassword" autocomplete="newPassword" placeholder="Enter New Password">
                             @error('newPassword')
                             <div class="invalid-tooltip">{{ $message }}</div>
                             @enderror
@@ -33,7 +33,7 @@
                         <div class="mb-3 position-relative">
                             <label for="userpassword">Confirm Password</label>
                             <input type="password" class="form-control"
-                                wire:model.lazy="newPasswordConfirmation" autocomplete="newPassword" placeholder="Enter New Confirm password">
+                                wire:model.blur="newPasswordConfirmation" autocomplete="newPassword" placeholder="Enter New Confirm password">
                             @error('newPasswordConfirmation')
                             <div class="invalid-tooltip">{{ $message }}</div>
                             @enderror

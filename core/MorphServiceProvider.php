@@ -26,7 +26,7 @@ class MorphServiceProvider extends ServiceProvider
     {
         // If any other models are morphed but not mapped, Laravel
         // will throw a `ClassMorphViolationException` exception.
-        Relation::enforceMorphMap([
+        Relation::morphMap([
             'auth.user' => \Core\Auth\Models\User::class,
             'logistic.awb' => \Core\Logistic\Models\Awb::class,
         ]);

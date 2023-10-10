@@ -1,6 +1,6 @@
 <div>
     <script>
-        document.addEventListener('livewire:load', function () {
+        document.addEventListener('livewire:init', function () {
             window.initSelectCompany = () => {
                 $('#company-selection').select2({
                     placeholder: 'Select Company',
@@ -22,7 +22,7 @@
         &plus; Add New
     </x-core-system.button>
 
-    <form class="form-horizontal" wire:submit.prevent="store">
+    <form class="form-horizontal" wire:submit="store">
         <x-core-system.modal id="modal-create-user" wire:ignore.self>
             <x-slot name="title">Add New User</x-slot>
             <x-slot name="body">
@@ -30,7 +30,7 @@
                     <label class="col-form-label">Name<span class="text-danger">*</span></label>
                     <input type="text"
                         class="form-control @error('user.name') is-invalid @enderror"
-                        wire:model.lazy="user.name"
+                        wire:model.blur="user.name"
                         placeholder="Name" required>
                     @error('user.name')
                     <div class="invalid-tooltip">{{ $message }}</div>
@@ -41,7 +41,7 @@
                     <label class="col-form-label">Email<span class="text-danger">*</span></label>
                     <input type="email"
                         class="form-control @error('user.email') is-invalid @enderror"
-                        wire:model.lazy="user.email"
+                        wire:model.blur="user.email"
                         placeholder="Email" required>
                     @error('user.email')
                     <div class="invalid-tooltip">{{ $message }}</div>
@@ -68,7 +68,7 @@
                     <label class="col-form-label">Create Password</label>
                     <input type="password"
                         class="form-control @error('password') is-invalid @enderror"
-                        wire:model.lazy="password"
+                        wire:model.blur="password"
                         placeholder="Enter New Password" required>
                     @error('password')
                     <div class="invalid-tooltip">{{ $message }}</div>
@@ -79,7 +79,7 @@
                     <label class="col-form-label">Confirm Password</label>
                     <input type="password"
                         class="form-control @error('passwordConfirmation') is-invalid @enderror"
-                        wire:model.lazy="passwordConfirmation"
+                        wire:model.blur="passwordConfirmation"
                         placeholder="Confirm Password" required>
                     @error('passwordConfirmation')
                     <div class="invalid-tooltip">{{ $message }}</div>

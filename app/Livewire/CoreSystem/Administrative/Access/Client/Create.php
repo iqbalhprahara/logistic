@@ -1,0 +1,100 @@
+<?php
+
+namespace App\Livewire\CoreSystem\Administrative\Access\Client;
+
+use App\Livewire\BaseComponent;
+use Core\Auth\MenuRegistry;
+use Core\Auth\Models\User;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
+
+class Create extends BaseComponent
+{
+    protected $gates = ['administrative:access:client:create'];
+
+    /** @var User */
+    public $user;
+
+    public $company;
+
+    public $password;
+
+    public $passwordConfirmation;
+
+    public Collection $companyList;
+
+    public function mount(Collection $companyList)
+    {
+        $this->companyList = $companyList;
+        $this->initializeUser();
+    }
+
+    public function hydrate()
+    {
+        $this->dispatch('initSelectCompany')->self();
+    }
+
+    public function initializeUser()
+    {
+        $this->user = new User();
+    }
+
+    public function render()
+    {
+        return view('livewire.core-system.administrative.access.client.create');
+    }
+
+    protected function rules()
+    {
+        return [
+            'user.name' => [
+                'required',
+                'string',
+            ],
+            'user.email' => [
+                'required',
+                'email:rfc,dns,spoof',
+                'max:255',
+                'unique:users,email',
+            ],
+            'company' => [
+                'required',
+                Rule::exists('companies', 'uuid'),
+            ],
+            'password' => [
+                'required',
+                'same:passwordConfirmation',
+                'different:currentPassword',
+                Password::defaults(),
+            ],
+        ];
+    }
+
+    public function store()
+    {
+        $this->validate($this->rules());
+
+        DB::transaction(function () {
+            $this->user->email_verified_at = now();
+            $this->user->changePassword($this->password);
+            $this->user->save();
+            $this->user->assignRole('Client');
+            $this->user->client()->create([
+                'company_uuid' => $this->company,
+            ]);
+        });
+
+        app(MenuRegistry::class)->forgetCachedMenus();
+
+        $name = $this->user->name;
+
+        $this->initializeUser();
+        $this->reset('company');
+
+        $this->dispatch('message', message: 'User '.$name.' successfully created');
+        $this->dispatch('close-modal', modalId:  '#modal-create-user');
+        $this->dispatch('refresh-table');
+    }
+}

@@ -3,6 +3,7 @@
         <a
             href="{{ $menu['url'] ?? 'javascript: void(0);'}}"
             class="waves-effect {{ isset($menu['submenus']) && count($menu['submenus']) > 0 ? 'has-arrow' : null }}"
+            wire:navigate
         >
             @if (isset($menu['icon']))
             <i class="{{ $menu['icon'] }}"></i>

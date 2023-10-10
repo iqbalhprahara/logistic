@@ -1,4 +1,4 @@
-<form class="form-horizontal" wire:submit.prevent="store">
+<form class="form-horizontal" wire:submit="store">
     <x-core-system.modal id="modal-input-status-awb-{{ $uuid }}" wire:ignore.self>
         <x-slot name="title">Input Status #{{ optional($awb)->awb_no }}</x-slot>
         <x-slot name="body">
@@ -13,7 +13,7 @@
                 <label class="col-form-label">Status<span class="text-danger">*</span></label>
                 <select
                     class="form-control @error('awbStatusHistory.awb_status_id') is-invalid @enderror"
-                    wire:model.lazy="awbStatusHistory.awb_status_id"
+                    wire:model.blur="awbStatusHistory.awb_status_id"
                     required @if (!$statusOptions) disabled @endif>
                     @if ($statusOptions)
                     <option value="">-- Pilih Status --</option>
@@ -34,7 +34,7 @@
                 <label class="col-form-label">Catatan</label>
                 <textarea type="text"
                     class="form-control @error('awbStatusHistory.note') is-invalid @enderror"
-                    wire:model.lazy="awbStatusHistory.note"
+                    wire:model.blur="awbStatusHistory.note"
                     placeholder="Catatan"></textarea>
                 @error('awbStatusHistory.note')
                 <div class="invalid-tooltip">{{ $message }}</div>

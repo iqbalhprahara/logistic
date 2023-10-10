@@ -30,12 +30,12 @@
                         </div>
 
                         <div class="p-2">
-                            <form class="form-horizontal" wire:submit.prevent="sendResetLinkEmail">
+                            <form class="form-horizontal" wire:submit="sendResetLinkEmail">
                                 <div class="mb-3">
                                     <label for="useremail" class="form-label">Email</label>
                                     <input type="email" class="form-control @error('email') is-invalid @enderror"
                                         placeholder="Enter email"
-                                        wire:model.lazy="email">
+                                        wire:model.blur="email">
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

@@ -10,12 +10,12 @@
     <div class="row g-3 mb-3">
         <div class="col-xxl-2 col-lg-2">
             <div class="input-group">
-                <input type="text" class="form-control" wire:model.debounce.500ms="searchKeywords" placeholder="Search">
+                <input type="text" class="form-control" wire:model.live.debounce.500ms="searchKeywords" placeholder="Search">
                 <span class="input-group-text"><i class="bx bx-search-alt"></i></span>
             </div>
         </div>
         <div class="col-xxl-2 col-lg-2">
-            <select class="form-control" wire:model="sortBy">
+            <select class="form-control" wire:model.live="sortBy">
                 @foreach ($this->columnDefinition() as $columnDef)
                     @php
                         $sortable = boolval(data_get($columnDef, 'sortable', true)) === true;
@@ -29,7 +29,7 @@
             </select>
         </div>
         <div class="col-xxl-2 col-lg-2">
-            <select class="form-control" wire:model="sortDir">
+            <select class="form-control" wire:model.live="sortDir">
                 <option value="asc" @selected($sortDir === 'asc')>Sort Ascending</option>
                 <option value="desc" @selected($sortDir === 'desc')>Sort Descending</option>
             </select>
@@ -58,7 +58,7 @@
                 @foreach ($this->advanceSearch() as $key => $advanceSearch)
                 <div class="col-xxl-3 col-lg-3">
                     @if ($advanceSearch['type'] === 'dropDown')
-                    <select wire:model.lazy="advanceSearch.{{ $key }}" class="form-control">
+                    <select wire:model.blur="advanceSearch.{{ $key }}" class="form-control">
                         <option value="" default>{{ $advanceSearch['name'] }}</option>
                         @foreach ($advanceSearch['options'] as $value => $text)
                         <option value="{{ $value }}">{{ $text }}</option>

@@ -1,5 +1,5 @@
 <div>
-    <form class="form-horizontal" wire:submit.prevent="update">
+    <form class="form-horizontal" wire:submit="update">
         <x-core-system.modal id="modal-edit-awb-{{ $uuid }}" wire:ignore.self size="fullscreen" headerClass="bg-primary" closeButton=false>
             <x-slot name="title">Edit AWB</x-slot>
             <x-slot name="body">
