@@ -23,14 +23,15 @@ class Delete extends BaseComponent
 
     public function destroy()
     {
-        if ($this->awb->isDelivered()) {
+        $awb = Awb::findOrFail($this->uuid);
+
+        if ($awb->isDelivered()) {
             $this->emit('error', 'Delivered AWB cannot be deleted');
             $this->emit('close-modal', '#modal-delete-awb-'.$this->uuid);
 
             return;
         }
 
-        $awb = Awb::findOrFail($this->uuid);
         $awb->delete();
 
         $this->emit('message', $awb->awb_no.' successfully deleted');
