@@ -23,7 +23,7 @@ class PermissionSeeder extends Seeder
 
     private function seedWebPermissions()
     {
-        $webAppPermissions = collect($this->buildPermissionsFromMenu(config('core.auth-menu.items.web'), 'web'))->unique(['name']);
+        $webAppPermissions = collect($this->buildPermissionsFromMenu(config('menu.items.app_panel'), 'web'))->unique(['name']);
         Permission::upsert($webAppPermissions->toArray(), ['name', 'guard_name']);
     }
 

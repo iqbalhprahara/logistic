@@ -79,9 +79,9 @@ return [
     |
     */
 
-    'render_on_redirect' => false,
+    'render_on_redirect' => true,
 
-    'legacy_model_binding' => true,
+    'legacy_model_binding' => false,
 
     'inject_assets' => true,
 

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Core\MasterData\Models\AwbStatus;
+use App\Models\MasterData\AwbStatus;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

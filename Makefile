@@ -26,8 +26,6 @@ deploy-without-build:
 
 devcontainer:
 	$(run)
-	$(composer-install-dev)
-	$(npm-install)
 
 compose-build:
 	$(build)
@@ -52,3 +50,7 @@ composer-install:
 
 artisan-optimize:
 	$(optimize-clear)
+
+# Only work in devcontainer
+start-dev:
+	php -d variables_order=EGPCS artisan octane:start --server=swoole --host=0.0.0.0 --rpc-port=6001 --port=9000 --watch

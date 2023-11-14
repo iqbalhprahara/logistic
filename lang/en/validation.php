@@ -136,6 +136,10 @@ return [
     'uploaded' => 'The :attribute failed to upload.',
     'url' => 'The :attribute must be a valid URL.',
     'uuid' => 'The :attribute must be a valid UUID.',
+    'city_exists' => 'The selected :attribute does not exists',
+    'city_exists_on_province' => 'The selected :attribute does not exists on selected province',
+    'subdistrict_exists' => 'The selected :attribute does not exists',
+    'subdistrict_exists_on_city' => 'The selected :attribute does not exists on selected city',
 
     /*
     |--------------------------------------------------------------------------

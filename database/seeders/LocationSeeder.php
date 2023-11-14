@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Core\MasterData\LocationImport;
+use App\Imports\MasterData\LocationImport;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

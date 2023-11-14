@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Core\MasterData\Models\Service;
+use App\Models\MasterData\Service;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

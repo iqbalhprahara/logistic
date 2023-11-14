@@ -6,7 +6,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Laravel\Telescope\Telescope;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,9 +15,12 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         DB::disableQueryLog();
-        Telescope::stopRecording();
+
+        if (class_exists("\Laravel\Telescope\Telescope")) {
+            \Laravel\Telescope\Telescope::stopRecording();
+        }
+
         $this->call([
-            MenuSeeder::class,
             PermissionSeeder::class,
             RoleSeeder::class,
             SuperAdminSeeder::class,
@@ -26,9 +28,8 @@ class DatabaseSeeder extends Seeder
             ServiceSeeder::class,
             ShipmentTypeSeeder::class,
             PackingSeeder::class,
-            LocationSeeder::class,
+            // LocationSeeder::class,
             AwbStatusSeeder::class,
         ]);
-        Telescope::startRecording();
     }
 }

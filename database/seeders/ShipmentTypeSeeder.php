@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Core\MasterData\Models\ShipmentType;
+use App\Models\MasterData\ShipmentType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

@@ -164,6 +164,7 @@ return [
         /*
          * Application Service Providers...
          */
+        App\Providers\AuthServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\BladeServiceProvider::class,
 
@@ -171,10 +172,12 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\HorizonServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Core\MorphServiceProvider::class,
-        Core\Auth\AuthServiceProvider::class,
-        Core\MasterData\MasterDataServiceProvider::class,
-        Core\Logistic\LogisticServiceProvider::class,
+        App\Providers\MorphServiceProvider::class,
+
+        /**
+         * Filament Panel Provider
+         */
+        App\Providers\Filament\AppPanelProvider::class,
     ])->toArray(),
 
     /*
