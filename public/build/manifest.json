@@ -1,0 +1,53 @@
+{
+  "resources/css/filament/app/theme.css": {
+    "file": "assets/theme-afac19af.css",
+    "isEntry": true,
+    "src": "resources/css/filament/app/theme.css"
+  },
+  "resources/css/landing.css": {
+    "file": "assets/landing-1dc4b6d3.css",
+    "isEntry": true,
+    "src": "resources/css/landing.css"
+  },
+  "resources/images/landing/package.jpg": {
+    "file": "assets/package-28d3671a.jpg",
+    "src": "resources/images/landing/package.jpg"
+  },
+  "resources/images/logo/black-no-bg.png": {
+    "file": "assets/black-no-bg-b7a7a49d.png",
+    "src": "resources/images/logo/black-no-bg.png"
+  },
+  "resources/images/logo/black-no-bg.svg": {
+    "file": "assets/black-no-bg-94272681.svg",
+    "src": "resources/images/logo/black-no-bg.svg"
+  },
+  "resources/images/logo/color-no-bg.png": {
+    "file": "assets/color-no-bg-ff727769.png",
+    "src": "resources/images/logo/color-no-bg.png"
+  },
+  "resources/images/logo/color-no-bg.svg": {
+    "file": "assets/color-no-bg-090a84aa.svg",
+    "src": "resources/images/logo/color-no-bg.svg"
+  },
+  "resources/images/logo/color.png": {
+    "file": "assets/color-cf872cd9.png",
+    "src": "resources/images/logo/color.png"
+  },
+  "resources/images/logo/color.svg": {
+    "file": "assets/color-2ba0ad84.svg",
+    "src": "resources/images/logo/color.svg"
+  },
+  "resources/images/logo/white-no-bg.png": {
+    "file": "assets/white-no-bg-9db3d599.png",
+    "src": "resources/images/logo/white-no-bg.png"
+  },
+  "resources/images/logo/white-no-bg.svg": {
+    "file": "assets/white-no-bg-781c3488.svg",
+    "src": "resources/images/logo/white-no-bg.svg"
+  },
+  "resources/js/landing.js": {
+    "file": "assets/landing-8868a803.js",
+    "isEntry": true,
+    "src": "resources/js/landing.js"
+  }
+}
