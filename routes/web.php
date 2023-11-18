@@ -14,16 +14,13 @@ use Livewire\Livewire;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Livewire::setUpdateRoute(function ($handle) {
+    return Route::post('/fetch', $handle);
+});
 
-if (app()->isProduction()) {
-    Livewire::setUpdateRoute(function ($handle) {
-        return Route::post(config('livewire.url.update'), $handle);
-    });
-
-    Livewire::setScriptRoute(function ($handle) {
-        return Route::get(config('livewire.url.js'), $handle);
-    });
-}
+Livewire::setScriptRoute(function ($handle) {
+    return Route::get('/fetch.js', $handle);
+});
 
 // Route::as('landing.')
 //     ->group(function () {
