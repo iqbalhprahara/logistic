@@ -1,11 +1,18 @@
 import { defineConfig } from 'vite';
-import laravel from 'laravel-vite-plugin';
+import laravel, { refreshPaths } from 'laravel-vite-plugin';
 
 export default defineConfig({
+    server: {
+        watch: { usePolling: true },
+    },
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js'],
-            refresh: true,
+            input: ['resources/css/landing.css', 'resources/js/landing.js', 'resources/css/filament/app/theme.css'],
+            refresh: [
+                ...refreshPaths,
+                'app/Livewire/**',
+                'app/Filament/**',
+            ]
         }),
     ],
 });

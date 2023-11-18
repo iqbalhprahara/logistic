@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use Core\Auth\Models\User;
+use App\Models\Auth\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

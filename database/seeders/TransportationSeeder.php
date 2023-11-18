@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Core\MasterData\Models\Transportation;
+use App\Models\MasterData\Transportation;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

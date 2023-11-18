@@ -1,0 +1,30 @@
+<?php
+
+use App\Enums\AwbSource;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('awbs', function (Blueprint $table) {
+            $table->enum('source', array_column(AwbSource::cases(), 'value'))->default(AwbSource::DEFAULT->value)->after('uuid');
+            $table->index('source');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('awbs', function (Blueprint $table) {
+            $table->dropColumn('source');
+        });
+    }
+};

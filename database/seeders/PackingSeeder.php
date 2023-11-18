@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Core\MasterData\Models\Packing;
+use App\Models\MasterData\Packing;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

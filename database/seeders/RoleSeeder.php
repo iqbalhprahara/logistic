@@ -25,7 +25,7 @@ class RoleSeeder extends Seeder
     private function seedWebRole()
     {
         DB::transaction(function () {
-            foreach (config('core.auth-role.required.web') as $roleData) {
+            foreach (config('role.required.web') as $roleData) {
                 /** @var Role $role */
                 $role = Role::firstOrCreate(
                     [
