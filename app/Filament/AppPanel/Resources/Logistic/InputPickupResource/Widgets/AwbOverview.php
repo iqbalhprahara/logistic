@@ -57,6 +57,7 @@ class AwbOverview extends BaseWidget
         $endOfYear = now()->endOfYear();
 
         $results = AwbStatusHistory::whereAwbStatusId(AwbStatus::DELIVERED)
+            ->whereHas('awb')
             ->whereBetween(DB::raw('coalesce(status_at, created_at)'), [$startOfYear, $endOfYear])
             ->whereBetween('created_at', [$startOfYear, $endOfYear])
             ->select(
