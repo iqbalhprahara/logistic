@@ -33,7 +33,7 @@ class AwbStatusHistory extends Model
 
     public function awb()
     {
-        return $this->belongsTo(Logistic\Awb::class);
+        return $this->belongsTo(Awb::class);
     }
 
     public function awbStatus()
