@@ -10,7 +10,9 @@ composer-install-dev := docker compose exec app composer install --no-interactio
 npm-install := docker compose exec app npm install
 optimize-clear := docker compose exec app php artisan optimize:clear
 
+# production deployment
 deploy :
+	git pull origin main
 	$(run)
 	$(composer-install)
 	$(migrate)
