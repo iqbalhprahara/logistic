@@ -178,7 +178,7 @@ class CreateAwbDto extends Data
 
         return static::validateAndCreate([
             'source' => AwbSource::IMPORT,
-            'ref_no' => $dataOptionalCheck['ref_no'] ?: null,
+            'ref_no' => $dataOptionalCheck['ref_no'] ? strval($dataOptionalCheck['ref_no']) : null,
             'client_uuid' => $clientUuid,
             'transportation_id' => $dataOptionalCheck['transportasi'],
             'shipment_type_id' => $dataOptionalCheck['jenis_kiriman'],
