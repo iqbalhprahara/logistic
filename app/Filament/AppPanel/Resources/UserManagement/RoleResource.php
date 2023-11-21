@@ -54,7 +54,7 @@ class RoleResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->searchable()->sortable()->forceSearchCaseInsensitive(false),
+                Tables\Columns\TextColumn::make('id')->searchable()->sortable()->forceSearchCaseInsensitive(true),
                 Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('users_count')->sortable(),
             ])

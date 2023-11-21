@@ -49,7 +49,7 @@ class CompanyResource extends Resource
                 Tables\Columns\TextColumn::make('uuid')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('code')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('users_count')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('users_count')->sortable(),
             ])
             ->filters([
                 //
