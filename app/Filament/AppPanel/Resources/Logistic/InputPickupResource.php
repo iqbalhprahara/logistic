@@ -108,7 +108,7 @@ class InputPickupResource extends Resource
                 ->orderQueryUsing(fn (Builder $query, string $direction) => $query->orderBy(DB::raw('(select distinct code from cities where cities.id = awbs.destination_city_id)'), $direction)),
             Tables\Grouping\Group::make('transportation_id')
                 ->label('Transportasi Pickup'),
-            Tables\Grouping\Group::make('shipping_type_id')
+            Tables\Grouping\Group::make('shipment_type_id')
                 ->label('Jenis Kiriman'),
             Tables\Grouping\Group::make('service_id')
                 ->label('Jenis Layanan'),
