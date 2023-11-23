@@ -16,7 +16,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Awb extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes, LogsActivity, CreatedBy;
+    use CreatedBy, HasFactory, HasUuids, LogsActivity, SoftDeletes;
 
     /**
      * The primary key associated with the table.
@@ -76,24 +76,38 @@ class Awb extends Model
     ];
 
     public const REF_NO_MAX_LENGTH = 50;
+
     public const ZIPCODE_DIGIT = 5;
+
     public const ADDRESS_MAX_LENGTH = 150;
+
     public const CONTACT_NAME_MAX_LENGTH = 100;
+
     public const PHONE_MIN_DIGIT = 9;
-    public const PHONE_MAX_DIGIT = 13;
+
+    public const PHONE_MAX_DIGIT = 15;
+
     public const MIN_KOLI = 1;
+
     public const MAX_KOLI = 10000;
+
     /** in Kg */
     public const MIN_WEIGHT = 1;
+
     /** in Kg */
     public const MAX_WEIGHT = 10000;
+
     /** in cm */
     public const MIN_DIMENSION = 0.01;
+
     /** in cm */
     public const MAX_DIMENSION = 10000;
+
     public const PACKAGE_DESC_MAX_LENGTH = 100;
+
     /** in Rp */
     public const MAX_PACKAGE_VALUE = 100000000000000000;
+
     public const PACKAGE_INSTRUCTION_MAX_LENGTH = 100;
 
     public static function boot()
@@ -245,6 +259,6 @@ class Awb extends Model
 
     public function getPackageDimensionAttribute(): string
     {
-        return ($this->package_length + 0). ' x '. ($this->package_width + 0) . ' x '. ($this->package_height + 0);
+        return ($this->package_length + 0).' x '.($this->package_width + 0).' x '.($this->package_height + 0);
     }
 }
